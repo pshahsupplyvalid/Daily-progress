@@ -14,7 +14,7 @@ body {
 
 /* Header / Hero Section */
 .header {
-    background: linear-gradient(135deg, #667eea, #764ba2); /* modern gradient */
+    background: linear-gradient(135deg, #667eea, #764ba2); 
     color: white;
     padding: 5rem 1rem;
     text-align: center;
@@ -70,16 +70,16 @@ body {
 /* About Section */
 .about {
     color: #222;
-    background-color: #fef9f1; /* soft light background */
+    background-color: #fef9f1; 
     border-top: 5px solid #667eea;
     border-bottom: 5px solid #667eea;
 
-    /* Big visual size */
-    min-height: 450px;          /* minimum height to match services */
-    display: flex;              /* use flexbox */
-    flex-direction: column;     /* stack title and paragraph */
-    justify-content: center;    /* vertical center content */
-    padding: 4rem 2rem;         /* keep some padding */
+   
+    min-height: 450px;          
+    display: flex;              
+    flex-direction: column;     
+    justify-content: center;    
+    padding: 4rem 2rem;         
 }
 
 .about h2 {
@@ -110,13 +110,13 @@ body {
     cursor: pointer;
 }
 
-/* Hover effect for all cards */
+
 .service-card:hover {
     transform: translateY(-15px);
     box-shadow: 0 20px 40px rgba(102,126,234,0.3);
 }
 
-/* Red hover effect for all cards */
+
 .service-card.red-hover:hover {
     background: linear-gradient(135deg, #ff4e50, #f9d423);
     box-shadow: 0 20px 40px rgba(255,78,80,0.3);
@@ -142,7 +142,7 @@ body {
 /* Contact Section */
 .contact {
     background-color: #fef9f1;
-    padding: 7rem 2rem; /* matches About section */
+    padding: 7rem 2rem; 
     min-height: 450px;
     display: flex;
     flex-direction: column;
@@ -152,6 +152,7 @@ body {
 .contact h2 {
     margin-bottom: 2rem;
     font-size: 2.5rem;
+    color: light rgb(77, 186, 216)
 }
 
 .contact-form {
