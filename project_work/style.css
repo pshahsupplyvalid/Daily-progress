@@ -139,6 +139,63 @@ body {
     color: #555;
 }
 
+/* Contact Section */
+.contact {
+    background-color: #fef9f1;
+    padding: 7rem 2rem; /* matches About section */
+    min-height: 450px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.contact h2 {
+    margin-bottom: 2rem;
+    font-size: 2.5rem;
+}
+
+.contact-form {
+    display: flex;
+    flex-direction: column;
+    max-width: 600px;
+    width: 100%;
+}
+
+.contact-form input,
+.contact-form textarea {
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    font-size: 1rem;
+    transition: border 0.3s, box-shadow 0.3s;
+}
+
+.contact-form input:focus,
+.contact-form textarea:focus {
+    outline: none;
+    border-color: #667eea;
+    box-shadow: 0 0 10px rgba(102, 126, 234, 0.3);
+}
+
+.contact-form button {
+    padding: 1rem;
+    background: linear-gradient(135deg, #ff4e50, #f9d423);
+    border: none;
+    border-radius: 10px;
+    color: white;
+    font-size: 1.2rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.contact-form button:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(255,78,80,0.3);
+}
+
+
 /* Footer */
 .footer {
     background: #2d2d2d;
