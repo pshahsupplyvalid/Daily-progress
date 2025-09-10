@@ -1,4 +1,4 @@
-/* Variables for light theme */
+/*  VARIABLES  */
 :root {
   --primary: #6366f1;
   --secondary: #06b6d4;
@@ -10,8 +10,12 @@
   --header-bg: #0f172a;
   --footer-bg: #0f172a;
   --card-hover: #dbeafe;  
-}
+    --contact-left-bg: #0f172a;   
+  --contact-left-text: #ffffff; 
+  --contact-right-bg: #ffffff;  
+  --contact-right-text: #0f172a;
 
+}
 
 body.dark-mode {
   --light: #0f172a;
@@ -24,7 +28,7 @@ body.dark-mode {
   --card-hover: #334155;  
 }
 
-/* Reset */
+/* ================= RESET ================= */
 * {
   margin: 0;
   padding: 0;
@@ -39,7 +43,8 @@ body {
   transition: all 0.3s ease;
 }
 
-/* Header */
+
+/* ================= HEADER ================= */
 header {
   background: var(--header-bg);
   color: white;
@@ -69,7 +74,8 @@ nav a {
 nav a:hover {
   color: var(--secondary);
 }
-/* hero section */
+
+/* ================= HERO SECTION ================= */
 .hero {
   text-align: center;
   padding: 6rem 5% 4rem;
@@ -100,7 +106,7 @@ nav a:hover {
 }
 
 .hero h2 span {
-  color: #ffeb3b; /* yellow highlight */
+  color: #ffeb3b;
 }
 
 .typing-text {
@@ -116,6 +122,7 @@ nav a:hover {
   color: #e2e8f0;
 }
 
+/* ================= BUTTON ================= */
 .btn {
   background: white;
   color: var(--primary);
@@ -133,7 +140,7 @@ nav a:hover {
   color: white;
 }
 
-/* Social Icons */
+/* ================= SOCIAL LINKS ================= */
 .social-links {
   margin-top: 2rem;
   display: flex;
@@ -152,8 +159,7 @@ nav a:hover {
   color: #ffeb3b;
 }
 
-
-/* Theme Toggle Button */
+/* ================= THEME TOGGLE ================= */
 .theme-btn {
   background: var(--secondary);
   border: none;
@@ -170,43 +176,7 @@ nav a:hover {
   background: var(--primary);
 }
 
-/* Hero Section */
-.hero {
-  text-align: center;
-  padding: 6rem 5%;
-  background: linear-gradient(135deg, var(--primary), var(--secondary));
-  color: white;
-}
-
-.hero h2 {
-  font-size: 2.5rem;
-  margin-bottom: 1rem;
-}
-
-.hero p {
-  max-width: 600px;
-  margin: 0 auto 2rem;
-  color: #e2e8f0;
-}
-
-.btn {
-  background: white;
-  color: var(--primary);
-  padding: 0.8rem 1.5rem;
-  border-radius: 50px;
-  text-decoration: none;
-  font-weight: 600;
-  transition: 0.3s;
-  border: none;
-  cursor: pointer;
-}
-
-.btn:hover {
-  background: var(--secondary);
-  color: white;
-}
-
-/* Sections */
+/* ================= SECTIONS ================= */
 section {
   padding: 4rem 5%;
   transition: background 0.3s, color 0.3s;
@@ -226,7 +196,7 @@ section {
   color: var(--gray);
 }
 
-/* Projects */
+/* ================= PROJECTS ================= */
 .projects {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -237,7 +207,7 @@ section {
   background: var(--card-bg);
   border-radius: 12px;
   padding: 1.5rem;
-  min-height: 220px; 
+  min-height: 220px;
   box-shadow: 0 4px 10px rgba(0,0,0,0.1);
   transition: transform 0.3s, background-position 0.5s ease;
   background: linear-gradient(to right, var(--card-bg) 50%, var(--card-hover) 50%);
@@ -245,9 +215,8 @@ section {
   background-position: right bottom;
   display: flex;
   flex-direction: column;
-  justify-content: center; 
+  justify-content: center;
 }
-
 
 .project-card:hover {
   transform: translateY(-8px);
@@ -264,34 +233,161 @@ section {
   font-size: 0.95rem;
 }
 
-/* Contact Form */
-.contact-form {
-  max-width: 600px;
-  margin: 0 auto;
+/* ================= CONTACT SECTION ================= */
+
+
+.contact-section {
   display: flex;
-  flex-direction: column;
-  gap: 1rem;
+  justify-content: center;
+  align-items: center;
+  padding: 4rem 5%;
+}
+.contact-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  border-radius: 15px;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.2);
+  overflow: hidden;
+  max-width: 1000px;
+  width: 100%;
+  margin: auto;
 }
 
-.contact-form input,
-.contact-form textarea {
-  padding: 1rem;
-  border: 1px solid #cbd5e1;
-  border-radius: 8px;
+.contact-info {
+  background: var(--contact-left-bg);
+  color: var(--contact-left-text);
+  padding: 3rem 2rem;
+}
+
+.contact-info h2 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  color: var(--secondary);
+}
+
+.contact-info p {
+  margin-bottom: 2rem;
+  line-height: 1.6;
+  color: var(--contact-left-text);
+}
+
+.contact-form {
+  background: var(--contact-right-bg);
+  color: var(--contact-right-text);
+  padding: 3rem 2rem;
+}
+
+
+.info-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
   font-size: 1rem;
-  background: var(--card-bg);
-  color: var(--text-color);
+}
+
+.info-item i {
+  margin-right: 1rem;
+  color: #06b6d4;
+  font-size: 1.2rem;
+}
+
+.contact-info .social-links {
+  margin-top: 2rem;
+  justify-content: flex-start;
+}
+
+.contact-info .social-links a {
+  color: #06b6d4;
+  font-size: 1.5rem;
+  margin-right: 1rem;
   transition: 0.3s;
 }
 
-.contact-form input:focus,
-.contact-form textarea:focus {
-  outline: none;
-  border-color: var(--primary);
-  box-shadow: 0 0 5px rgba(99,102,241,0.3);
+.contact-info .social-links a:hover {
+  color: #fff;
+  transform: scale(1.2);
 }
 
-/* Footer */
+/* RIGHT SIDE FORM */
+.contact-form {
+  padding: 3rem 2rem;
+}
+
+.contact-form h2 {
+  font-size: 2rem;
+  margin-bottom: 2rem;
+  color: #6366f1;
+}
+
+.input-group {
+  position: relative;
+  margin-bottom: 2rem;
+}
+
+.input-group input,
+.input-group textarea {
+  width: 100%;
+  padding: 0.8rem;
+  border: none;
+  border-bottom: 2px solid #ccc;
+  outline: none;
+  font-size: 1rem;
+  background: transparent;
+  transition: 0.3s;
+  resize: none;
+}
+
+.input-group label {
+  position: absolute;
+  left: 0;
+  top: 0.8rem;
+  color: #999;
+  font-size: 1rem;
+  pointer-events: none;
+  transition: 0.3s;
+}
+
+.input-group input:focus ~ label,
+.input-group input:valid ~ label,
+.input-group textarea:focus ~ label,
+.input-group textarea:valid ~ label {
+  top: -1rem;
+  font-size: 0.9rem;
+  color: #6366f1;
+}
+
+.input-group input:focus,
+.input-group textarea:focus {
+  border-color: #6366f1;
+}
+
+.contact-form .btn {
+  background: linear-gradient(135deg, #6366f1, #06b6d4);
+  color: #fff;
+  border: none;
+  padding: 0.8rem 1.5rem;
+  font-size: 1rem;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.contact-form .btn:hover {
+  background: linear-gradient(135deg, #06b6d4, #6366f1);
+  transform: scale(1.05);
+}
+
+/* ================= RESPONSIVE ================= */
+@media (max-width: 768px) {
+  .contact-container {
+    grid-template-columns: 1fr;
+  }
+  .contact-info, .contact-form {
+    padding: 2rem;
+  }
+}
+
+/* ================= FOOTER ================= */
 footer {
   background: var(--footer-bg);
   color: #94a3b8;
