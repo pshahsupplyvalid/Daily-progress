@@ -7,6 +7,7 @@
   <link rel="stylesheet" href="style.css" />
   <!-- Google Font -->
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
 
@@ -22,10 +23,23 @@
   </header>
 
   <!-- Hero Section -->
-  <section class="hero">
-    <h2>Hello, I'm Praveen 👋</h2>
-    <p>A passionate Frontend Developer who loves building modern, responsive, and user-friendly websites.</p>
-    <a href="#projects" class="btn">View My Work</a>
+   <section class="hero">
+    <div class="hero-content">
+      <div class="profile-pic">
+        <img src="profile.jpg" alt="Profile Picture">
+      </div>
+      <h2>Hello, I'm <span>Praveen</span> 👋</h2>
+      <h3 class="typing-text"></h3>
+      <p>A passionate Frontend Developer who loves building modern, responsive, and user-friendly websites.</p>
+      <a href="#projects" class="btn">View My Work</a>
+
+       <!-- Social Icons -->
+      <div class="social-links">
+        <a href="https://linkedin.com" target="_blank"><i class="fab fa-linkedin"></i></a>
+        <a href="https://github.com" target="_blank"><i class="fab fa-github"></i></a>
+        <a href="https://twitter.com" target="_blank"><i class="fab fa-twitter"></i></a>
+      </div>
+    </div>
   </section>
 
   <!-- About Section -->
@@ -84,6 +98,37 @@
       } else {
         toggleBtn.textContent = "🌙";
       }
+    });
+    /* Script for hero section */
+
+     const roles = ["Frontend Developer", "UI/UX Enthusiast", "Problem Solver"];
+    let index = 0;
+    let charIndex = 0;
+    const typingElement = document.querySelector(".typing-text");
+
+    function type() {
+      if (charIndex < roles[index].length) {
+        typingElement.textContent += roles[index].charAt(charIndex);
+        charIndex++;
+        setTimeout(type, 100);
+      } else {
+        setTimeout(erase, 2000);
+      }
+    }
+
+    function erase() {
+      if (charIndex > 0) {
+        typingElement.textContent = roles[index].substring(0, charIndex - 1);
+        charIndex--;
+        setTimeout(erase, 50);
+      } else {
+        index = (index + 1) % roles.length;
+        setTimeout(type, 500);
+      }
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      type();
     });
   </script>
 </body>
