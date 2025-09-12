@@ -79,8 +79,26 @@ nav a:hover {
 .hero {
   text-align: center;
   padding: 6rem 5% 4rem;
-  background: linear-gradient(135deg, var(--primary), var(--secondary));
   color: white;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: linear-gradient(-45deg, var(--primary), var(--secondary), #43cea2, #185a9d);
+  background-size: 400% 400%;
+  animation: gradientBG 12s ease infinite;
+  z-index: -1;
+}
+
+@keyframes gradientBG {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }
 
 .hero-content {
@@ -93,12 +111,34 @@ nav a:hover {
 }
 
 .profile-pic img {
-  width: 150px;
-  height: 150px;
+  width: 160px;
+  height: 160px;
   border-radius: 50%;
-  border: 4px solid white;
-  box-shadow: 0 0 20px rgba(255,255,255,0.6);
+  border: 5px solid #fff;
+  box-shadow: 0 0 25px rgba(255,255,255,0.8);
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
 }
+
+.profile-pic img:hover {
+  transform: scale(1.1) rotate(3deg);
+  box-shadow: 0 0 40px rgba(255,255,255,1);
+}
+.scroll-down {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 1.5rem;
+  color: white;
+  animation: bounce 2s infinite;
+}
+
+@keyframes bounce {
+  0%, 20%, 50%, 80%, 100% { transform: translate(-50%, 0); }
+  40% { transform: translate(-50%, -12px); }
+  60% { transform: translate(-50%, -6px); }
+}
+
 
 .hero h2 {
   font-size: 2.5rem;
@@ -197,41 +237,63 @@ section {
 }
 
 /* ================= PROJECTS ================= */
-.projects {
+.projects-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 2rem;
+  perspective: 1000px; /* Enables 3D flip */
 }
 
 .project-card {
-  background: var(--card-bg);
-  border-radius: 12px;
-  padding: 1.5rem;
-  min-height: 220px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-  transition: transform 0.3s, background-position 0.5s ease;
-  background: linear-gradient(to right, var(--card-bg) 50%, var(--card-hover) 50%);
-  background-size: 200% 100%;
-  background-position: right bottom;
+  width: 100%;
+  height: 220px;
+  position: relative;
+  perspective: 1000px;
+}
+
+.card-inner {
+  width: 100%;
+  height: 100%;
+  transition: transform 0.8s;
+  transform-style: preserve-3d;
+  position: relative;
+}
+
+.project-card:hover .card-inner {
+  transform: rotateY(180deg); /* Flips only once */
+}
+
+.card-front, .card-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden; /* Hide the back when front is visible */
+  border-radius: 15px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.15);
   display: flex;
   flex-direction: column;
   justify-content: center;
+  align-items: center;
+  padding: 1.5rem;
 }
 
-.project-card:hover {
-  transform: translateY(-8px);
-  background-position: left bottom;
-}
-
-.project-card h3 {
-  margin-bottom: 0.5rem;
+.card-front {
+  background: var(--card-bg);
   color: var(--text-color);
 }
 
-.project-card p {
-  color: var(--gray);
-  font-size: 0.95rem;
+.card-back {
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  color: white;
+  transform: rotateY(180deg);
 }
+
+.card-back .btn {
+  margin-top: 10px;
+  background: white;
+  color: var(--primary);
+}
+
 
 /* ================= CONTACT SECTION ================= */
 
@@ -395,4 +457,61 @@ footer {
   padding: 1.5rem;
   margin-top: 3rem;
   transition: 0.3s;
+}
+
+
+/* Skills Section */
+#skills {
+  padding: 70px 20px;
+  text-align: center;
+}
+
+.skills-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 25px;
+  margin-top: 40px;
+}
+
+.skill-card {
+  background: var(--card-bg, #fff);
+  padding: 30px 20px;
+  border-radius: 15px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+  transition: all 0.4s ease;
+  cursor: pointer;
+}
+
+.skill-card i {
+  font-size: 2.5rem;
+  margin-bottom: 15px;
+  color: #4facfe;
+  transition: transform 0.3s ease;
+}
+
+.skill-card h3 {
+  margin-bottom: 10px;
+  font-size: 1.3rem;
+  font-weight: 600;
+}
+
+.skill-card p {
+  font-size: 0.9rem;
+  color: #555;
+}
+
+/* Hover Effects */
+.skill-card:hover {
+  transform: translateY(-10px) scale(1.05);
+  background: linear-gradient(135deg, #4facfe, #00f2fe);
+  color: #fff;
+}
+
+.skill-card:hover i {
+  transform: rotate(10deg) scale(1.2);
+  color: #fff;
+}
+
+.skill-card:hover p {
+  color: #f1f1f1;
 }
