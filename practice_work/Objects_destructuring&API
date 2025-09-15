@@ -1,0 +1,20 @@
+const course ={
+    coursename : "js in hindi",
+    price : "999",
+    courseInstructor: "prince"
+}
+
+//course.courseInstructor
+
+const {courseInstructor}= course
+
+console.log(courseInstructor);
+console.log(instructor);
+
+
+// {
+// "name" :"vikas",
+// 'coursename":"js in hindi",
+// "price": "free"
+
+// }
