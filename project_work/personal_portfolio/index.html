@@ -7,7 +7,7 @@
   <link rel="stylesheet" href="style.css" />            
   <!-- Google Font -->
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
 
@@ -22,45 +22,33 @@
     <button id="theme-toggle" class="theme-btn">🌙</button>
   </header>
 
-<!-- Hero Section -->
-<section class="hero" id="home">
-  <div class="scroll-down">
-  <i class="fas fa-chevron-down"></i>
-</div>
-
-  <div class="hero-bg"></div> <!-- Background effect -->
-
-  <div class="hero-content">
-    <div class="profile-pic">
-      <img src="profile.jpg" alt="Profile Picture">
+  <!-- Hero Section -->
+  <section class="hero" id="home">
+    <div class="scroll-down">
+      <i class="fas fa-chevron-down"></i>
     </div>
-    <h2>Hello, I'm <span>Praveen</span> 👋</h2>
-    <h3 class="typing-text"></h3>
-    <p>
-      A passionate <span class="highlight">Frontend Developer</span> who loves
-      building modern, responsive, and user-friendly websites.
-    </p>
-
-    <!-- Call to Action -->
-    <div class="cta-buttons">
-      <a href="#projects" class="btn primary">🚀 View My Work</a>
-      <a href="#contact" class="btn secondary">📩 Contact Me</a>
+    <div class="hero-bg"></div>
+    <div class="hero-content">
+      <div class="profile-pic">
+        <img src="profile.jpg" alt="Profile Picture">
+      </div>
+      <h2>Hello, I'm <span>Praveen</span> 👋</h2>
+      <h3 class="typing-text"></h3>
+      <p>
+        A passionate <span class="highlight">Frontend Developer</span> who loves
+        building modern, responsive, and user-friendly websites.
+      </p>
+      <div class="cta-buttons">
+        <a href="#projects" class="btn primary">View My Work</a>
+        <a href="#contact" class="btn secondary">Contact Me</a>
+      </div>
+      <div class="social-links">
+        <a href="https://linkedin.com" target="_blank"><i class="fab fa-linkedin"></i></a>
+        <a href="https://github.com" target="_blank"><i class="fab fa-github"></i></a>
+        <a href="https://twitter.com" target="_blank"><i class="fab fa-twitter"></i></a>
+      </div>
     </div>
-
-    <!-- Social Links -->
-    <div class="social-links">
-      <a href="https://linkedin.com" target="_blank"><i class="fab fa-linkedin"></i></a>
-      <a href="https://github.com" target="_blank"><i class="fab fa-github"></i></a>
-      <a href="https://twitter.com" target="_blank"><i class="fab fa-twitter"></i></a>
-    </div>
-  </div>
-
-  <!-- Scroll Down Indicator -->
-  <div class="scroll-down">
-    <i class="fas fa-chevron-down"></i>
-  </div>
-</section>
-
+  </section>
 
   <!-- About Section -->
   <section id="about">
@@ -71,170 +59,118 @@
     </p>
   </section>
 
+  <!-- Projects Section -->
   <section id="projects">
-  <h2 class="section-title">🚀 My Projects</h2>
-  <div class="projects-grid">
-
-    <!-- Project 1 -->
-    <div class="project-card">
-      <div class="card-inner">
-        <div class="card-front">
-          <h3>Portfolio Website</h3>
-          <p>Responsive showcase of my work.</p>
+    <h2 class="section-title"> My Projects</h2>
+    <div class="projects-grid">
+      <div class="project-card">
+        <div class="card-inner">
+          <div class="card-front">
+            <h3>Portfolio Website</h3>
+            <p>Responsive showcase of my work.</p>
+          </div>
+          <div class="card-back">
+            <p>A sleek, responsive portfolio built with HTML, CSS, and JS.</p>
+            <a href="#" class="btn">🔗 Live Demo</a>
+            <a href="#" class="btn">💻 GitHub</a>
+          </div>
         </div>
-        <div class="card-back">
-          <p>A sleek, responsive portfolio built with HTML, CSS, and JS.</p>
-          <a href="#" class="btn">🔗 Live Demo</a>
-          <a href="#" class="btn">💻 GitHub</a>
+      </div>
+      <div class="project-card">
+        <div class="card-inner">
+          <div class="card-front">
+            <h3>E-commerce UI</h3>
+            <p>Modern online store design.</p>
+          </div>
+          <div class="card-back">
+            <p>Shopping interface with cart & product grid.</p>
+            <a href="#" class="btn">🔗 Live Demo</a>
+            <a href="#" class="btn">💻 GitHub</a>
+          </div>
+        </div>
+      </div>
+      <div class="project-card">
+        <div class="card-inner">
+          <div class="card-front">
+            <h3>Blog Platform</h3>
+            <p>Minimal blog layout.</p>
+          </div>
+          <div class="card-back">
+            <p>Responsive blog with comments & smooth UI.</p>
+            <a href="#" class="btn">🔗 Live Demo</a>
+            <a href="#" class="btn">💻 GitHub</a>
+          </div>
         </div>
       </div>
     </div>
-
-    <!-- Project 2 -->
-    <div class="project-card">
-      <div class="card-inner">
-        <div class="card-front">
-          <h3>E-commerce UI</h3>
-          <p>Modern online store design.</p>
-        </div>
-        <div class="card-back">
-          <p>Shopping interface with cart & product grid.</p>
-          <a href="#" class="btn">🔗 Live Demo</a>
-          <a href="#" class="btn">💻 GitHub</a>
-        </div>
-      </div>
-    </div>
-
-    <!-- Project 3 -->
-    <div class="project-card">
-      <div class="card-inner">
-        <div class="card-front">
-          <h3>Blog Platform</h3>
-          <p>Minimal blog layout.</p>
-        </div>
-        <div class="card-back">
-          <p>Responsive blog with comments & smooth UI.</p>
-          <a href="#" class="btn">🔗 Live Demo</a>
-          <a href="#" class="btn">💻 GitHub</a>
-        </div>
-      </div>
-    </div>
-
-  </div>
-</section>
-
+  </section>
 
   <!-- Skills Section -->
-<section id="skills">
-  <h2 class="section-title">My Skills</h2>
-
-  <div class="skills-grid">
-    <!-- Each skill card -->
-    <div class="skill-card">
-      <i class="fab fa-html5"></i>
-      <h3>HTML5</h3>
-      <p>Semantic, accessible, SEO-friendly markup</p>
+  <section id="skills">
+    <h2 class="section-title">My Skills</h2>
+    <div class="skills-grid">
+      <div class="skill-card"><i class="fab fa-html5"></i><h3>HTML5</h3><p>Semantic, accessible, SEO-friendly markup</p></div>
+      <div class="skill-card"><i class="fab fa-css3-alt"></i><h3>CSS3</h3><p>Responsive layouts with Flexbox & Grid</p></div>
+      <div class="skill-card"><i class="fab fa-js"></i><h3>JavaScript</h3><p>Dynamic, interactive UI with ES6+</p></div>
+      <div class="skill-card"><i class="fab fa-react"></i><h3>React</h3><p>Reusable components & state management</p></div>
+      <div class="skill-card"><i class="fab fa-git-alt"></i><h3>Git & GitHub</h3><p>Version control & collaborative workflows</p></div>
     </div>
-
-    <div class="skill-card">
-      <i class="fab fa-css3-alt"></i>
-      <h3>CSS3</h3>
-      <p>Responsive layouts with Flexbox & Grid</p>
-    </div>
-
-    <div class="skill-card">
-      <i class="fab fa-js"></i>
-      <h3>JavaScript</h3>
-      <p>Dynamic, interactive UI with ES6+</p>
-    </div>
-
-    <div class="skill-card">
-      <i class="fab fa-react"></i>
-      <h3>React</h3>
-      <p>Reusable components & state management</p>
-    </div>
-
-    <div class="skill-card">
-      <i class="fab fa-git-alt"></i>
-      <h3>Git & GitHub</h3>
-      <p>Version control & collaborative workflows</p>
-    </div>
-
-  </div>
-</section>
-
+  </section>
 
   <!-- Contact Section -->
- <!-- Contact Section -->
-<section id="contact" class="contact-section">
-  <div class="contact-container">
-    
-    <!-- Left side info -->
-    <div class="contact-info">
-      <h2>Contact Me</h2>
-      <p>Feel free to reach out anytime! I’d love to connect with you 🚀</p>
-      
-      <div class="info-item">
-        <i class="fas fa-envelope"></i> your@email.com
+  <section id="contact" class="contact-section">
+    <div class="contact-container">
+      <div class="contact-info">
+        <h2>Contact Me</h2>
+        <p>Feel free to reach out anytime! I’d love to connect with you  </p>
+        <div class="info-item"><i class="fas fa-envelope"></i> your@email.com</div>
+        <div class="info-item"><i class="fas fa-phone"></i> +91 9876543210</div>
+        <div class="social-links">
+          <a href="#"><i class="fab fa-facebook"></i></a>
+          <a href="#"><i class="fab fa-twitter"></i></a>
+          <a href="#"><i class="fab fa-linkedin"></i></a>
+          <a href="#"><i class="fab fa-github"></i></a>
+        </div>
       </div>
-      <div class="info-item">
-        <i class="fas fa-phone"></i> +91 9876543210
-      </div>
-      
-      <div class="social-links">
-        <a href="#"><i class="fab fa-facebook"></i></a>
-        <a href="#"><i class="fab fa-twitter"></i></a>
-        <a href="#"><i class="fab fa-linkedin"></i></a>
-        <a href="#"><i class="fab fa-github"></i></a>
+      <div class="contact-form">
+        <h2>Send a Message</h2>
+        <form id="contactForm">
+          <div class="input-group">
+            <input type="text" id="name" name="name" required />
+            <label>Your Name</label>
+          </div>
+          <div class="input-group">
+            <input type="email" id="email" name="email" required />
+            <label>Email</label>
+          </div>
+          <div class="input-group">
+            <textarea id="message" name="message" required></textarea>
+            <label>Message</label>
+          </div>
+          <button class="btn" type="submit">Send</button>
+        </form>
       </div>
     </div>
-
-    <!-- Right side form -->
-    <div class="contact-form">
-      <h2>Send a Message</h2>
-      <form>
-        <div class="input-group">
-          <input type="text" required />
-          <label>Your Name</label>
-        </div>
-        <div class="input-group">
-          <input type="email" required />
-          <label>Email</label>
-        </div>
-        <div class="input-group">
-          <textarea required></textarea>
-          <label>Message</label>
-        </div>
-        <button class="btn" type="submit">Send</button>
-      </form>
-    </div>
-
-  </div>
-</section>
+  </section>
 
   <!-- Footer -->
   <footer>
     <p>© 2025 Praveen | Built with ❤️ using HTML & CSS</p>
   </footer>
 
-  <!-- Theme Toggle Script -->
+  <!-- Scripts -->
   <script>
+    // Theme toggle
     const toggleBtn = document.getElementById("theme-toggle");
     const body = document.body;
-
     toggleBtn.addEventListener("click", () => {
       body.classList.toggle("dark-mode");
-      if (body.classList.contains("dark-mode")) {
-        toggleBtn.textContent = "☀️";
-      } else {
-        toggleBtn.textContent = "🌙";
-      }
+      toggleBtn.textContent = body.classList.contains("dark-mode") ? "☀️" : "🌙";
     });
-    /* Script for hero section */
 
-     const roles = ["Frontend Developer", "UI/UX Enthusiast", "Problem Solver"];
-    let index = 0;
-    let charIndex = 0;
+    // Typing effect
+    const roles = ["Frontend Developer", "UI/UX Enthusiast", "Problem Solver"];
+    let index = 0, charIndex = 0;
     const typingElement = document.querySelector(".typing-text");
 
     function type() {
@@ -246,7 +182,6 @@
         setTimeout(erase, 2000);
       }
     }
-
     function erase() {
       if (charIndex > 0) {
         typingElement.textContent = roles[index].substring(0, charIndex - 1);
@@ -257,10 +192,41 @@
         setTimeout(type, 500);
       }
     }
+    document.addEventListener("DOMContentLoaded", type);
 
-    document.addEventListener("DOMContentLoaded", () => {
-      type();
+// Contact form submit
+const form = document.getElementById("contactForm");
+form.addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+  const scriptURL = "https://script.google.com/macros/s/AKfycbwWsmUwC_yrBmEUmeARztUGBePbvhKxrStguDFKG6MQ1S8GZ3VIqkTz_3zq_sR4sWWRRw/exec"; 
+  const submitBtn = form.querySelector("button");
+  submitBtn.textContent = "Sending...";
+
+  try {
+    const response = await fetch(scriptURL, {
+      method: "POST",
+      body: new FormData(form),
     });
+
+    // Parse the JSON response from Apps Script
+    const result = await response.json();
+
+    if (result.success) {
+      alert(" Message sent successfully!");
+      form.reset();
+    } else {
+      alert(" Error: " + (result.error || "Something went wrong on server."));
+    }
+  } catch (err) {
+    console.error("Network error:", err);
+    alert(" Successfully");
+  } finally {
+    submitBtn.textContent = "Send";
+  }
+});
+
+
   </script>
 </body>
 </html>
