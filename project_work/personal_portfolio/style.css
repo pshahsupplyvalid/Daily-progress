@@ -515,3 +515,26 @@ footer {
 .skill-card:hover p {
   color: #f1f1f1;
 }
+
+/* css for about page  */
+.about-info {
+  margin: 20px 0;
+  padding: 20px;
+  font-size: 18px;
+  color: #333;
+  background: linear-gradient(135deg, #e0f7fa, #ffffff);
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.about-info p {
+  margin: 8px 0;
+}
+
+.about-info i {
+  color: #007BFF;
+  margin-right: 8px;
+}
+
+
+
