@@ -41,10 +41,32 @@ for (let index = 0;index <= myArray.lemgth; index ++){
 //break and continue
 
 
-for (let index =1; index <=20; index++){
-    if(index == 5){
-        console.log(`Detected 5`);
-        continue
-    }
-    console.log(`value of i is ${index}`);
+// for (let index =1; index <=20; index++){
+//     if(index == 5){
+//         console.log(`Detected 5`);
+//         continue
+//     }
+//     console.log(`value of i is ${index}`);
+// }
+
+// let index =0
+// while (index <=10){
+//     console.log(`value of index is ${index}`);
+//     index = index +2
+// }
+
+// let myArray = ['flash', "batman", "superman"]
+
+let arr = 0
+while(arr < myArray.length){
+    // console.log(`valuue is ${myArray [arr]}`);
+    arr = arr 
+
 }
+
+let score =1 
+
+do {
+    console.log{`Score is ${score}`};
+
+} while (score <=10 );
