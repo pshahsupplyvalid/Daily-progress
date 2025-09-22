@@ -6,7 +6,7 @@
     <title>Closure aur chai</title>
 </head>
 <body>
-
+</body>
     <script>
         // function init(){
         //     let name = "Mozilla";
@@ -17,21 +17,44 @@
         // }
         // init();
 
-        function outer(){
-            let username ="hitesh"
-            function inner(){
-                console.log("inner",username);
+        // function outer(){
+        //     let username ="hitesh"
+        //     console.log("OUTER", secret);
+        //     function inner(){
+        //         let secret ="my123"
+        //         console.log("inner",username);
+        //     }
+        //     function innerTwo(){
+        //         console.log("inneraTwo", username);
+        //         console.log(secret);
+        //     }
+        //     inner()
+        //     innerTwo()
+        // }
+
+        // outer()
+        // console.log(username);
+        function makeFunc(){
+            const name ="Mozilla";
+            function displayName(){
+                console.log(name);
+
             }
-            function innerTwo(){
-                console.log("inneraTwo", username);
-            }
-            inner()
-            innerTwo()
+            return displayName;
         }
 
-        outer()
-        console.log(username);
+        const myFunc = makeFunc();
+        myFunc();
+    </script>
+    <script>
+        document.getElementById("orange").onclick = function(){
+            document.body.style.backgroundColor = 'orange'
+        }
+        document.getElementById("green").onclick = function(){
+            document.body.style.backgroundColor ="green"
+        }
+
     </script>
     
-</body>
+
 </html>
