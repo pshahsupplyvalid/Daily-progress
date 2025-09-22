@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Closure aur chai</title>
+</head>
+<body>
+
+    <script>
+        // function init(){
+        //     let name = "Mozilla";
+        //     function displayName(){
+        //         console.log(name);
+        //     }
+        //     displayName();
+        // }
+        // init();
+
+        function outer(){
+            let username ="hitesh"
+            function inner(){
+                console.log("inner",username);
+            }
+            function innerTwo(){
+                console.log("inneraTwo", username);
+            }
+            inner()
+            innerTwo()
+        }
+
+        outer()
+        console.log(username);
+    </script>
+    
+</body>
+</html>
