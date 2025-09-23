@@ -1,13 +1,11 @@
 
-
+import Chai from "./chai";
 function App() {
   
   return (
-    <h1>
-      my first react app with vite | PRAVEEN SHAH
-    </h1>
+    <Chai/>
    
   )
 }
 
-export default App
+export default App;
