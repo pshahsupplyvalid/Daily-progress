@@ -1,30 +1,23 @@
-const NewsItem = ({ title, description, src, url, darkMode = false }) => {
+const NewsItem = ({ title, description, src, url, darkMode, publishedAt }) => {
   return (
     <div
-      className={`card ${darkMode ? "bg-dark text-light" : "bg-white text-dark"} shadow-sm`}
-      style={{
-        maxWidth: "345px",
-        border: "1px solid",
-        borderColor: darkMode ? "#444" : "#ddd",
-        transition: "all 0.3s ease", // smooth transition for dark/light toggle
-      }}
+      className={`card ${darkMode ? "bg-dark text-light" : ""}`}
+      style={{ width: "300px" }}
     >
-      <img
-        src={src || "https://via.placeholder.com/300x200?text=No+Image"}
-        className="card-img-top"
-        alt={title || "news image"}
-        style={{ objectFit: "cover", height: "200px" }}
-      />
-      <div className="card-body">
-        <h5 className="card-title">{title || "No Title"}</h5>
-        <p className="card-text">
-          {description ? description.slice(0, 100) + "..." : "No description available."}
+      <img src={src} className="card-img-top" alt={title} />
+      <div className="card-body d-flex flex-column">
+        <h5 className="card-title">{title}</h5>
+        <p className="card-text">{description}</p>
+        <p className="card-text mt-auto">
+          <small className="text-muted">
+            {publishedAt ? new Date(publishedAt).toLocaleString() : ""}
+          </small>
         </p>
         <a
-          href={url || "#"}
+          href={url}
           target="_blank"
           rel="noopener noreferrer"
-          className={`btn ${darkMode ? "btn-light" : "btn-primary"}`}
+          className="btn btn-primary mt-2"
         >
           Read More
         </a>
