@@ -1,7 +1,9 @@
+
 import { useEffect, useState } from "react";
 import Navbar from "./components/Navbar";
 import NewsBoard from "./components/NewsBoard";
-import Footer from "./components/Footer"; 
+import Footer from "./components/Footer";
+
 
 const App = () => {
   const [darkMode, setDarkMode] = useState(() => {

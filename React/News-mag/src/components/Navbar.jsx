@@ -32,7 +32,7 @@ const Navbar = ({ darkMode, setDarkMode }) => {
           className={`collapse navbar-collapse ${!isCollapsed ? "show" : ""}`}
           id="navbarNav"
         >
-          <ul className="navbar-nav ms-auto align-items-center">
+          <ul className="navbar-nav mcs-auto align-items-center">
             <li className="nav-item">
               <a className="nav-link active" aria-current="page" href="#">
                 Home
