@@ -1,4 +1,4 @@
-// src/App.js
+
 import React, { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -31,7 +31,7 @@ function App() {
     setTasks(newTasks);
   };
 
-  // 🧹 Function to clear all completed tasks
+  //  Function to clear all completed tasks
   const clearCompletedTasks = () => {
     const activeTasks = tasks.filter(task => !task.completed);
     setTasks(activeTasks);
@@ -88,7 +88,7 @@ function App() {
         ))}
       </ul>
 
-      {/* 🧹 Clear Completed Button */}
+      {/*  Clear Completed Button */}
       {tasks.some(task => task.completed) && (
   <div className="d-flex justify-content-center">
     <button className="btn btn-warning" onClick={clearCompletedTasks}>
