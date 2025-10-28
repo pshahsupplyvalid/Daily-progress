@@ -5,17 +5,24 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './index.css';
 
 function App() {
+  // Tasks state
   const [tasks, setTasks] = useState(() => {
     const stored = localStorage.getItem('tasks');
     return stored ? JSON.parse(stored) : [];
   });
 
+  // Filter for search
   const [filter, setFilter] = useState('');
 
+  // Dark mode state
+  const [darkMode, setDarkMode] = useState(false);
+
+  // Save tasks to localStorage
   useEffect(() => {
     localStorage.setItem('tasks', JSON.stringify(tasks));
   }, [tasks]);
 
+  // Task operations
   const addTask = (text) => {
     setTasks([...tasks, { text, completed: false }]);
   };
@@ -40,19 +47,28 @@ function App() {
     setTasks(tasks.filter((task) => !task.completed));
   };
 
+  // Filtered tasks based on search
   const filteredTasks = tasks.filter((task) =>
     task.text.toLowerCase().includes(filter.toLowerCase())
   );
 
   return (
-    <div className="container mt-5">
+    <div className={darkMode ? "container bg-dark text-light mt-5" : "container bg-light text-dark mt-5"}>
+      
+      {/* Navbar with Dark Mode Button */}
       <nav className="navbar navbar-dark bg-primary mb-4 rounded">
-        <div className="container-fluid justify-content-center">
+        <div className="container-fluid justify-content-between">
           <span className="navbar-brand mb-0 h1">📝 To-Do List App</span>
+          <button 
+            onClick={() => setDarkMode(!darkMode)} 
+            className="btn btn-light btn-sm"
+          >
+            {darkMode ? "Light Mode" : "Dark Mode"}
+          </button>
         </div>
       </nav>
 
-     
+      {/* Search Bar */}
       <input
         type="text"
         className="form-control mb-3 search-bar"
@@ -61,6 +77,7 @@ function App() {
         onChange={(e) => setFilter(e.target.value)}
       />
 
+      {/* Add Task */}
       <TaskInput onAddTask={addTask} />
 
       {/* Task List */}
@@ -77,7 +94,7 @@ function App() {
         </p>
       )}
 
-      {/* Clear Completed Button */}
+      {/* Clear Completed */}
       {tasks.some((t) => t.completed) && (
         <div className="d-flex justify-content-center">
           <button className="btn btn-warning" onClick={clearCompleted}>
@@ -88,8 +105,7 @@ function App() {
 
       {/* Task Count */}
       <p className="text-center text-muted mt-3">
-        {tasks.filter((t) => t.completed).length} / {tasks.length} tasks
-        completed
+        {tasks.filter((t) => t.completed).length} / {tasks.length} tasks completed
       </p>
     </div>
   );
