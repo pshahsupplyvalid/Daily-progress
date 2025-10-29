@@ -1,0 +1,24 @@
+/* Map container shadow */
+.map-container {
+  height: 600px;
+  width: 100%;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+/* Gradient submit button */
+.btn-gradient {
+  background: linear-gradient(90deg, #4caf50, #81c784);
+  color: white;
+  border-radius: 25px;
+  padding: 8px 20px;
+  font-size: 0.95rem;
+  transition: all 0.3s ease;
+  border: none;
+}
+
+.btn-gradient:hover {
+  background: linear-gradient(90deg, #388e3c, #66bb6a);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
