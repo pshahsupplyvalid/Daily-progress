@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Show Coordinates on Map</title>
+  
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  
+  <!-- Leaflet CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+
+  <style>
+    #map { height: 600px; width: 100%; margin-top: 20px; }
+  </style>
+</head>
+<body>
+  <div class="container mt-4">
+    <h2 class="mb-3 text-center">Upload Excel File to Show Coordinates on Map</h2>
+    
+    <div class="mb-3 text-center">
+      <input class="form-control form-control-lg" type="file" id="fileInput" accept=".xlsx, .xls, .csv">
+    </div>
+
+    <div id="map" class="rounded shadow"></div>
+  </div>
+
+  <!-- Leaflet JS -->
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  
+  <!-- XLSX JS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+
+  <script>
+    // Initialize Leaflet map with dragging and keyboard enabled
+    const map = L.map('map', {
+      center: [20, 78],
+      zoom: 5,
+      dragging: true,         // enable mouse drag
+      scrollWheelZoom: true,  // enable scroll zoom
+      keyboard: true          // enable arrow key panning
+    });
+
+    // Add OpenStreetMap tile layer
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 19,
+      attribution: '&copy; OpenStreetMap contributors'
+    }).addTo(map);
+
+    // Red marker icon
+    const redIcon = new L.Icon({
+        iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png',
+        shadowUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png',
+        iconSize: [25, 41],
+        iconAnchor: [12, 41],
+        popupAnchor: [1, -34],
+        shadowSize: [41, 41]
+    });
+
+    // Handle Excel file upload
+    document.getElementById('fileInput').addEventListener('change', handleFile);
+
+    function handleFile(e) {
+      const file = e.target.files[0];
+      const reader = new FileReader();
+      reader.onload = function(event) {
+        const data = new Uint8Array(event.target.result);
+        const workbook = XLSX.read(data, { type: 'array' });
+        const firstSheet = workbook.Sheets[workbook.SheetNames[0]];
+        const rows = XLSX.utils.sheet_to_json(firstSheet);
+
+        addMarkersToMap(rows);
+      };
+      reader.readAsArrayBuffer(file);
+    }
+
+    function addMarkersToMap(rows) {
+      // Remove existing markers
+      map.eachLayer(layer => { if (layer instanceof L.Marker) map.removeLayer(layer); });
+
+      rows.forEach(row => {
+        const lat = parseFloat(row["Latitude (Decimal)"]);
+        const lon = parseFloat(row["Longitude (Decimal)"]);
+        const name = row["State / UT Name"] || "Unknown";
+
+        if (!isNaN(lat) && !isNaN(lon)) {
+          const marker = L.marker([lat, lon], { icon: redIcon }).addTo(map);
+          marker.bindPopup(`<b>${name}</b><br>Lat: ${lat}<br>Lon: ${lon}`);
+        }
+      });
+
+      // Fit map view to all markers
+      const allPoints = rows
+        .filter(r => !isNaN(parseFloat(r["Latitude (Decimal)"])) && !isNaN(parseFloat(r["Longitude (Decimal)"])))
+        .map(r => [parseFloat(r["Latitude (Decimal)"]), parseFloat(r["Longitude (Decimal)"])]);
+
+      if (allPoints.length > 0) map.fitBounds(allPoints);
+    }
+  </script>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
