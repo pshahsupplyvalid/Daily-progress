@@ -1,35 +1,12 @@
-/* Page Background */
-.page-container {
-  background-color: #f5f6fa;
-  min-height: 100vh;
-  padding: 40px;
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
+body {
+  background-color: #f8f9fa;
 }
 
-/* Main Form Card */
-.form-wrapper {
-  background: #ffffff;
-  border-radius: 8px;
-  padding: 40px 60px;
-  width: 100%;
-  max-width: 1300px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-}
-
-/* Labels and Inputs */
-.form-label {
-  font-weight: 500;
+h4 {
+  font-weight: 600;
   color: #333;
 }
 
-button {
-  min-width: 120px;
-}
-
-table {
+.table {
   margin-top: 15px;
-  border-radius: 6px;
-  overflow: hidden;
 }

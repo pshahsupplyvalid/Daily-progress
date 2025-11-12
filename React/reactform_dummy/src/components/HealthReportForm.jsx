@@ -1,70 +1,238 @@
-import React, { useState, useEffect } from "react";
-import HealthReportTable from "./HealthReportTable";
+import React, { useState, useRef } from "react";
+import { Form, Button, Container, Table, Row, Col } from "react-bootstrap";
+import { ArrowLeft } from "react-bootstrap-icons";
+
+
 
 export default function HealthReportForm() {
-  const [reportType, setReportType] = useState("");
-  const [dispatchType, setDispatchType] = useState("");
-  const [data, setData] = useState([]);
+  const [formData, setFormData] = useState({});
+  const [file, setFile] = useState(null);
+  const fileInputRef = useRef(null);
 
-  // Mock data (simulating API)
-  const allData = [
-    { id: 1, branchName: "Mumbai Branch", systemHealth: "Good", lastSyncTime: "2025-11-06 10:00", remarks: "All OK", reportType: "Dispatch", dispatchType: "Normal" },
-    { id: 2, branchName: "Pune Branch", systemHealth: "Warning", lastSyncTime: "2025-11-06 12:30", remarks: "Minor Delay", reportType: "Receive", dispatchType: "CA" },
-    { id: 3, branchName: "Delhi Branch", systemHealth: "Critical", lastSyncTime: "2025-11-05 09:45", remarks: "Sync Failed", reportType: "Move", dispatchType: "Normal" },
-  ];
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
 
-  useEffect(() => {
-    if (!reportType && !dispatchType) {
-      setData(allData);
+  const handleFileChange = (e) => {
+    setFile(e.target.files[0]);
+  };
+
+  const handleViewFile = () => {
+    if (file) {
+      const fileUrl = URL.createObjectURL(file);
+      window.open(fileUrl, "_blank");
     } else {
-      let filtered = allData;
-      if (reportType) filtered = filtered.filter(d => d.reportType === reportType);
-      if (dispatchType) filtered = filtered.filter(d => d.dispatchType === dispatchType);
-      setData(filtered);
+      alert("No file selected to view!");
     }
-  }, [reportType, dispatchType]);
+  };
+
+  const handleClearFile = () => {
+    setFile(null);
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
+    }
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log("Form Data:", formData, "File:", file);
+    alert("Form Submitted Successfully!");
+  };
+
+  const handleReset = () => {
+    setFormData({});
+    setFile(null);
+    if (fileInputRef.current) fileInputRef.current.value = "";
+  };
+
+  const handleGoBack = () => {
+    window.history.back();
+  };
+  
+const section = [
+  {
+    title: "Basic Details",
+    name: "basicDetails",
+    children: [
+      {
+        name: "reportType",
+        label: "Report Type",
+        type: "select",
+        required: true,
+        options: ["Receive", "Dispatch"],
+      },
+      {
+        name: "trainTruck",
+        label: "Train / Truck",
+        type: "select",
+        required: true,
+        options: ["Train", "Truck"],
+      },
+      {
+        name: "client",
+        label: "Client",
+        type: "select",
+        required: true,
+        options: ["NAFED", "NCCF"],
+      },
+      {
+        name: "company",
+        label: "Company",
+        type: "select",
+        required: true,
+        options: ["Company 1", "Company 2"],
+      },
+    ],
+  },
+  {
+    title: "Weight Details",
+    name: "weightDetails",
+    children: [
+      { name: "truckNumber", label: "Truck Number", type: "text", required: true },
+      { name: "grossWeight", label: "Gross Weight", type: "number", required: true },
+      { name: "netWeight", label: "Net Weight", type: "number", required: true },
+      { name: "tareWeight", label: "Tare Weight", type: "number", required: true },
+    ],
+  },
+  {
+    title: "Onion Quality Parameters",
+    name: "onionQuality",
+    children: [
+      { name: "stainingColour", label: "Staining Colour", type: "select", options: ["Yes", "No"] },
+      { name: "stainingColourPercent", label: "Staining Colour Percent", type: "number" },
+      { name: "bagCount", label: "Bag Count", type: "number" },
+      { name: "blackSmutOnion", label: "Black Smut Onion", type: "select", options: ["Yes", "No"] },
+      { name: "blackSmutPercent", label: "Black Smut Percent", type: "number" },
+      { name: "sproutedOnion", label: "Sprouted Onion", type: "select", options: ["Yes", "No"] },
+      { name: "onionSkin", label: "Onion Skin", type: "select", options: ["Single", "Double"] },
+      { name: "onionSkinPercent", label: "Onion Skin Percent", type: "number" },
+      { name: "moisture", label: "Moisture", type: "select", options: ["Dry", "Wet"] },
+      { name: "moisturePercent", label: "Moisture Percent", type: "number" },
+      { name: "spoiledOnion", label: "Spoiled Onion", type: "select", options: ["Yes", "No"] },
+      { name: "spoiledPercent", label: "Spoiled Percent", type: "number" },
+      { name: "representativeName", label: "Representative Name", type: "text" },
+      { name: "assayerName", label: "Assayer Name", type: "select", options: ["Assayer 1", "Assayer 2"] },
+      { name: "comment", label: "Comment", type: "text" },
+    ],
+  },
+];
 
   return (
-    <div style={{
-      border: "1px solid #ddd",
-      borderRadius: "10px",
-      padding: "20px",
-      boxShadow: "0 2px 10px rgba(0,0,0,0.1)"
-    }}>
-      <h3>Health Report Form</h3>
-
-      {/* Filters */}
-      <div style={{ display: "flex", gap: "20px", marginTop: "20px", marginBottom: "20px" }}>
-        <div style={{ flex: 1 }}>
-          <label><b>Select Report Type:</b></label>
-          <select
-            value={reportType}
-            onChange={(e) => setReportType(e.target.value)}
-            style={{ width: "100%", padding: "8px", marginTop: "5px" }}
+    <Container
+      fluid
+      className="p-5"
+      style={{ backgroundColor: "#f8f9fa", minHeight: "100vh" }}
+    >
+      <div className="bg-white p-4 rounded shadow w-100">
+        {/* Header */}
+        <div className="d-flex justify-content-between align-items-center mb-4">
+          <h4 className="fw-bold m-0">CREATE HEALTH REPORT</h4>
+          <Button
+            variant="outline-primary"
+            onClick={handleGoBack}
+            className="d-flex align-items-center"
           >
-            <option value="">-- Select --</option>
-            <option value="Dispatch">Dispatch</option>
-            <option value="Receive">Receive</option>
-            <option value="Move">Move</option>
-          </select>
+            <ArrowLeft className="me-2" />
+            Go Back
+          </Button>
         </div>
 
-        <div style={{ flex: 1 }}>
-          <label><b>Select Dispatch Type:</b></label>
-          <select
-            value={dispatchType}
-            onChange={(e) => setDispatchType(e.target.value)}
-            style={{ width: "100%", padding: "8px", marginTop: "5px" }}
-          >
-            <option value="">-- Select --</option>
-            <option value="Normal">Normal</option>
-            <option value="CA">CA</option>
-          </select>
-        </div>
+        {/* Dynamic Form */}
+        <Form onSubmit={handleSubmit}>
+          {section.map((section, i) => (
+            <div key={i} className="mb-4 p-3 border rounded">
+              <h5 className="fw-bold mb-3">{section.title}</h5>
+              <Row>
+                {section.children.map((field, j) => (
+                  <Col md={6} key={j} className="mb-3">
+                    <Form.Group>
+                      <Form.Label>
+                        {field.label} {field.required && <span className="text-danger">*</span>}
+                      </Form.Label>
+                      {field.type === "select" ? (
+                        <Form.Select
+                          name={field.name}
+                          value={formData[field.name] || ""}
+                          onChange={handleChange}
+                        >
+                          <option value="">-- Select {field.label} --</option>
+                          {field.options?.map((opt, k) => (
+                            <option key={k} value={opt}>{opt}</option>
+                          ))}
+                        </Form.Select>
+                      ) : (
+                        <Form.Control
+                          type={field.type}
+                          name={field.name}
+                          placeholder={field.label}
+                          value={formData[field.name] || ""}
+                          onChange={handleChange}
+                        />
+                      )}
+                    </Form.Group>
+                  </Col>
+                ))}
+              </Row>
+            </div>
+          ))}
+
+          {/* File Upload Section */}
+          <div className="mt-4">
+            <h6 className="fw-bold mb-3">Files</h6>
+            <Table bordered responsive>
+              <thead>
+                <tr>
+                  <th style={{ width: "10%" }}>S.No</th>
+                  <th>File</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>1</td>
+                  <td>
+                    <div className="d-flex align-items-center">
+                      <Form.Control
+                        type="file"
+                        ref={fileInputRef}
+                        onChange={handleFileChange}
+                      />
+                      <Button
+                        variant="success"
+                        size="sm"
+                        className="ms-2"
+                        onClick={handleViewFile}
+                        disabled={!file}
+                      >
+                        View
+                      </Button>
+                      <Button
+                        variant="danger"
+                        size="sm"
+                        className="ms-2"
+                        onClick={handleClearFile}
+                        disabled={!file}
+                      >
+                        Clear
+                      </Button>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </Table>
+          </div>
+
+          {/* Buttons */}
+          <div className="text-center mt-4">
+            <Button variant="secondary" className="me-3" onClick={handleReset}>
+              Reset
+            </Button>
+            <Button variant="primary" type="submit">
+              Submit
+            </Button>
+          </div>
+        </Form>
       </div>
-
-      {/* Table */}
-      <HealthReportTable data={data} />
-    </div>
+    </Container>
   );
 }
