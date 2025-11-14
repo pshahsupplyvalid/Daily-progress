@@ -1,0 +1,20 @@
+.completed {
+  text-decoration: line-through;
+  color: gray;
+}
+
+input[type="text"] {
+  padding: 6px;
+  margin-right: 10px;
+}
+
+button {
+  padding: 5px 10px;
+  margin-left: 5px;
+  cursor: pointer;
+}
+
+h2 {
+  font-family: Arial, Helvetica, sans-serif;
+  margin-bottom: 10px;
+}
