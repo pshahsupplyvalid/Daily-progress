@@ -1,5 +1,14 @@
-h1 {
-  text-align: center;
-  margin-bottom: 20px;
-  font-family: Arial, Helvetica, sans-serif;
+/* basic page layout so card is centered nicely */
+:root {
+  --page-bg: #f5f7fb;
+}
+
+body, html {
+  height: 100%;
+  margin: 0;
+  background: var(--page-bg);
+}
+
+app-todo {
+  display: block;
 }

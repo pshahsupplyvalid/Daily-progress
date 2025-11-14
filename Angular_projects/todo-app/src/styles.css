@@ -1,2 +1,8 @@
+/* Bootstrap import (global) */
 @import "bootstrap/dist/css/bootstrap.min.css";
 
+/* small global tweaks */
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+}
