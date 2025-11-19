@@ -1,20 +1,47 @@
+/* Completed task look */
 .completed {
   text-decoration: line-through;
-  color: gray;
+  color: #6c757d;
 }
 
-input[type="text"] {
-  padding: 6px;
-  margin-right: 10px;
+/* Task text styling */
+.task-text {
+  font-size: 1.1rem;
+  font-weight: 500;
 }
 
-button {
-  padding: 5px 10px;
-  margin-left: 5px;
-  cursor: pointer;
-}
-
-h2 {
-  font-family: Arial, Helvetica, sans-serif;
+/* List item spacing + hover */
+.list-group-item {
+  border-radius: 10px !important;
   margin-bottom: 10px;
+  transition: 0.2s ease-in-out;
+}
+
+.list-group-item:hover {
+  background-color: #f7f7f7;
+  transform: translateY(-2px);
+}
+
+/* Dark mode styles */
+.dark-mode {
+  background-color: #0f1724;
+  min-height: 100vh;
+  color: white;
+}
+
+.dark-mode .card {
+  background-color: #1a2332;
+}
+
+.dark-mode .list-group-item {
+  background-color: #1a2332;
+  border-color: #2b3544;
+}
+
+.dark-mode .list-group-item:hover {
+  background-color: #273140;
+}
+
+.dark-mode .task-text {
+  color: white;
 }

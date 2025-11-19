@@ -1,0 +1,10 @@
+<a routerLink="/add" class="btn">Add New Recipe</a>
+
+<h2>All Recipes</h2>
+
+<div *ngFor="let recipe of recipes" class="card">
+  <h3>{{ recipe.name }}</h3>
+  <img [src]="recipe.image" width="150">
+  <br>
+  <a [routerLink]="['/recipe', recipe.id]">View Details</a>
+</div>

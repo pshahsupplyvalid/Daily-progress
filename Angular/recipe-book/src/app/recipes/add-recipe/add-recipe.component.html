@@ -1,0 +1,15 @@
+<h2>Add Recipe</h2>
+
+<label>Recipe Name:</label>
+<input type="text" [(ngModel)]="name">
+
+<label>Image URL:</label>
+<input type="text" [(ngModel)]="image">
+
+<label>Ingredients (comma separated):</label>
+<input type="text" [(ngModel)]="ingredients">
+
+<label>Steps:</label>
+<textarea [(ngModel)]="steps"></textarea>
+
+<button (click)="addRecipe()">Save Recipe</button>

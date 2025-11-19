@@ -1,33 +1,102 @@
-<h2>Todo List</h2>
+<div [class.dark-mode]="darkMode" class="container py-4">
 
-<input 
-  type="text" 
-  placeholder="Enter your task..."
-  [(ngModel)]="newTask"
-/>
+  <!-- Dark Mode Toggle -->
+  <div class="d-flex justify-content-end mb-3">
+    <button class="btn btn-outline-secondary" (click)="toggleDarkMode()">
+      {{ darkMode ? 'Light Mode' : 'Dark Mode' }}
+    </button>
+  </div>
 
-<button (click)="addTask()">Add</button>
+  <div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
 
-<!-- Message when no tasks -->
-<p *ngIf="tasks.length === 0">No tasks added yet.</p>
+      <div class="card shadow-sm">
+        <div class="card-body">
 
-<!-- Tasks List -->
-<ul>
-  <li *ngFor="let task of tasks; let i = index">
-    
-    <!-- Checkbox -->
-    <input 
-      type="checkbox"
-      [checked]="task.completed"
-      (change)="toggleTask(i)"
-    />
+          <h4 class="text-center mb-3">Todo App</h4>
 
-    <!-- Task Text -->
-    <span [class.completed]="task.completed">
-      {{ task.title }}
-    </span>
+          <!-- Input + Add/Update -->
+          <div class="input-group mb-3">
+            <input 
+              type="text"
+              class="form-control"
+              placeholder="Enter your task..."
+              [(ngModel)]="newTask"
+              (keyup.enter)="addTask()"
+            />
+            <button class="btn btn-primary" (click)="addTask()">
+              {{ editIndex !== null ? 'Update' : 'Add' }}
+            </button>
+          </div>
 
-    <!-- Delete Button -->
-    <button (click)="deleteTask(i)">Delete</button>
-  </li>
-</ul>
+          <!-- Filters -->
+          <div class="d-flex justify-content-center gap-2 mb-3">
+            <button 
+              class="btn btn-sm"
+              [ngClass]="{'btn-primary': filter==='all', 'btn-outline-primary': filter!=='all'}"
+              (click)="setFilter('all')"
+            >
+              All
+            </button>
+
+            <button 
+              class="btn btn-sm"
+              [ngClass]="{'btn-success': filter==='completed', 'btn-outline-success': filter!=='completed'}"
+              (click)="setFilter('completed')"
+            >
+              Completed
+            </button>
+
+            <button 
+              class="btn btn-sm"
+              [ngClass]="{'btn-warning text-dark': filter==='pending', 'btn-outline-warning': filter!=='pending'}"
+              (click)="setFilter('pending')"
+            >
+              Pending
+            </button>
+          </div>
+
+          <!-- No Tasks -->
+          <p *ngIf="filteredTasks.length === 0" class="text-center text-muted">
+            No tasks available.
+          </p>
+
+          <!-- Task List -->
+          <ul class="list-group mt-2">
+            <li 
+              class="list-group-item py-3 d-flex justify-content-between align-items-center"
+              *ngFor="let task of filteredTasks; let i = index"
+            >
+              <div class="d-flex align-items-center gap-3">
+                <input 
+                  type="checkbox"
+                  class="form-check-input"
+                  [checked]="task.completed"
+                  (change)="toggleTask(i)"
+                />
+
+                <span 
+                  [class.completed]="task.completed"
+                  class="task-text"
+                >
+                  {{ task.title }}
+                </span>
+              </div>
+
+              <div class="d-flex gap-2">
+                <button class="btn btn-sm btn-warning" (click)="editTask(i)">Edit</button>
+                <button class="btn btn-sm btn-danger" (click)="deleteTask(i)">Delete</button>
+              </div>
+            </li>
+          </ul>
+
+          <div class="text-center mt-3">
+            <button class="btn btn-outline-danger" (click)="clearAll()">Delete All</button>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
