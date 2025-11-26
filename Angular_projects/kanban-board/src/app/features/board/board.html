@@ -1,0 +1,151 @@
+<div class="container py-4">
+
+
+
+  <!-- Add Task Button -->
+  <button class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#taskModal">
+    + Add Task
+  </button>
+
+  <!-- Modal -->
+  <div class="modal fade" id="taskModal" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+
+        <div class="modal-header">
+          <h5 class="modal-title">Add New Task</h5>
+          <button class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+
+        <div class="modal-body">
+          <input
+            class="form-control mb-3"
+            placeholder="Task Title"
+            [(ngModel)]="newTask.title"
+            name="title"
+          />
+
+          <textarea
+            class="form-control mb-3"
+            placeholder="Description"
+            [(ngModel)]="newTask.description"
+            name="description"
+          ></textarea>
+
+          <select
+            class="form-select"
+            [(ngModel)]="newTask.priority"
+            name="priority"
+          >
+            <option value="low">Low</option>
+            <option value="medium">Medium</option>
+            <option value="high">High</option>
+          </select>
+        </div>
+
+        <div class="modal-footer">
+          <button class="btn btn-secondary" data-bs-dismiss="modal">
+            Close
+          </button>
+          <button class="btn btn-success" (click)="saveTask()" data-bs-dismiss="modal">
+            Save Task
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Board Columns -->
+  <div class="row g-4 board-wrapper mt-4">
+
+    <!-- Column Template -->
+    <!-- ========== To Do ========== -->
+    <div class="col-md-4">
+      <div class="column-box shadow-sm border rounded p-3 bg-white">
+
+        <div class="column-header text-primary">
+          <span>To Do</span>
+          <span class="count-badge bg-primary">{{ getTasks('todo').length }}</span>
+        </div>
+
+        <div class="task-list">
+          <div
+            *ngFor="let task of getTasks('todo')"
+            class="task-card"
+          >
+
+            <div class="task-top">
+              <h5>{{ task.title }}</h5>
+              <span class="priority-badge" [ngClass]="task.priority">{{ task.priority }}</span>
+            </div>
+
+            <p class="task-desc">{{ task.description || 'No description' }}</p>
+
+            <button class="delete-btn" (click)="deleteTask(task.id)">Delete</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ========== In Progress ========== -->
+    <div class="col-md-4">
+      <div class="column-box shadow-sm border rounded p-3 bg-white">
+
+        <div class="column-header text-warning">
+          <span>In Progress</span>
+          <span class="count-badge bg-warning text-dark">{{ getTasks('in-progress').length }}</span>
+        </div>
+
+        <div class="task-list">
+          <div
+            *ngFor="let task of getTasks('in-progress')"
+            class="task-card"
+          >
+
+            <div class="task-top">
+              <h5>{{ task.title }}</h5>
+              <span class="priority-badge" [ngClass]="task.priority">{{ task.priority }}</span>
+            </div>
+
+            <p class="task-desc">{{ task.description }}</p>
+
+            <button class="delete-btn" (click)="deleteTask(task.id)">Delete</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ========== Done ========== -->
+    <div class="col-md-4">
+      <div class="column-box shadow-sm border rounded p-3 bg-white">
+
+        <div class="column-header text-success">
+          <span>Done</span>
+          <span class="count-badge bg-success">{{ getTasks('done').length }}</span>
+        </div>
+
+        <div class="task-list">
+          <div
+            *ngFor="let task of getTasks('done')"
+            class="task-card"
+          >
+
+            <div class="task-top">
+              <h5>{{ task.title }}</h5>
+              <span class="priority-badge" [ngClass]="task.priority">{{ task.priority }}</span>
+            </div>
+
+            <p class="task-desc">{{ task.description }}</p>
+
+            <button class="delete-btn" (click)="deleteTask(task.id)">Delete</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</div>
