@@ -1,0 +1,91 @@
+/* Column Header */
+.column-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: 600;
+  font-size: 18px;
+  margin-bottom: 12px;
+}
+
+/* Count Badge */
+.count-badge {
+  padding: 4px 10px;
+  border-radius: 6px;
+  color: white;
+}
+
+/* Task Card */
+.task-card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 20px;
+  box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.08);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  border-left: 5px solid #0d6efd;
+}
+
+.task-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0px 6px 18px rgba(0, 0, 0, 0.12);
+}
+
+/* Top Row */
+.task-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Title */
+.task-top h5 {
+  margin: 0;
+  font-weight: 600;
+  color: #333;
+}
+
+/* Description */
+.task-desc {
+  margin-top: 8px;
+  font-size: 14px;
+  color: #666;
+}
+
+/* Priority Badges */
+.priority-badge {
+  padding: 3px 10px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: capitalize;
+  color: #fff;
+}
+
+.priority-badge.low {
+  background: #17a2b8;
+}
+
+.priority-badge.medium {
+  background: #ffc107;
+  color: #333;
+}
+
+.priority-badge.high {
+  background: #dc3545;
+}
+
+/* Delete Button */
+.delete-btn {
+  background: #dc3545;
+  color: white;
+  border: none;
+  padding: 6px 14px;
+  font-size: 13px;
+  border-radius: 6px;
+  transition: background 0.2s ease;
+}
+
+.delete-btn:hover {
+  background: #b02a37;
+}
