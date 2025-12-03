@@ -1,0 +1,27 @@
+<div class="d-flex justify-content-center align-items-center" style="min-height: 90vh;">
+  <div class="card-ui text-center" style="max-width: 500px; width: 100%;">
+    <h2 class="fw-bold text-success mb-3">🎉 Quiz Completed!</h2>
+
+    <h4 class="mb-3">
+      Score:
+      <span class="text-primary">{{ score }}</span>
+      /
+      {{ total }}
+    </h4>
+
+    <div class="progress mb-4" style="height: 12px;">
+      <div
+        class="progress-bar bg-success"
+        [style.width.%]="(score / total) * 100"
+      ></div>
+    </div>
+
+    <p class="fw-semibold">
+      {{ (score / total) * 100 >= 60 ? 'Great Job!' : 'Keep Practicing!' }}
+    </p>
+
+    <button class="btn btn-main w-100 mt-3" (click)="restart()">
+      🔄 Restart Quiz
+    </button>
+  </div>
+</div>
