@@ -1,27 +1,124 @@
-<div class="d-flex justify-content-center align-items-center" style="min-height: 90vh;">
-  <div class="card-ui text-center" style="max-width: 500px; width: 100%;">
-    <h2 class="fw-bold text-success mb-3">🎉 Quiz Completed!</h2>
+<div class="d-flex justify-content-center align-items-start" style="min-height: 90vh; padding-top: 40px;">
+  <div class="card-ui" style="max-width: 820px; width: 100%;">
 
-    <h4 class="mb-3">
-      Score:
-      <span class="text-primary">{{ score }}</span>
-      /
-      {{ total }}
-    </h4>
-
-    <div class="progress mb-4" style="height: 12px;">
-      <div
-        class="progress-bar bg-success"
-        [style.width.%]="(score / total) * 100"
-      ></div>
+    <!-- Header -->
+    <div class="d-flex justify-content-between align-items-center">
+      <h2 class="fw-bold">Quiz Result</h2>
+      <div class="text-end">
+        <h4 class="mb-0">{{ score }} / {{ total }}</h4>
+        <small class="text-muted">{{ accuracy }}% accuracy</small>
+      </div>
     </div>
 
-    <p class="fw-semibold">
-      {{ (score / total) * 100 >= 60 ? 'Great Job!' : 'Keep Practicing!' }}
-    </p>
+    <hr />
 
-    <button class="btn btn-main w-100 mt-3" (click)="restart()">
-      🔄 Restart Quiz
-    </button>
+    <!-- Progress Bar -->
+    <div class="mb-3">
+      <div class="progress" style="height: 14px;">
+        <div class="progress-bar" role="progressbar"
+             [style.width.%]="accuracy">
+        </div>
+      </div>
+    </div>
+
+    <!-- Summary Cards -->
+    <div class="row g-3 mb-3">
+      <div class="col-md-4">
+        <div class="p-3 border rounded">
+          <h6 class="mb-1">Average Time</h6>
+          <p class="mb-0 fw-semibold">{{ avgTime }}s</p>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="p-3 border rounded">
+          <h6 class="mb-1">Attempted</h6>
+          <p class="mb-0 fw-semibold">{{ attempted }} / {{ total }}</p>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="p-3 border rounded">
+          <h6 class="mb-1">Suggested Next Step</h6>
+
+          <p class="mb-0">
+            <span *ngIf="accuracy >= 80">Advance to harder practice ⭐</span>
+            <span *ngIf="accuracy >= 60 && accuracy < 80">Improve speed & skills ⚡</span>
+            <span *ngIf="accuracy < 60">Review fundamentals 🔁</span>
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Difficulty Breakdown -->
+    <div class="mb-3">
+      <h5 class="mb-2">Performance by Difficulty</h5>
+
+      <div *ngFor="let diff of objectKeys(perDifficulty)">
+        <div class="d-flex justify-content-between align-items-center mb-2">
+
+          <!-- Difficulty Label -->
+          <div>
+            <strong>{{ diff.toUpperCase() }}</strong>
+            <div class="text-muted small">
+              Questions: {{ perDifficulty[diff].total }}
+            </div>
+          </div>
+
+          <!-- Stats and Progress -->
+          <div style="min-width: 220px;">
+            <div class="d-flex justify-content-end">
+              <div class="me-3 text-end">
+                <div class="fw-semibold">
+                  {{ perDifficulty[diff].correct }} / {{ perDifficulty[diff].total }}
+                </div>
+                <div class="small text-muted">
+                  Avg time: {{ perDifficulty[diff].avgTime }}s
+                </div>
+              </div>
+
+              <div style="width: 120px;">
+                <div class="progress" style="height: 10px;">
+                  <div class="progress-bar"
+                       [style.width.%]="(perDifficulty[diff].correct / perDifficulty[diff].total) * 100">
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <hr />
+
+    <!-- AI Feedback Section -->
+    <div class="mb-3">
+      <h5>AI Feedback</h5>
+      <pre style="
+        white-space: pre-wrap;
+        font-family: inherit;
+        background: #f8f9fb;
+        padding: 12px;
+        border-radius: 8px;
+      ">
+{{ feedbackText }}
+      </pre>
+    </div>
+
+    <!-- Buttons -->
+    <div class="d-flex gap-2">
+      <button class="btn btn-main" (click)="restart()">
+        🔄 Restart Quiz
+      </button>
+
+      <button class="btn btn-outline-secondary" (click)="review()">
+        🔎 Review Answers
+      </button>
+    </div>
+
   </div>
 </div>
+

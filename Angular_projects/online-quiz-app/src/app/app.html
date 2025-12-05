@@ -1,3 +1,8 @@
-<div class="container mt-5">
-  <router-outlet></router-outlet>
+<!-- src/app/app.html -->
+<div class="app-shell d-flex" style="min-height:100vh;">
+  <app-sidebar></app-sidebar>
+
+  <main style="flex:1; padding: 24px;">
+    <router-outlet></router-outlet>
+  </main>
 </div>
