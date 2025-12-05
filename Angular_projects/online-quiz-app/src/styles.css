@@ -1,46 +1,208 @@
+/* Bootstrap Import */
 @import "bootstrap/dist/css/bootstrap.min.css";
 
+/* ================================================================
+   🔥 PREMIUM RED + BLACK DARK THEME
+   ================================================================ */
+
 body {
-  background: linear-gradient(135deg, #667eea, #764ba2);
+  background: linear-gradient(135deg, #0d0d0d, #1a0000, #330000, #660000);
   min-height: 100vh;
   font-family: "Segoe UI", sans-serif;
+  color: #f5f5f5;
 }
 
+/* =====================
+   QUIZ CARD UI
+   ===================== */
 .card-ui {
-  background: #ffffff;
+  background: #141414 !important;
   border-radius: 18px;
   padding: 30px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  border: 1px solid rgba(255, 40, 40, 0.4);
+  box-shadow: 0 0 25px rgba(255, 0, 0, 0.35);
+  color: #ffffff !important;
 }
 
+/* =====================
+   MAIN BUTTON
+   ===================== */
 .btn-main {
-  background: linear-gradient(135deg, #667eea, #764ba2);
+  background: linear-gradient(135deg, #8b0000, #ff1a1a);
   border: none;
-  color: white;
+  color: #fff;
   font-weight: 600;
   border-radius: 30px;
   padding: 10px 28px;
+  transition: 0.2s ease-in-out;
 }
 
 .btn-main:hover {
-  opacity: 0.9;
+  background: linear-gradient(135deg, #ff0000, #ff4d4d);
+  box-shadow: 0 0 20px rgba(255, 30, 30, 0.5);
 }
 
+/* =====================
+   OPTION BUTTON
+   ===================== */
 .option-btn {
-  border: 1px solid #ddd;
+  background: #1a1a1a;
+  border: 1px solid rgba(255, 70, 70, 0.35);
   border-radius: 12px;
   padding: 12px;
   margin-bottom: 12px;
   cursor: pointer;
+  color: #ddd;
   transition: all 0.2s ease;
 }
 
 .option-btn:hover {
-  background: #f1f3ff;
+  background: #330000;
+  border-color: rgba(255, 80, 80, 0.5);
 }
 
 .option-selected {
-  background: #667eea;
+  background: #660000;
   color: #fff;
-  border-color: #667eea;
+  border-color: #ff1a1a;
+  box-shadow: 0 0 15px rgba(255, 0, 0, 0.6);
+}
+
+/* =====================
+   SIDEBAR + CARDS
+   ===================== */
+aside,
+.quiz-sidebar {
+  background: #0d0d0d !important;
+  color: #f2f2f2 !important;
+  border-right: 1px solid rgba(255, 20, 20, 0.3);
+}
+
+.card {
+  background: #151515 !important;
+  border: 1px solid rgba(255, 30, 30, 0.3) !important;
+  box-shadow: 0 0 12px rgba(255, 0, 0, 0.25) !important;
+  color: #f5f5f5 !important;
+}
+
+/* ======================================================
+   FIX: SIDEBAR STATS ALIGNMENT (NO MORE ZIG-ZAG)
+   ====================================================== */
+.dashboard .stat {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 6px 0;
+  font-size: 14px;
+  color: #f5f5f5 !important;
+}
+
+/* =====================
+   SIDEBAR CATEGORY & MODE BUTTONS
+   ===================== */
+.quiz-sidebar .nav-list li,
+.quiz-sidebar .nav-list li *,
+.quiz-sidebar .modes-list li,
+.quiz-sidebar .modes-list li * {
+  background: #1b1b1b !important;
+  color: #f2f2f2 !important;
+  border: 1px solid rgba(255, 40, 40, 0.35) !important;
+  padding: 10px 14px;
+  border-radius: 10px;
+  margin-bottom: 10px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+/* Hover */
+.quiz-sidebar .nav-list li:hover,
+.quiz-sidebar .modes-list li:hover {
+  background: #330000 !important;
+  color: #fff !important;
+  border-color: #ff1a1a !important;
+  box-shadow: 0 0 10px rgba(255, 20, 20, 0.4);
+}
+
+/* Active Mode */
+.quiz-sidebar .modes-list li.active {
+  background: linear-gradient(135deg, #a00000, #ff1a1a) !important;
+  border-color: #ff4d4d !important;
+  color: #fff !important;
+  box-shadow: 0 0 15px rgba(255, 0, 0, 0.6);
+}
+
+/* =====================
+   SMALL BUTTONS
+   ===================== */
+.btn-sm {
+  background: #2a0000 !important;
+  color: #fff !important;
+  border: 1px solid rgba(255, 50, 50, 0.4) !important;
+}
+
+.btn-sm:hover {
+  background: #550000 !important;
+  box-shadow: 0 0 10px rgba(255, 20, 20, 0.5);
+}
+
+/* =====================
+   INPUTS / SELECTS
+   ===================== */
+select,
+input,
+textarea {
+  background: #1c1c1c !important;
+  color: #fff !important;
+  border: 1px solid rgba(255, 20, 20, 0.4) !important;
+}
+
+/* =====================
+   PROGRESS BAR
+   ===================== */
+.progress-bar-outer {
+  width: 100%;
+  height: 10px;
+  border-radius: 8px;
+  background: #222 !important;
+}
+
+.progress-inner {
+  background: #ff1a1a !important;
+  height: 10px;
+  border-radius: 8px;
+}
+
+/* =====================
+   SCROLLBAR
+   ===================== */
+*::-webkit-scrollbar {
+  width: 6px;
+}
+
+*::-webkit-scrollbar-thumb {
+  background: #550000;
+  border-radius: 4px;
+}
+
+/* ======================================================
+   FIX: AI FEEDBACK BOX (WAS INVISIBLE)
+   ====================================================== */
+.ai-feedback-box,
+.feedback-text,
+.feedback-container,
+.result-feedback-box,
+.card.feedback-card {
+  background: #111 !important;
+  color: #eee !important;
+  border: 1px solid rgba(255, 40, 40, 0.35) !important;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 0 15px rgba(255, 0, 0, 0.3);
+}
+
+/* Make AI feedback text readable */
+.ai-feedback-box p,
+.ai-feedback-box span,
+.ai-feedback-box div {
+  color: #ddd !important;
 }

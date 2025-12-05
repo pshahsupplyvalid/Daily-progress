@@ -1,0 +1,112 @@
+<aside class="quiz-sidebar">
+
+  <!-- Header -->
+  <div class="sidebar-header">
+    <h3 class="brand">
+      <i class="bi bi-lightning-charge-fill"></i> Online Quiz
+    </h3>
+    <span class="rank-badge">{{ xp >= 100 ? "Pro" : xp >= 50 ? "Adv" : "New" }}</span>
+  </div>
+
+  <!-- Dashboard Stats -->
+  <div class="card stat-card">
+    <div class="stat"><span><i class="bi bi-journal-check"></i> Quizzes</span> <b>{{ totalQuizzes }}</b></div>
+    <div class="stat"><span><i class="bi bi-trophy-fill"></i> Best</span> <b>{{ bestScore }}</b></div>
+    <div class="stat"><span><i class="bi bi-bar-chart-fill"></i> Avg%</span> <b>{{ avgAccuracy }}%</b></div>
+    <div class="stat"><span><i class="bi bi-clock-history"></i> Time</span> <b>{{ formatTime(totalTimeSec) }}</b></div>
+  </div>
+
+
+
+  <!-- Modes -->
+  <div class="card section">
+    <h5><i class="bi bi-controller"></i> Modes</h5>
+    <ul class="modes-list">
+      <li *ngFor="let m of modes"
+          (click)="startMode(m.value)"
+          [class.active]="selectedMode === m.value">
+        {{ m.label }}
+      </li>
+    </ul>
+  </div>
+
+  <!-- Progress -->
+  <div class="card section">
+    <h5><i class="bi bi-graph-up"></i> Progress</h5>
+
+    <div class="level-row">
+      <span>Level</span>
+      <span>{{ xp }} XP</span>
+    </div>
+
+    <div class="progress-track">
+      <div class="progress-fill" [style.width.%]="math.min((xp % 100), 100)"></div>
+    </div>
+
+    <small class="streak">🔥 Streak: {{ streak }} days</small>
+  </div>
+
+  <!-- Bookmarks -->
+  <div class="card section">
+    <h5><i class="bi bi-bookmark-heart"></i> Bookmarks</h5>
+
+    <p *ngIf="userService.getBookmarks().length === 0" class="empty">No bookmarks</p>
+
+    <ul class="mini-list" *ngIf="userService.getBookmarks().length">
+      <li *ngFor="let id of userService.getBookmarks()">
+        <span>Q {{ id }}</span>
+        <button class="btn-sm" (click)="toggleBookmark(id)">×</button>
+      </li>
+    </ul>
+  </div>
+
+  <!-- History -->
+  <div class="card section">
+    <h5><i class="bi bi-clock"></i> History</h5>
+
+    <p *ngIf="userService.getAttempts().length === 0" class="empty">No attempts</p>
+
+    <ul class="mini-list" *ngIf="userService.getAttempts().length">
+      <li *ngFor="let a of userService.getAttempts() | slice:0:5">
+        <span>{{ a.date | date:'shortDate' }}</span>
+        <span>{{ a.score }}/{{ a.total }}</span>
+      </li>
+    </ul>
+
+    <button class="view-all" (click)="router.navigate(['/history'])">View All</button>
+  </div>
+
+  <!-- Settings -->
+  <div class="card section">
+    <h5><i class="bi bi-gear"></i> Settings</h5>
+
+    <label>Difficulty</label>
+    <select [(ngModel)]="preferredDifficulty" (change)="saveSettings()">
+      <option value="mixed">Mixed</option>
+      <option value="easy">Easy</option>
+      <option value="medium">Medium</option>
+      <option value="hard">Hard</option>
+    </select>
+
+    <label class="switch-row">
+      <span>Sound</span>
+      <input type="checkbox" [(ngModel)]="soundOn" (change)="saveSettings()" />
+    </label>
+
+    <label class="switch-row">
+      <span>Timer</span>
+      <input type="checkbox" [(ngModel)]="timerEnabled" (change)="saveSettings()" />
+    </label>
+
+    <button class="reset" (click)="clearHistory()">Reset</button>
+    <button class="ai-button" (click)="openAITutor()">Ask AI</button>
+  </div>
+
+  <!-- Footer -->
+  <footer class="sidebar-footer">
+    <small>Online Quiz App • v1.0</small>
+    <a (click)="router.navigate(['/help'])">Help</a> •
+    <a href="https://github.com" target="_blank">GitHub</a>
+  </footer>
+
+</aside>
