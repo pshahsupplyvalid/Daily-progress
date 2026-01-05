@@ -1,0 +1,8 @@
+{
+  "/api/*": {
+    "target": "https://dev-backend-2025.epravaha.com",
+    "secure": true,
+    "changeOrigin": true,
+    "logLevel": "debug"
+  }
+}
