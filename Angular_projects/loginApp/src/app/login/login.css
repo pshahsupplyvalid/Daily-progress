@@ -21,9 +21,9 @@
   justify-content: flex-start;
 
   background:
-    linear-gradient(
-      rgba(59, 130, 246, 0.88),
-      rgba(96, 165, 250, 0.88)
+  linear-gradient(
+      rgba(255, 174, 98, 0.9),
+      rgba(255, 195, 113, 0.9)
     ),
     url("/assets/login2-img.png");
 
@@ -137,20 +137,24 @@ button {
   padding: 15px;
   border-radius: 14px;
   border: none;
-  background: #60a5fa;
+  background: linear-gradient(135deg, #ff9f43, #ffb26b);
   color: #ffffff;
   font-size: 16px;
-  font-weight: 500;
+  font-weight: 600;
   cursor: pointer;
-  transition: background 0.2s ease;
+  transition: all 0.25s ease;
+  box-shadow: 0 10px 22px rgba(255, 159, 67, 0.35);
 }
 
 button:hover {
-  background: #3b82f6;
+  background: linear-gradient(135deg, #f3a960, #ff9f43);
+  transform: translateY(-1px);
+  box-shadow: 0 14px 28px rgba(255, 159, 67, 0.45);
 }
 
+
 button:disabled {
-  background: #bfdbfe;
+  background: #f7c973;
   cursor: not-allowed;
 }
 
@@ -285,4 +289,73 @@ button:disabled {
 
 .tagline {
   text-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+/* ================= CAPTCHA FINAL FIX ================= */
+
+.captcha-group {
+  margin-bottom: 22px;
+}
+
+.captcha-label {
+  display: block;
+  font-size: 13px;
+  margin-bottom: 6px;
+  font-weight: 500;
+  color: #111827;
+}
+
+/* Captcha display box */
+.captcha-box {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #fff7ed;
+  border: 1px solid #fed7aa;
+  border-radius: 12px;
+  padding: 12px 14px;
+  margin-bottom: 10px;
+}
+
+.captcha-text {
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: 4px;
+  color: #077504;
+  user-select: none;
+}
+
+/* Refresh button */
+.captcha-refresh {
+  all: unset;
+  cursor: pointer;
+  font-size: 18px;
+  color: #ea580c;
+  padding: 6px;
+  border-radius: 6px;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.captcha-refresh:hover {
+  background: rgba(234, 88, 12, 0.15);
+  transform: rotate(180deg);
+}
+
+/* Captcha input (same as others) */
+.captcha-input {
+  width: 100%;
+  padding: 14px 16px;
+  border-radius: 12px;
+  border: 1px solid #d1d5db;
+  font-size: 15px;
+}
+
+.captcha-input:focus {
+  border-color: #60a5fa;
+  box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.25);
+}
+
+.captcha-error {
+  font-size: 12px;
+  color: #dc2626;
+  margin-top: 6px;
 }

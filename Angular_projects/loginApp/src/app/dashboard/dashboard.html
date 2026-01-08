@@ -1,290 +1,340 @@
 <div class="dashboard-container">
-  <!-- Sidebar -->
-  <div class="sidebar" [class.collapsed]="sidebarCollapsed">
-    <div class="sidebar-header">
-      <h2 class="logo">Dashboard</h2>
+    <!-- Sidebar -->
+    <div class="sidebar" [class.collapsed]="sidebarCollapsed">
+        <div class="sidebar-header">
+            <h2 class="logo">Dashboard</h2>
+        </div>
+
+        <nav class="sidebar-nav">
+            <ul>
+                <li class="nav-item" [class.active]="activeSection === 'home'" (click)="setActiveSection('home')">
+                    <i class="pi pi-home icon"></i>
+                    <span>Home</span>
+
+                </li>
+                <li class="nav-item" [class.active]="activeSection === 'analytics'"
+                    (click)="setActiveSection('analytics')">
+                    <i class="pi pi-chart-bar icon"></i>
+                    <span>Analytics</span>
+
+
+                </li>
+                <li class="nav-item" [class.active]="activeSection === 'users'" (click)="toggleUserDropdown()"
+                    *ngIf="!userDropdownOpen">
+                    <i class="pi pi-users icon"></i>
+                    <span>Users</span>
+                    <svg class="dropdown-arrow" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                    </svg>
+                </li>
+                <li class="nav-item active-dropdown" *ngIf="userDropdownOpen">
+                    <i class="pi pi-users icon"></i>
+                    <span>Users</span>
+                    <svg class="dropdown-arrow rotated" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                    </svg>
+                </li>
+                <div class="dropdown-menu" *ngIf="userDropdownOpen">
+                    <div class="dropdown-item" [class.active]="activeSection === 'users' && !showAddUserForm"
+                        (click)="setActiveSection('users'); hideAddUser()">
+                        <i class="pi pi-eye"></i>
+                        <span>View Users</span>
+                    </div>
+                    <div class="dropdown-item" [class.active]="showAddUserForm" (click)="showAddUser()">
+                        <i class="pi pi-user-plus"></i>
+
+                        <span>Add Assyers</span>
+                    </div>
+                </div>
+                <li class="nav-item" [class.active]="activeSection === 'settings'"
+                    (click)="setActiveSection('settings')">
+                    <i class="pi pi-cog icon"></i>
+                    <span>Settings</span>
+                </li>
+                <li class="nav-item" [class.active]="activeSection === 'reports'" (click)="setActiveSection('reports')">
+                    <i class="pi pi-file icon"></i>
+                    <span>Reports</span>
+                </li>
+            </ul>
+        </nav>
+
+        <div class="sidebar-footer">
+            <button class="logout-btn" (click)="logout()">
+                <i class="pi pi-sign-out icon"></i>
+
+                <span>Logout</span>
+            </button>
+        </div>
     </div>
 
-    <nav class="sidebar-nav">
-      <ul>
-        <li class="nav-item" [class.active]="activeSection === 'home'" (click)="setActiveSection('home')">
-          <i class="icon">🏠</i>
-          <span>Home</span>
-        </li>
-        <li class="nav-item" [class.active]="activeSection === 'analytics'" (click)="setActiveSection('analytics')">
-          <i class="icon">📊</i>
-          <span>Analytics</span>
-        </li>
-        <li class="nav-item" [class.active]="activeSection === 'users'" (click)="setActiveSection('users')">
-          <i class="icon">👥</i>
-          <span>Users</span>
-        </li>
-        <li class="nav-item" [class.active]="activeSection === 'settings'" (click)="setActiveSection('settings')">
-          <i class="icon">⚙️</i>
-          <span>Settings</span>
-        </li>
-        <li class="nav-item" [class.active]="activeSection === 'reports'" (click)="setActiveSection('reports')">
-          <i class="icon">📝</i>
-          <span>Reports</span>
-        </li>
-      </ul>
-    </nav>
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-left">
+                <button class="menu-toggle" (click)="toggleSidebar()">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+                <h1 class="page-title">Welcome to Dashboard</h1>
+            </div>
+            <div class="header-right">
+                <div class="user-info">
+                    <div class="user-avatar">
+                        <i class="pi pi-users"></i>
+                    </div>
+                    <span class="user-name">User</span>
+                </div>
+            </div>
+        </header>
 
-    <div class="sidebar-footer">
-      <button class="logout-btn" (click)="logout()">
-        <i class="icon">🚪</i>
-        <span>Logout</span>
-      </button>
+        <!-- Content Area -->
+        <main class="content">
+            <!-- Home Section -->
+            <div *ngIf="activeSection === 'home'" class="welcome-section">
+                <div class="welcome-card">
+                    <h2>🎉 Welcome Back!</h2>
+                    <p>You have successfully logged in to your dashboard.</p>
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <i class="pi pi-users"></i>
+                            <div class="stat-info">
+                                <h3>1,234</h3>
+                                <p>Total Users</p>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <i class="pi pi-wallet"></i>
+
+                            <div class="stat-info">
+                                <h3>$12,345</h3>
+                                <p>Revenue</p>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <i class="pi pi-chart-line"></i>
+                            <div class="stat-info">
+                                <h3>89%</h3>
+                                <p>Success Rate</p>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <i class="pi pi-star-fill"></i>
+                            <div class="stat-info">
+                                <h3>4.8</h3>
+                                <p>Rating</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Users Section -->
+            <div *ngIf="activeSection === 'users'" class="users-section">
+                <div class="section-header">
+
+                    <h2> <i class="pi pi-users"></i>
+                         User Management</h2>
+                </div>
+
+                <!-- Add User Form -->
+                <div *ngIf="showAddUserForm" class="add-user-form-card">
+                    <div class="form-header">
+                        <h3>Add New User</h3>
+                        <button class="close-btn" (click)="hideAddUser()">✕</button>
+                    </div>
+                    <form [formGroup]="addUserForm" (ngSubmit)="onSubmitUser()" class="user-form">
+                        <div class="form-group">
+                            <label for="name">Full Name *</label>
+                            <input type="text" id="name" formControlName="name" placeholder="Enter full name"
+                                [class.error]="addUserForm.get('name')?.invalid && addUserForm.get('name')?.touched">
+                            <div class="error-msg"
+                                *ngIf="addUserForm.get('name')?.invalid && addUserForm.get('name')?.touched">
+                                Name is required and must be at least 2 characters
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="email">Email Address *</label>
+                            <input type="email" id="email" formControlName="email" placeholder="Enter email address"
+                                [class.error]="addUserForm.get('email')?.invalid && addUserForm.get('email')?.touched">
+                            <div class="error-msg"
+                                *ngIf="addUserForm.get('email')?.invalid && addUserForm.get('email')?.touched">
+                                Please enter a valid email address
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="mobile">Mobile Number *</label>
+                            <input type="tel" id="mobile" formControlName="mobile"
+                                placeholder="Enter 10-digit mobile number"
+                                [class.error]="addUserForm.get('mobile')?.invalid && addUserForm.get('mobile')?.touched">
+                            <div class="error-msg"
+                                *ngIf="addUserForm.get('mobile')?.invalid && addUserForm.get('mobile')?.touched">
+                                Please enter a valid 10-digit mobile number
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="aadhaar">Aadhaar Number *</label>
+                            <input type="text" id="aadhaar" formControlName="aadhaar"
+                                placeholder="Enter 12-digit Aadhaar number"
+                                [class.error]="addUserForm.get('aadhaar')?.invalid && addUserForm.get('aadhaar')?.touched"
+                                maxlength="12">
+                            <div class="error-msg"
+                                *ngIf="addUserForm.get('aadhaar')?.invalid && addUserForm.get('aadhaar')?.touched">
+                                Please enter a valid 12-digit Aadhaar number
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="otp">OTP Verification</label>
+                            <div class="otp-section">
+                                <input type="text" id="aadhaarOtp" formControlName="aadhaarOtp"
+                                    placeholder="Enter 6-digit OTP"
+                                    [class.error]="addUserForm.get('aadhaarOtp')?.invalid && addUserForm.get('aadhaarOtp')?.touched"
+                                    maxlength="6" [disabled]="!otpSent || otpVerified">
+                                <button type="button" class="otp-btn" (click)="sendOtp()"
+                                    [disabled]="addUserForm.get('aadhaar')?.invalid">
+                                    {{ otpSent ? 'Re-enter' : 'Send OTP' }}
+                                </button>
+                                <button type="button" class="verify-btn" (click)="verifyOtp()"
+                                    [disabled]="!otpSent || otpVerified || addUserForm.get('aadhaarOtp')?.invalid">
+                                    {{ otpVerified ? 'Verified ✓' : 'Verify OTP' }}
+                                </button>
+                            </div>
+                            <div class="error-msg"
+                                *ngIf="addUserForm.get('aadhaarOtp')?.invalid && addUserForm.get('aadhaarOtp')?.touched">
+                                Please enter a valid 6-digit OTP
+                            </div>
+                            <div class="otp-status" *ngIf="otpSent && !otpVerified">
+                                OTP sent to registered mobile number
+                            </div>
+                            <div class="otp-status verified" *ngIf="otpVerified">
+                                ✓ Aadhaar verified successfully
+                            </div>
+                        </div>
+
+                        <div class="form-actions">
+                            <button type="button" class="cancel-btn" (click)="hideAddUser()">Cancel</button>
+                            <button type="submit" class="submit-btn" [disabled]="addUserForm.invalid || !otpVerified">
+                                Add User
+                            </button>
+
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Users List -->
+                <div class="users-list-card" *ngIf="!showAddUserForm">
+                    <h3>Existing Users</h3>
+                    <div class="users-table">
+                        <div class="table-header">
+                            <div>Name</div>
+                            <div>Email</div>
+                            <div>Mobile</div>
+                            <div>Role</div>
+                            <div>Actions</div>
+                        </div>
+                        <div class="table-body">
+                            <div class="table-row">
+                                <div>John Doe</div>
+                                <div>john@example.com</div>
+                                <div>9876543210</div>
+                                <div><span class="role-badge admin">Admin</span></div>
+                                <div class="actions">
+                                    <button class="edit-btn">✏️</button>
+                                    <button class="delete-btn">🗑️</button>
+                                </div>
+                            </div>
+                            <div class="table-row">
+                                <div>Jane Smith</div>
+                                <div>jane@example.com</div>
+                                <div>9876543211</div>
+                                <div><span class="role-badge user">User</span></div>
+                                <div class="actions">
+                                    <button class="edit-btn">✏️</button>
+                                    <button class="delete-btn">🗑️</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Analytics Section -->
+            <div *ngIf="activeSection === 'analytics'" class="analytics-section">
+                <div class="welcome-card">
+                    <h2><i class="pi pi-chart-bar icon"></i> Analytics Dashboard</h2>
+                    <p>View detailed analytics and insights here.</p>
+                    <div class="placeholder-content">
+                        <div class="chart-placeholder">
+                            📈 Charts and graphs will be displayed here
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Settings Section -->
+            <div *ngIf="activeSection === 'settings'" class="settings-section">
+                <div class="welcome-card">
+                    <h2> <i class="pi pi-cog icon"></i> Settings</h2>
+                    <p>Configure your application settings here.</p>
+                    <div class="placeholder-content">
+                        <div class="settings-placeholder" >
+                            🔧 Settings options will be displayed here
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Reports Section -->
+            <div *ngIf="activeSection === 'reports'" class="reports-section">
+                <div class="welcome-card">
+                    <h2>
+                        <i class="pi pi-file icon"></i>
+                        Reports
+                    </h2>
+                    <p>Generate and view reports here.</p>
+                    <div class="placeholder-content">
+                        <div class="reports-placeholder">
+                            📋 Reports will be displayed here
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recent Activity (shown on all pages) -->
+            <div class="recent-activity">
+                <div class="activity-card">
+                    <h3>Recent Activity</h3>
+                    <div class="activity-list">
+                        <div class="activity-item">
+                            <i class="pi pi-lock"></i>
+                            <div class="activity-content">
+                                <p>Successfully logged in</p>
+                                <span class="activity-time">2 minutes ago</span>
+                            </div>
+                        </div>
+                        <div class="activity-item">
+                            <i class="pi pi-user-edit"></i>
+                            <div class="activity-content">
+                                <p>Profile updated</p>
+                                <span class="activity-time">1 hour ago</span>
+                            </div>
+                        </div>
+                        <div class="activity-item">
+                            <i class="pi pi-envelope"></i>
+
+                            <div class="activity-content">
+                                <p>Email verified</p>
+                                <span class="activity-time">2 hours ago</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
     </div>
-  </div>
-
-  <!-- Main Content -->
-  <div class="main-content">
-    <!-- Header -->
-    <header class="header">
-      <div class="header-left">
-        <button class="menu-toggle" (click)="toggleSidebar()">
-          <span></span>
-          <span></span>
-          <span></span>
-        </button>
-        <h1 class="page-title">Welcome to Dashboard</h1>
-      </div>
-      <div class="header-right">
-        <div class="user-info">
-          <div class="user-avatar">
-            <i class="icon">👤</i>
-          </div>
-          <span class="user-name">User</span>
-        </div>
-      </div>
-    </header>
-
-    <!-- Content Area -->
-    <main class="content">
-      <!-- Home Section -->
-      <div *ngIf="activeSection === 'home'" class="welcome-section">
-        <div class="welcome-card">
-          <h2>🎉 Welcome Back!</h2>
-          <p>You have successfully logged in to your dashboard.</p>
-          <div class="stats-grid">
-            <div class="stat-card">
-              <div class="stat-icon">📈</div>
-              <div class="stat-info">
-                <h3>1,234</h3>
-                <p>Total Users</p>
-              </div>
-            </div>
-            <div class="stat-card">
-              <div class="stat-icon">💰</div>
-              <div class="stat-info">
-                <h3>$12,345</h3>
-                <p>Revenue</p>
-              </div>
-            </div>
-            <div class="stat-card">
-              <div class="stat-icon">📊</div>
-              <div class="stat-info">
-                <h3>89%</h3>
-                <p>Success Rate</p>
-              </div>
-            </div>
-            <div class="stat-card">
-              <div class="stat-icon">⭐</div>
-              <div class="stat-info">
-                <h3>4.8</h3>
-                <p>Rating</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Users Section -->
-      <div *ngIf="activeSection === 'users'" class="users-section">
-        <div class="section-header">
-          <h2>👥 User Management</h2>
-          <button class="add-user-btn" (click)="showAddUser()" *ngIf="!showAddUserForm">
-            <i class="icon">➕</i>
-            Add User
-          </button>
-        </div>
-
-        <!-- Add User Form -->
-        <div *ngIf="showAddUserForm" class="add-user-form-card">
-          <div class="form-header">
-            <h3>Add New User</h3>
-            <button class="close-btn" (click)="hideAddUser()">✕</button>
-          </div>
-          <form [formGroup]="addUserForm" (ngSubmit)="onSubmitUser()" class="user-form">
-            <div class="form-group">
-              <label for="name">Full Name *</label>
-              <input
-                type="text"
-                id="name"
-                formControlName="name"
-                placeholder="Enter full name"
-                [class.error]="addUserForm.get('name')?.invalid && addUserForm.get('name')?.touched"
-              >
-              <div class="error-msg" *ngIf="addUserForm.get('name')?.invalid && addUserForm.get('name')?.touched">
-                Name is required and must be at least 2 characters
-              </div>
-            </div>
-
-            <div class="form-group">
-              <label for="email">Email Address *</label>
-              <input
-                type="email"
-                id="email"
-                formControlName="email"
-                placeholder="Enter email address"
-                [class.error]="addUserForm.get('email')?.invalid && addUserForm.get('email')?.touched"
-              >
-              <div class="error-msg" *ngIf="addUserForm.get('email')?.invalid && addUserForm.get('email')?.touched">
-                Please enter a valid email address
-              </div>
-            </div>
-
-            <div class="form-group">
-              <label for="mobile">Mobile Number *</label>
-              <input
-                type="tel"
-                id="mobile"
-                formControlName="mobile"
-                placeholder="Enter 10-digit mobile number"
-                [class.error]="addUserForm.get('mobile')?.invalid && addUserForm.get('mobile')?.touched"
-              >
-              <div class="error-msg" *ngIf="addUserForm.get('mobile')?.invalid && addUserForm.get('mobile')?.touched">
-                Please enter a valid 10-digit mobile number
-              </div>
-            </div>
-
-            <div class="form-group">
-              <label for="role">Role *</label>
-              <select id="role" formControlName="role">
-                <option value="user">User</option>
-                <option value="admin">Admin</option>
-                <option value="moderator">Moderator</option>
-              </select>
-            </div>
-
-            <div class="form-actions">
-              <button type="button" class="cancel-btn" (click)="hideAddUser()">Cancel</button>
-              <button type="submit" class="submit-btn" [disabled]="addUserForm.invalid">Add User</button>
-            </div>
-          </form>
-        </div>
-
-        <!-- Users List -->
-        <div class="users-list-card" *ngIf="!showAddUserForm">
-          <h3>Existing Users</h3>
-          <div class="users-table">
-            <div class="table-header">
-              <div>Name</div>
-              <div>Email</div>
-              <div>Mobile</div>
-              <div>Role</div>
-              <div>Actions</div>
-            </div>
-            <div class="table-body">
-              <div class="table-row">
-                <div>John Doe</div>
-                <div>john@example.com</div>
-                <div>9876543210</div>
-                <div><span class="role-badge admin">Admin</span></div>
-                <div class="actions">
-                  <button class="edit-btn">✏️</button>
-                  <button class="delete-btn">🗑️</button>
-                </div>
-              </div>
-              <div class="table-row">
-                <div>Jane Smith</div>
-                <div>jane@example.com</div>
-                <div>9876543211</div>
-                <div><span class="role-badge user">User</span></div>
-                <div class="actions">
-                  <button class="edit-btn">✏️</button>
-                  <button class="delete-btn">🗑️</button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Analytics Section -->
-      <div *ngIf="activeSection === 'analytics'" class="analytics-section">
-        <div class="welcome-card">
-          <h2>📊 Analytics Dashboard</h2>
-          <p>View detailed analytics and insights here.</p>
-          <div class="placeholder-content">
-            <div class="chart-placeholder">
-              📈 Charts and graphs will be displayed here
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Settings Section -->
-      <div *ngIf="activeSection === 'settings'" class="settings-section">
-        <div class="welcome-card">
-          <h2>⚙️ Settings</h2>
-          <p>Configure your application settings here.</p>
-          <div class="placeholder-content">
-            <div class="settings-placeholder">
-              🔧 Settings options will be displayed here
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Reports Section -->
-      <div *ngIf="activeSection === 'reports'" class="reports-section">
-        <div class="welcome-card">
-          <h2>
-            <svg class="section-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
-            </svg>
-            Reports
-          </h2>
-          <p>Generate and view reports here.</p>
-          <div class="placeholder-content">
-            <div class="reports-placeholder">
-              📋 Reports will be displayed here
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Recent Activity (shown on all pages) -->
-      <div class="recent-activity">
-        <div class="activity-card">
-          <h3>Recent Activity</h3>
-          <div class="activity-list">
-            <div class="activity-item">
-              <div class="activity-icon">🔐</div>
-              <div class="activity-content">
-                <p>Successfully logged in</p>
-                <span class="activity-time">2 minutes ago</span>
-              </div>
-            </div>
-            <div class="activity-item">
-              <div class="activity-icon">📱</div>
-              <div class="activity-content">
-                <p>Profile updated</p>
-                <span class="activity-time">1 hour ago</span>
-              </div>
-            </div>
-            <div class="activity-item">
-              <div class="activity-icon">📧</div>
-              <div class="activity-content">
-                <p>Email verified</p>
-                <span class="activity-time">2 hours ago</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </main>
-  </div>
 </div>

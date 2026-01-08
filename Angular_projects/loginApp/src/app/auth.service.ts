@@ -8,43 +8,40 @@ import { catchError, tap } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class AuthService {
-  private apiUrl = 'https://dev-backend-2025.epravaha.com/api/login/user';
-  private isAuthenticatedSubject = new BehaviorSubject<boolean>(this.hasToken());
-  public isAuthenticated$ = this.isAuthenticatedSubject.asObservable();
 
-  constructor(private router: Router, private http: HttpClient) {}
+  private apiUrl = 'https://dev-backend-2025.epravaha.com/api/login/user';
+
+  private isAuthenticatedSubject = new BehaviorSubject<boolean>(this.hasToken());
+  isAuthenticated$ = this.isAuthenticatedSubject.asObservable();
+
+  constructor(
+    private router: Router,
+    private http: HttpClient
+  ) {}
 
   private hasToken(): boolean {
     return !!localStorage.getItem('token');
   }
 
+  getToken(): string | null {
+    return localStorage.getItem('token');
+  }
+
+  /* ---------------- LOGIN ---------------- */
+
   login(credentials: { MobileNo: string; password: string }): Observable<any> {
-    const payload = {
+    return this.http.post(this.apiUrl, {
       mobileNo: credentials.MobileNo,
       password: credentials.password
-    };
-
-    return this.http.post(this.apiUrl, payload).pipe(
-      tap((response: any) => {
-        if (response && response.token) {
-          localStorage.setItem('token', response.token);
+    }).pipe(
+      tap((res: any) => {
+        if (res?.token) {
+          localStorage.setItem('token', res.token);
           this.isAuthenticatedSubject.next(true);
         }
       }),
       catchError(this.handleError)
     );
-  }
-
-  private handleError(error: HttpErrorResponse) {
-    let errorMessage = 'An unknown error occurred!';
-    if (error.error instanceof ErrorEvent) {
-      // Client-side or network error
-      errorMessage = `Error: ${error.error.message}`;
-    } else {
-      // Backend returned an unsuccessful response code
-      errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
-    }
-    return throwError(() => new Error(errorMessage));
   }
 
   logout(): void {
@@ -57,7 +54,37 @@ export class AuthService {
     return this.hasToken();
   }
 
-  getToken(): string | null {
-    return localStorage.getItem('token');
+  /* ---------------- OTP APIs (FIXED) ---------------- */
+
+  generateAadhaarOtp(payload: { id_Number: string }): Observable<any> {
+    const url =
+      'https://dev-backend-2025.epravaha.com/api/register/farmer/aadhaar/otp/generate';
+
+    return this.http.post(url, payload, {
+      headers: {
+        Authorization: `Bearer ${this.getToken()}`
+      },
+      responseType: 'text' as 'json'   // ⭐ CRITICAL
+    }).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+  verifyAadhaarOtp(payload: { otp: string; client_id: string }): Observable<any> {
+    const url =
+      'https://dev-backend-2025.epravaha.com/api/register/farmer/aadhaar/otp/verify';
+
+    return this.http.post(url, payload, {
+      responseType: 'text' as 'json'
+    }).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+  /* ---------------- ERROR HANDLER ---------------- */
+
+  private handleError(error: HttpErrorResponse) {
+    console.error('HTTP Error:', error);
+    return throwError(() => error);
   }
 }
