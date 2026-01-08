@@ -46,6 +46,44 @@
                         <span>Add Assyers</span>
                     </div>
                 </div>
+                <!-- LISTS MENU -->
+<li class="nav-item"
+    [class.active]="activeSection === 'lists'"
+    (click)="toggleListDropdown()"
+    *ngIf="!listDropdownOpen">
+  <i class="pi pi-list icon"></i>
+  <span>Lists</span>
+  <svg class="dropdown-arrow" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+          d="M19 9l-7 7-7-7"></path>
+  </svg>
+</li>
+
+<li class="nav-item active-dropdown" *ngIf="listDropdownOpen">
+  <i class="pi pi-list icon"></i>
+  <span>Lists</span>
+  <svg class="dropdown-arrow rotated" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+          d="M19 9l-7 7-7-7"></path>
+  </svg>
+</li>
+
+<div class="dropdown-menu" *ngIf="listDropdownOpen">
+  <div class="dropdown-item"
+       [class.active]="activeSection === 'procurement'"
+       (click)="setActiveSection('procurement')">
+    <i class="pi pi-shopping-cart"></i>
+    <span>Procurement List</span>
+  </div>
+
+  <div class="dropdown-item"
+       [class.active]="activeSection === 'farmers'"
+       (click)="setActiveSection('farmers')">
+    <i class="pi pi-users"></i>
+    <span>Farmer List</span>
+  </div>
+</div>
+
                 <li class="nav-item" [class.active]="activeSection === 'settings'"
                     (click)="setActiveSection('settings')">
                     <i class="pi pi-cog icon"></i>

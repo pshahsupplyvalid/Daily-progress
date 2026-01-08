@@ -133,6 +133,13 @@ verifyOtp() {
     this.addUserForm.controls[key].enable();
   });
 }
+listDropdownOpen = false;
+
+toggleListDropdown() {
+  this.listDropdownOpen = !this.listDropdownOpen;
+  this.userDropdownOpen = false; // optional: Users dropdown band karne ke liye
+}
+
 
 
 
