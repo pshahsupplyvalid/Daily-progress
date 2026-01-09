@@ -70,11 +70,10 @@
 
 <div class="dropdown-menu" *ngIf="listDropdownOpen">
   <div class="dropdown-item"
-       [class.active]="activeSection === 'procurement'"
-       (click)="setActiveSection('procurement')">
-    <i class="pi pi-shopping-cart"></i>
-    <span>Procurement List</span>
-  </div>
+     (click)="goToProcurement()">
+  <i class="pi pi-shopping-cart"></i>
+  <span>Procurement List</span>
+</div>
 
   <div class="dropdown-item"
        [class.active]="activeSection === 'farmers'"
