@@ -1,0 +1,367 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* PAGE */
+.login-page {
+  min-height: 100vh;
+  display: flex;
+  font-family: "Segoe UI", Arial, sans-serif;
+}
+
+/* LEFT HERO PANEL */
+.login-left {
+  flex: 1;
+  padding: 70px;
+  color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+
+  background:
+  linear-gradient(
+      rgba(255, 174, 98, 0.9),
+      rgba(255, 195, 113, 0.9)
+    ),
+    url("/assets/login2-img.png");
+
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.login-left h1 {
+  font-size: 44px;
+  margin-bottom: 14px;
+  max-width: 420px;
+}
+
+.login-left p {
+  font-size: 16px;
+  line-height: 1.6;
+  max-width: 420px;
+}
+
+/* RIGHT PANEL */
+.login-right {
+  flex: 1;
+  background: #f3f4f6;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* CARD */
+.login-card {
+  background: #ffffff;
+  width: 480px;
+  padding: 44px;
+  border-radius: 20px;
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.18);
+}
+
+.login-card h2 {
+  text-align: center;
+  margin: 0;
+}
+
+.subtitle {
+  text-align: center;
+  font-size: 14px;
+  color: #6b7280;
+  margin-bottom: 30px;
+}
+
+/* FORM */
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  font-size: 13px;
+  margin-bottom: 6px;
+  display: block;
+}
+
+.input-wrapper {
+  position: relative;
+}
+
+.input-wrapper input {
+  width: 100%;
+  padding: 14px 48px;
+  border-radius: 12px;
+  border: 1px solid #d1d5db;
+  font-size: 15px;
+}
+
+.input-wrapper input:focus {
+  border-color: #60a5fa;
+  box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.25);
+}
+
+.input-icon {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #6b7280;
+}
+
+.eye-icon {
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: #6b7280;
+}
+
+/* FORGOT */
+.forgot {
+  text-align: right;
+  margin: 6px 0 18px;
+}
+
+.forgot a {
+  font-size: 13px;
+  color: #dc2626;
+  cursor: pointer;
+}
+
+/* BUTTON */
+button {
+  width: 100%;
+  padding: 15px;
+  border-radius: 14px;
+  border: none;
+  background: linear-gradient(135deg, #ff9f43, #ffb26b);
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  box-shadow: 0 10px 22px rgba(255, 159, 67, 0.35);
+}
+
+button:hover {
+  background: linear-gradient(135deg, #f3a960, #ff9f43);
+  transform: translateY(-1px);
+  box-shadow: 0 14px 28px rgba(255, 159, 67, 0.45);
+}
+
+
+button:disabled {
+  background: #f7c973;
+  cursor: not-allowed;
+}
+
+/* FULL PAGE OVERLAY */
+.page-loader {
+  position: fixed;
+  inset: 0;
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(6px);
+  z-index: 9999;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ATOM */
+.atom {
+  position: relative;
+  width: 100px;
+  height: 100px;
+}
+
+/* NUCLEUS */
+.nucleus {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 14px;
+  height: 14px;
+  background: #3b82f6;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+}
+
+/* ORBITS */
+.orbit {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100px;
+  height: 40px;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  transform-origin: center;
+}
+
+/* ORBIT COLORS + ROTATION */
+.orbit1 {
+  border-color: #f97316;
+  transform: translate(-50%, -50%) rotate(0deg);
+  animation: spin1 1.6s linear infinite;
+}
+
+.orbit2 {
+  border-color: #22c55e;
+  transform: translate(-50%, -50%) rotate(60deg);
+  animation: spin2 2.2s linear infinite;
+}
+
+.orbit3 {
+  border-color: #ef4444;
+  transform: translate(-50%, -50%) rotate(120deg);
+  animation: spin3 2.8s linear infinite;
+}
+
+/* ROTATIONS */
+@keyframes spin1 {
+  to {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
+
+@keyframes spin2 {
+  to {
+    transform: translate(-50%, -50%) rotate(-360deg);
+  }
+}
+
+@keyframes spin3 {
+  to {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
+
+/* BLUR PAGE */
+.blur {
+  pointer-events: none;
+  filter: blur(3px);
+}
+
+
+/* ERROR */
+.error {
+  margin-top: 14px;
+  text-align: center;
+  color: #dc2626;
+}
+
+/* RESPONSIVE */
+@media (max-width: 900px) {
+  .login-left {
+    display: none;
+  }
+
+  .login-card {
+    width: 100%;
+    max-width: 420px;
+  }
+}
+.tagline {
+  margin-top: 18px;
+  font-size: 18px;
+  line-height: 1.8;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.95);
+  max-width: 460px;
+}
+
+.tagline span {
+  display: block;
+  margin-top: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.6px;
+  color: rgba(255, 255, 255, 0.7);
+}
+.login-left h1 {
+  text-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
+}
+
+.tagline {
+  text-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+/* ================= CAPTCHA FINAL FIX ================= */
+
+.captcha-group {
+  margin-bottom: 22px;
+}
+
+.captcha-label {
+  display: block;
+  font-size: 13px;
+  margin-bottom: 6px;
+  font-weight: 500;
+  color: #111827;
+}
+
+/* Captcha display box */
+.captcha-box {
+  display: flex;
+  align-items: center;
+  background: #fff7ed;
+  border: 1px solid #fed7aa;
+  border-radius: 12px;
+  padding: 7px 10px;
+  margin-bottom: 10px;
+}
+
+/* left empty space (balance ke liye) */
+.captcha-spacer {
+  width: 32px;
+}
+
+/* captcha exact center */
+.captcha-text {
+  flex: 1;
+  text-align: center;
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: 4px;
+  color: #077504;
+  user-select: none;
+}
+
+/* refresh ALWAYS right end */
+.captcha-refresh {
+  all: unset;
+  cursor: pointer;
+  font-size: 18px;
+  color: #ea580c;
+  padding: 6px;
+}
+
+
+.captcha-refresh:hover {
+  background: rgba(234, 88, 12, 0.15);
+  transform: rotate(180deg);
+}
+
+/* Captcha input (same as others) */
+.captcha-input {
+  width: 100%;
+  padding: 14px 16px;
+  border-radius: 12px;
+  border: 1px solid #d1d5db;
+  font-size: 15px;
+}
+
+.captcha-input:focus {
+  border-color: #60a5fa;
+  box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.25);
+}
+
+.captcha-error {
+  font-size: 12px;
+  color: #dc2626;
+  margin-top: 6px;
+}

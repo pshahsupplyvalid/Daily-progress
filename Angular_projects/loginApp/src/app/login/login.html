@@ -1,0 +1,124 @@
+<!-- 🌌 ATOMIC ORBIT LOADER -->
+<div class="page-loader" *ngIf="loading">
+  <div class="atom">
+    <div class="orbit orbit1"></div>
+    <div class="orbit orbit2"></div>
+    <div class="orbit orbit3"></div>
+    <div class="nucleus"></div>
+  </div>
+</div>
+
+
+<!-- MAIN PAGE -->
+<div class="login-page" [class.blur]="loading">
+  <!-- LEFT PANEL -->
+  <div class="login-left">
+    <h1>Welcome to MyApp</h1>
+    <p class="tagline">
+      Modern authentication made simple
+      <span>Crafted with Angular.</span>
+    </p>
+
+  </div>
+
+  <!-- RIGHT PANEL -->
+  <div class="login-right">
+    <div class="login-card">
+
+      <!-- LOGIN FORM -->
+      <ng-container *ngIf="!isForgotPassword">
+
+        <h2>Sign In</h2>
+        <p class="subtitle">Access your dashboard</p>
+
+        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+
+          <!-- Mobile -->
+          <div class="form-group">
+            <label>Mobile Number</label>
+            <div class="input-wrapper">
+              <span class="material-icons input-icon">phone</span>
+              <input type="text" formControlName="MobileNo" placeholder="Enter mobile number" />
+            </div>
+          </div>
+
+          <!-- Password -->
+          <div class="form-group">
+            <label>Password</label>
+            <div class="input-wrapper">
+              <span class="material-icons input-icon">lock</span>
+              <input [type]="showPassword ? 'text' : 'password'" formControlName="password"
+                placeholder="Enter password" />
+              <span class="material-icons eye-icon" (click)="togglePassword()">
+                {{ showPassword ? 'visibility_off' : 'visibility' }}
+              </span>
+            </div>
+          </div>
+          <div class="form-group captcha-group">
+            <label>Captcha</label>
+
+            <!-- Captcha Display -->
+            <div class="captcha-box">
+              <span class="captcha-text">{{ captchaText }}</span>
+
+              <button type="button" class="captcha-refresh" (click)="generateCaptcha()" title="Refresh Captcha">
+                🔄
+              </button>
+            </div>
+
+            <!-- Captcha Input (IMPORTANT FIX) -->
+            <div class="input-wrapper">
+              <input type="text" formControlName="captcha" placeholder="Enter captcha" />
+            </div>
+
+            <div class="captcha-error" *ngIf="captchaInvalid">
+              Invalid captcha
+            </div>
+          </div>
+
+
+
+          <!-- Forgot -->
+          <div class="forgot">
+            <a (click)="showForgotPassword()">Forgot password?</a>
+          </div>
+
+          <button type="submit" [disabled]="loading || loginForm.invalid">
+            Login
+          </button>
+
+          <p class="error" *ngIf="errorMsg">{{ errorMsg }}</p>
+
+        </form>
+      </ng-container>
+
+      <!-- FORGOT PASSWORD FORM -->
+      <ng-container *ngIf="isForgotPassword">
+
+        <h2>Forgot Password</h2>
+        <p class="subtitle">We will send a reset link / OTP</p>
+
+        <form [formGroup]="forgotForm" (ngSubmit)="onForgotSubmit()">
+
+          <div class="form-group">
+            <label>Mobile Number</label>
+            <div class="input-wrapper">
+              <span class="material-icons input-icon">phone</span>
+              <input type="text" formControlName="MobileNo" placeholder="Enter registered mobile number" />
+            </div>
+          </div>
+
+          <button type="submit">Send</button>
+
+          <div class="forgot">
+            <a (click)="backToLogin()">← Back to login</a>
+          </div>
+
+          <p class="error" *ngIf="errorMsg">{{ errorMsg }}</p>
+
+        </form>
+      </ng-container>
+
+    </div>
+  </div>
+</div>
