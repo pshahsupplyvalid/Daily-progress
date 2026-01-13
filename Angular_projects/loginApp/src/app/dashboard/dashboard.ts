@@ -191,12 +191,13 @@ export class DashboardComponent {
 
   /* ---------------- PAGE NAVIGATION ---------------- */
 
-  goToProcurement() {
-    this.router.navigate(['/procurement']);
-  }
+ goToProcurement() {
+  this.router.navigate(['./procurement']);
+}
+
 
   goToFarmers() {
-    this.router.navigate(['/farmers']); // future ready
+    this.router.navigate(['/railway-list']); // future ready
   }
 
   /* ---------------- LOGOUT ---------------- */

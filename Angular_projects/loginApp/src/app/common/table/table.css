@@ -1,0 +1,61 @@
+.table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+}
+
+.common-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.common-table thead {
+  background: #0f172a;
+  color: #ffffff;
+}
+
+.common-table th,
+.common-table td {
+  padding: 12px 14px;
+  text-align: left;
+}
+
+.common-table tbody tr {
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.common-table tbody tr:hover {
+  background: #f8fafc;
+}
+
+.actions {
+  display: flex;
+  gap: 8px;
+}
+
+.btn {
+  padding: 6px 12px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+.btn.edit {
+  background: #2563eb;
+  color: white;
+}
+
+.btn.delete {
+  background: #dc2626;
+  color: white;
+}
+
+.no-data {
+  text-align: center;
+  padding: 20px;
+  color: #6b7280;
+}

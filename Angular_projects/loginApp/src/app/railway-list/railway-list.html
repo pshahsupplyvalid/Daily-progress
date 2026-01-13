@@ -1,0 +1,14 @@
+<div class="page-container">
+
+  <h2>Railway Sale List</h2>
+
+  <div *ngIf="loading">Loading...</div>
+
+  <app-table
+    *ngIf="!loading"
+    [columns]="columns"
+    [data]="railwayList"
+    [showActions]="false">
+  </app-table>
+
+</div>

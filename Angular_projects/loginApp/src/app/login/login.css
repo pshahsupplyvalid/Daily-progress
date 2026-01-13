@@ -365,3 +365,147 @@ button:disabled {
   color: #dc2626;
   margin-top: 6px;
 }
+/* ================= OVERLAY ================= */
+.aadhaar-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  z-index: 9999;
+}
+
+/* ================= MODAL (FIXED CENTER) ================= */
+.aadhaar-modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  background: #ffffff;
+  width: 360px;
+  max-width: 92%;
+  padding: 26px 24px 28px;
+  border-radius: 18px;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.25);
+  text-align: center;
+  z-index: 10000;
+
+  animation: scaleFade 0.25s ease;
+}
+
+/* ================= HEADER ================= */
+.aadhaar-header {
+  position: relative;
+  padding-right: 40px; /* close button space */
+}
+
+.aadhaar-header h3 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 600;
+  color: #111827;
+}
+
+.aadhaar-header p {
+  margin: 6px 0 18px;
+  font-size: 13px;
+  color: #6b7280;
+}
+
+/* ================= INPUTS ================= */
+.aadhaar-modal input {
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: 12px;
+  border: 1px solid #d1d5db;
+  font-size: 14px;
+  outline: none;
+  background: #fff;
+}
+
+.aadhaar-modal input:focus {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.18);
+}
+
+/* ================= PRIMARY BUTTON ================= */
+.primary-btn {
+  width: 100%;
+  margin-top: 16px;
+  padding: 12px;
+  border-radius: 14px;
+  background: linear-gradient(135deg, #eeb662, #ffd06b);
+  border: none;
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.primary-btn:hover {
+  opacity: 0.95;
+}
+
+/* ================= CLOSE BUTTON (FIXED LOOK) ================= */
+.close-btn {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: #f3f4f6;
+  border: 1px solid #e5e7eb;
+
+  font-size: 16px;
+  color: #6b7280;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.close-btn:hover {
+  background: #e5e7eb;
+  color: #111827;
+}
+
+/* ================= ANIMATION ================= */
+@keyframes scaleFade {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+/* ================= OR DIVIDER ================= */
+.or-divider {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  margin: 16px 0;
+  width: 100%;
+}
+
+.or-divider::before,
+.or-divider::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: #e5e7eb;
+}
+
+.or-divider span {
+  padding: 0 12px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #9ca3af;
+  text-transform: uppercase;
+}

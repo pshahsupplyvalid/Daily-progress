@@ -759,5 +759,24 @@
   color: #28a745;
   font-weight: bold;
 }
+ /* Sidebar icons */
+.sidebar .pi {
+  font-size: 26px;   /* try 20px, 22px, 24px */
+}
+
+/* Stats card icons */
+.stat-card .pi {
+  font-size: 26px;
+}
+
+/* Header user icon */
+.user-avatar .pi {
+  font-size: 22px;
+}
+
+/* Recent activity icons */
+.activity-item .pi {
+  font-size: 18px;
+}
 
 

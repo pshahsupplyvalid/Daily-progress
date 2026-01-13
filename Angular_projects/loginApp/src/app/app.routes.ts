@@ -1,24 +1,26 @@
 import { Routes } from '@angular/router';
 import { LoginComponent } from './login/login';
 import { DashboardComponent } from './dashboard/dashboard';
+import { ProcurementComponent } from './procurement/procurement';
 import { AuthGuard } from './auth.guard';
-import { ProcurementComponent as Procurement } from './procurement/procurement';
+import { RailwayListComponent } from './railway-list/railway-list';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
-
   { path: 'login', component: LoginComponent },
-
-  { 
-    path: 'dashboard', 
-    component: DashboardComponent, 
-    canActivate: [AuthGuard] 
+  {
+    path: 'dashboard',
+    component: DashboardComponent,
+    canActivate: [AuthGuard]
   },
-
-  /* ✅ NEW LINE YOU ASKED FOR */
-  { 
-    path: 'procurement', 
-    component: Procurement, 
-    canActivate: [AuthGuard] 
+  {
+    path: 'procurement',
+    component: ProcurementComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'railway-list',
+    component: RailwayListComponent,
+    canActivate: [AuthGuard]
   }
 ];
