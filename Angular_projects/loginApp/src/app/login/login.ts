@@ -6,6 +6,7 @@ import {
   Validators,
   FormGroup
 } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../auth.service';
 import { finalize } from 'rxjs/operators';
@@ -13,7 +14,7 @@ import { finalize } from 'rxjs/operators';
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, FormsModule],
   templateUrl: './login.html',
   styleUrl: './login.css'
 })
@@ -32,6 +33,12 @@ export class LoginComponent {
   /* ---------------- CAPTCHA ---------------- */
   captchaText = '';
   captchaInvalid = false;
+
+  /* ---------------- AADHAAR LOGIN ---------------- */
+  showAadhaarModal = false;
+  aadhaarNumber = '';
+  aadhaarOtp = '';
+  otpSent = false;
 
   constructor(
     private fb: FormBuilder,
@@ -53,9 +60,9 @@ export class LoginComponent {
     this.generateCaptcha();
   }
 
-  /* ---------------- CAPTCHA LOGIC ---------------- */
+  /* ---------------- CAPTCHA ---------------- */
 
-  generateCaptcha() {
+  generateCaptcha(): void {
     const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
     this.captchaText = '';
     for (let i = 0; i < 5; i++) {
@@ -83,12 +90,11 @@ export class LoginComponent {
     this.errorMsg = '';
   }
 
-  /* ---------------- LOGIN SUBMIT ---------------- */
+  /* ---------------- NORMAL LOGIN ---------------- */
 
   onSubmit(): void {
     if (this.loginForm.invalid || this.loading) return;
 
-    /* CAPTCHA VALIDATION */
     if (this.loginForm.value.captcha !== this.captchaText) {
       this.captchaInvalid = true;
       this.generateCaptcha();
@@ -102,12 +108,10 @@ export class LoginComponent {
     this.authService.login(this.loginForm.value)
       .pipe(finalize(() => this.loading = false))
       .subscribe({
-        next: () => {
-          this.router.navigate(['/dashboard']);
-        },
+        next: () => this.router.navigate(['/dashboard']),
         error: (error: any) => {
           this.errorMsg = error?.message || 'Invalid mobile number or password';
-          this.generateCaptcha(); // regenerate on failure
+          this.generateCaptcha();
         }
       });
   }
@@ -122,5 +126,45 @@ export class LoginComponent {
 
     alert('Password reset link / OTP sent to your mobile');
     this.backToLogin();
+  }
+
+  /* ---------------- AADHAAR MODAL ---------------- */
+
+  openAadhaarModal(): void {
+    this.showAadhaarModal = true;
+    document.body.style.overflow = 'hidden'; // prevent background scroll
+  }
+
+  closeAadhaarModal(): void {
+    this.showAadhaarModal = false;
+    this.otpSent = false;
+    this.aadhaarNumber = '';
+    this.aadhaarOtp = '';
+    document.body.style.overflow = 'auto';
+  }
+
+  /* ---------------- AADHAAR OTP ---------------- */
+
+  sendAadhaarOtp(): void {
+    if (!/^[0-9]{12}$/.test(this.aadhaarNumber)) {
+      alert('Please enter a valid 12-digit Aadhaar number');
+      return;
+    }
+
+    // TODO: Call backend Aadhaar OTP API
+    this.otpSent = true;
+  }
+
+  verifyAadhaarOtp(): void {
+    if (!/^[0-9]{6}$/.test(this.aadhaarOtp)) {
+      alert('Please enter a valid 6-digit OTP');
+      return;
+    }
+
+    // TODO: Verify Aadhaar OTP via backend
+    alert('Aadhaar login successful');
+
+    this.closeAadhaarModal();
+    this.router.navigate(['/dashboard']);
   }
 }

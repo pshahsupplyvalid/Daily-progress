@@ -1,0 +1,33 @@
+<div class="table-wrapper">
+  <table class="common-table">
+    <thead>
+      <tr>
+        <th *ngFor="let col of columns">
+          {{ col.label }}
+        </th>
+
+        <th *ngIf="showActions">Actions</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr *ngFor="let row of data; trackBy: trackById">
+        <td *ngFor="let col of columns">
+          {{ row[col.key] || '-' }}
+        </td>
+
+        <td *ngIf="showActions" class="actions">
+          <button class="btn edit" (click)="onEdit(row)">Edit</button>
+          <button class="btn delete" (click)="onDelete(row)">Delete</button>
+        </td>
+      </tr>
+
+      <tr *ngIf="data.length === 0">
+        <td [attr.colspan]="columns.length + (showActions ? 1 : 0)"
+            class="no-data">
+          No data available
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

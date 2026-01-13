@@ -29,20 +29,31 @@ export class AuthService {
 
   /* ---------------- LOGIN ---------------- */
 
-  login(credentials: { MobileNo: string; password: string }): Observable<any> {
-    return this.http.post(this.apiUrl, {
-      mobileNo: credentials.MobileNo,
-      password: credentials.password
-    }).pipe(
-      tap((res: any) => {
-        if (res?.token) {
-          localStorage.setItem('token', res.token);
-          this.isAuthenticatedSubject.next(true);
-        }
-      }),
-      catchError(this.handleError)
-    );
-  }
+login(credentials: { MobileNo: string; password: string }): Observable<any> {
+  return this.http.post(this.apiUrl, {
+    mobileNo: credentials.MobileNo,
+    password: credentials.password
+  }).pipe(
+    tap((res: any) => { 
+
+      // ❗ HARD VALIDATION
+      if (!res?.token) {
+        throw new Error('Token not received from server');
+      }
+
+      localStorage.setItem('token', res.token);
+
+      // Optional (role-based access)
+      if (res?.role) {
+        localStorage.setItem('role', res.role);
+      }
+
+      this.isAuthenticatedSubject.next(true);
+    }),
+    catchError(this.handleError)
+  );
+}
+
 
   logout(): void {
     localStorage.removeItem('token');

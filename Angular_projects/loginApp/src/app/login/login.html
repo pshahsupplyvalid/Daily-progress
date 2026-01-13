@@ -8,9 +8,9 @@
   </div>
 </div>
 
-
 <!-- MAIN PAGE -->
 <div class="login-page" [class.blur]="loading">
+
   <!-- LEFT PANEL -->
   <div class="login-left">
     <h1>Welcome to MyApp</h1>
@@ -18,7 +18,6 @@
       Modern authentication made simple
       <span>Crafted with Angular.</span>
     </p>
-
   </div>
 
   <!-- RIGHT PANEL -->
@@ -54,19 +53,18 @@
               </span>
             </div>
           </div>
+
+          <!-- Captcha -->
           <div class="form-group captcha-group">
             <label>Captcha</label>
 
-            <!-- Captcha Display -->
             <div class="captcha-box">
               <span class="captcha-text">{{ captchaText }}</span>
-
               <button type="button" class="captcha-refresh" (click)="generateCaptcha()" title="Refresh Captcha">
                 🔄
               </button>
             </div>
 
-            <!-- Captcha Input (IMPORTANT FIX) -->
             <div class="input-wrapper">
               <input type="text" formControlName="captcha" placeholder="Enter captcha" />
             </div>
@@ -76,15 +74,25 @@
             </div>
           </div>
 
-
-
           <!-- Forgot -->
           <div class="forgot">
             <a (click)="showForgotPassword()">Forgot password?</a>
           </div>
 
+          <!-- Login Button -->
           <button type="submit" [disabled]="loading || loginForm.invalid">
             Login
+          </button>
+
+          <!-- OR Divider -->
+          <div class="or-divider">
+            <span>OR</span>
+          </div>
+
+
+          <!-- Aadhaar Login -->
+          <button type="button" class="aadhaar-btn" (click)="openAadhaarModal()">
+            Login with Aadhaar
           </button>
 
           <p class="error" *ngIf="errorMsg">{{ errorMsg }}</p>
@@ -120,5 +128,54 @@
       </ng-container>
 
     </div>
+  </div>
+</div>
+
+<!-- ================= AADHAAR LOGIN MODAL ================= -->
+<div class="aadhaar-overlay" *ngIf="showAadhaarModal">
+  <div class="aadhaar-modal">
+
+    <!-- Header -->
+<div class="aadhaar-header">
+  <h3>Aadhaar Authentication</h3>
+  <p>OTP will be sent to mobile linked with Aadhaar</p>
+    <!-- Aadhaar Input -->
+    <div class="form-group">
+      <input
+        type="text"
+        maxlength="12"
+        placeholder="Enter Aadhaar Number"
+        [(ngModel)]="aadhaarNumber" />
+    </div>
+
+    <!-- Send OTP -->
+    <button
+      class="primary-btn"
+      *ngIf="!otpSent"
+      (click)="sendAadhaarOtp()">
+      Send OTP
+    </button>
+
+    <!-- OTP Input -->
+    <div class="form-group" *ngIf="otpSent">
+      <input
+        type="text"
+        maxlength="6"
+        placeholder="Enter OTP"
+        [(ngModel)]="aadhaarOtp" />
+    </div>
+
+    <!-- Verify -->
+    <button
+      class="primary-btn"
+      *ngIf="otpSent"
+      (click)="verifyAadhaarOtp()">
+      Verify OTP
+    </button>
+
+     <!-- Close -->
+  <button type="button" class="close-btn" (click)="closeAadhaarModal()">✕</button>
+</div>
+
   </div>
 </div>

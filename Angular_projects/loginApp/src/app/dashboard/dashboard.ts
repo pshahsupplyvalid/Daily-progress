@@ -2,7 +2,12 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { AuthService } from '../auth.service';
-import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  ReactiveFormsModule,
+  FormBuilder,
+  FormGroup,
+  Validators
+} from '@angular/forms';
 
 @Component({
   selector: 'app-dashboard',
@@ -13,17 +18,25 @@ import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angula
 })
 export class DashboardComponent {
 
+  /* ---------------- SIDEBAR / UI STATE ---------------- */
+
   sidebarCollapsed = false;
   activeSection = 'home';
-  showAddUserForm = false;
+
   userDropdownOpen = false;
+  listDropdownOpen = false;
+
+  showAddUserForm = false;
+
+  /* ---------------- FORM ---------------- */
 
   addUserForm!: FormGroup;
 
-  // OTP state
+  /* ---------------- OTP STATE ---------------- */
+
   otpSent = false;
   otpVerified = false;
-  clientId = '';   // IMPORTANT
+  clientId = '';
 
   constructor(
     private router: Router,
@@ -32,6 +45,8 @@ export class DashboardComponent {
   ) {
     this.initializeForm();
   }
+
+  /* ---------------- FORM INIT ---------------- */
 
   private initializeForm() {
     this.addUserForm = this.fb.group({
@@ -44,7 +59,7 @@ export class DashboardComponent {
     });
   }
 
-  /* ---------------- UI Actions ---------------- */
+  /* ---------------- UI ACTIONS ---------------- */
 
   toggleSidebar() {
     this.sidebarCollapsed = !this.sidebarCollapsed;
@@ -54,11 +69,18 @@ export class DashboardComponent {
     this.activeSection = section;
     this.showAddUserForm = false;
     this.userDropdownOpen = false;
+    this.listDropdownOpen = false;
   }
 
   toggleUserDropdown() {
     this.userDropdownOpen = !this.userDropdownOpen;
+    this.listDropdownOpen = false;
     this.activeSection = 'users';
+  }
+
+  toggleListDropdown() {
+    this.listDropdownOpen = !this.listDropdownOpen;
+    this.userDropdownOpen = false;
   }
 
   showAddUser() {
@@ -109,7 +131,6 @@ export class DashboardComponent {
     this.authService.generateAadhaarOtp({ id_Number: aadhaar })
       .subscribe({
         next: (res: any) => {
-          // backend returns text / mock response
           this.clientId = res?.client_id || 'DEV_CLIENT_ID';
           this.otpSent = true;
           this.otpVerified = false;
@@ -121,27 +142,10 @@ export class DashboardComponent {
       });
   }
 
-verifyOtp() {
-  // OTP verification logic here
-  this.otpVerified = true;
-
-  // Mark all controls as touched to update validation
-  this.addUserForm.markAllAsTouched();
-
-  // Optionally, enable the form if you had disabled fields
-  Object.keys(this.addUserForm.controls).forEach(key => {
-    this.addUserForm.controls[key].enable();
-  });
-}
-listDropdownOpen = false;
-
-toggleListDropdown() {
-  this.listDropdownOpen = !this.listDropdownOpen;
-  this.userDropdownOpen = false; // optional: Users dropdown band karne ke liye
-}
-
-
-
+  verifyOtp() {
+    this.otpVerified = true;
+    this.addUserForm.markAllAsTouched();
+  }
 
   private resetOtpState() {
     this.otpSent = false;
@@ -150,7 +154,7 @@ toggleListDropdown() {
     this.addUserForm.patchValue({ aadhaarOtp: '' });
   }
 
-  /* ---------------- Aadhaar Validation ---------------- */
+  /* ---------------- AADHAAR VALIDATION ---------------- */
 
   private validateAadhaar(aadhaar: string): boolean {
     const d = [
@@ -184,6 +188,19 @@ toggleListDropdown() {
 
     return c === 0;
   }
+
+  /* ---------------- PAGE NAVIGATION ---------------- */
+
+ goToProcurement() {
+  this.router.navigate(['./procurement']);
+}
+
+
+  goToFarmers() {
+    this.router.navigate(['/railway-list']); // future ready
+  }
+
+  /* ---------------- LOGOUT ---------------- */
 
   logout() {
     this.authService.logout();

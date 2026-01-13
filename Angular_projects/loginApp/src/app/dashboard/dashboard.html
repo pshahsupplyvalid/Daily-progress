@@ -69,20 +69,28 @@
 </li>
 
 <div class="dropdown-menu" *ngIf="listDropdownOpen">
+
   <div class="dropdown-item"
-       [class.active]="activeSection === 'procurement'"
-       (click)="setActiveSection('procurement')">
+       (click)="goToProcurement()">
     <i class="pi pi-shopping-cart"></i>
     <span>Procurement List</span>
   </div>
 
   <div class="dropdown-item"
-       [class.active]="activeSection === 'farmers'"
-       (click)="setActiveSection('farmers')">
+       (click)="goToFarmers()">
     <i class="pi pi-users"></i>
     <span>Farmer List</span>
   </div>
+
+  <!-- ✅ NEW : Railway List -->
+  <!-- <div class="dropdown-item"
+       (click)="goToRailwayList()">
+    <i class="pi pi-train"></i>
+    <span>Railway List</span>
+  </div> -->
+
 </div>
+
 
                 <li class="nav-item" [class.active]="activeSection === 'settings'"
                     (click)="setActiveSection('settings')">
