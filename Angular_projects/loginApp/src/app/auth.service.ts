@@ -1,6 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import {
+  HttpClient,
+  HttpErrorResponse,
+  HttpHeaders
+} from '@angular/common/http';
 import { BehaviorSubject, Observable, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 
@@ -9,7 +13,13 @@ import { catchError, tap } from 'rxjs/operators';
 })
 export class AuthService {
 
-  private apiUrl = 'https://dev-backend-2025.epravaha.com/api/login/user';
+  // ✅ BASE URL
+  private baseUrl = 'https://dev-backend-2025.epravaha.com/api';
+
+  // ✅ API ENDPOINTS
+  private loginUrl = `${this.baseUrl}/login/user`;
+  private aadhaarOtpGenerateUrl = `${this.baseUrl}/register/farmer/aadhaar/otp/generate`;
+  private aadhaarOtpVerifyUrl = `${this.baseUrl}/register/farmer/aadhaar/otp/verify`;
 
   private isAuthenticatedSubject = new BehaviorSubject<boolean>(this.hasToken());
   isAuthenticated$ = this.isAuthenticatedSubject.asObservable();
@@ -19,6 +29,8 @@ export class AuthService {
     private http: HttpClient
   ) {}
 
+  /* ---------------- TOKEN HELPERS ---------------- */
+
   private hasToken(): boolean {
     return !!localStorage.getItem('token');
   }
@@ -27,37 +39,54 @@ export class AuthService {
     return localStorage.getItem('token');
   }
 
+  // ✅ Store token
+  setToken(token: string): void {
+    localStorage.setItem('token', token);
+    this.isAuthenticatedSubject.next(true);
+  }
+
+  // ✅ Clear token
+  clearAuth(): void {
+    localStorage.removeItem('token');
+    localStorage.removeItem('role');
+    this.isAuthenticatedSubject.next(false);
+  }
+
+  private getAuthHeaders(): HttpHeaders {
+    const token = this.getToken();
+    return new HttpHeaders({
+      Authorization: token ? `Bearer ${token}` : ''
+    });
+  }
+
   /* ---------------- LOGIN ---------------- */
 
-login(credentials: { MobileNo: string; password: string }): Observable<any> {
-  return this.http.post(this.apiUrl, {
-    mobileNo: credentials.MobileNo,
-    password: credentials.password
-  }).pipe(
-    tap((res: any) => { 
+  login(credentials: { MobileNo: string; password: string }): Observable<any> {
+    return this.http.post(this.loginUrl, {
+      mobileNo: credentials.MobileNo,
+      password: credentials.password
+    }).pipe(
+      tap((res: any) => {
 
-      // ❗ HARD VALIDATION
-      if (!res?.token) {
-        throw new Error('Token not received from server');
-      }
+        // ✅ HARD VALIDATION
+        if (!res?.token) {
+          throw new Error('Token not received from server');
+        }
 
-      localStorage.setItem('token', res.token);
+        // ✅ Save token
+        this.setToken(res.token);
 
-      // Optional (role-based access)
-      if (res?.role) {
-        localStorage.setItem('role', res.role);
-      }
-
-      this.isAuthenticatedSubject.next(true);
-    }),
-    catchError(this.handleError)
-  );
-}
-
+        // ✅ Optional: store role
+        if (res?.role) {
+          localStorage.setItem('role', res.role);
+        }
+      }),
+      catchError(this.handleError)
+    );
+  }
 
   logout(): void {
-    localStorage.removeItem('token');
-    this.isAuthenticatedSubject.next(false);
+    this.clearAuth();
     this.router.navigate(['/login']);
   }
 
@@ -65,28 +94,25 @@ login(credentials: { MobileNo: string; password: string }): Observable<any> {
     return this.hasToken();
   }
 
-  /* ---------------- OTP APIs (FIXED) ---------------- */
+  /* ---------------- AADHAAR OTP APIs ---------------- */
 
-  generateAadhaarOtp(payload: { id_Number: string }): Observable<any> {
-    const url =
-      'https://dev-backend-2025.epravaha.com/api/register/farmer/aadhaar/otp/generate';
-
-    return this.http.post(url, payload, {
-      headers: {
-        Authorization: `Bearer ${this.getToken()}`
-      },
-      responseType: 'text' as 'json'   // ⭐ CRITICAL
+  // ✅ Generate Aadhaar OTP
+  // ✅ API returns plain string like: "W5FYsZeMqXhXmZEJE"
+  generateAadhaarOtp(payload: { id_Number: string }): Observable<string> {
+    return this.http.post(this.aadhaarOtpGenerateUrl, payload, {
+      headers: this.getAuthHeaders(),
+      responseType: 'text' // ✅ IMPORTANT: text/plain response
     }).pipe(
       catchError(this.handleError)
     );
   }
 
+  // ✅ Verify Aadhaar OTP
+  // ✅ KEEP JSON response (so if backend returns token, you can store it)
   verifyAadhaarOtp(payload: { otp: string; client_id: string }): Observable<any> {
-    const url =
-      'https://dev-backend-2025.epravaha.com/api/register/farmer/aadhaar/otp/verify';
-
-    return this.http.post(url, payload, {
-      responseType: 'text' as 'json'
+    return this.http.post(this.aadhaarOtpVerifyUrl, payload, {
+      headers: this.getAuthHeaders()
+      // ✅ Default responseType is JSON
     }).pipe(
       catchError(this.handleError)
     );

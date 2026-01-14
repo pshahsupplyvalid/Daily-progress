@@ -1,12 +1,14 @@
-<!-- 🌌 ATOMIC ORBIT LOADER -->
+<!-- ✅ UNIQUE ORANGE ORBIT LOADER -->
 <div class="page-loader" *ngIf="loading">
-  <div class="atom">
-    <div class="orbit orbit1"></div>
-    <div class="orbit orbit2"></div>
-    <div class="orbit orbit3"></div>
-    <div class="nucleus"></div>
+  <div class="orbit-loader">
+    <span class="dot dot1"></span>
+    <span class="dot dot2"></span>
+    <span class="dot dot3"></span>
   </div>
+
+  <p class="loader-text">Logging in...</p>
 </div>
+
 
 <!-- MAIN PAGE -->
 <div class="login-page" [class.blur]="loading">
@@ -136,46 +138,63 @@
   <div class="aadhaar-modal">
 
     <!-- Header -->
-<div class="aadhaar-header">
-  <h3>Aadhaar Authentication</h3>
-  <p>OTP will be sent to mobile linked with Aadhaar</p>
-    <!-- Aadhaar Input -->
-    <div class="form-group">
-      <input
-        type="text"
-        maxlength="12"
-        placeholder="Enter Aadhaar Number"
-        [(ngModel)]="aadhaarNumber" />
+    <div class="aadhaar-header">
+      <div>
+        <h3>Aadhaar Authentication</h3>
+        <p>OTP will be sent to mobile linked with Aadhaar</p>
+      </div>
+
+      <button type="button" class="close-btn" (click)="closeAadhaarModal()">✕</button>
     </div>
 
-    <!-- Send OTP -->
-    <button
-      class="primary-btn"
-      *ngIf="!otpSent"
-      (click)="sendAadhaarOtp()">
-      Send OTP
-    </button>
+    <!-- Aadhaar -->
+    <div class="aadhaar-field">
+      <label class="aadhaar-label">Aadhaar Number <span class="required">*</span></label>
 
-    <!-- OTP Input -->
-    <div class="form-group" *ngIf="otpSent">
-      <input
-        type="text"
-        maxlength="6"
-        placeholder="Enter OTP"
-        [(ngModel)]="aadhaarOtp" />
+      <div class="aadhaar-row">
+        <input
+          type="text"
+          maxlength="12"
+          name="aadhaarNumber"
+          placeholder="Enter Aadhaar Number"
+          [(ngModel)]="aadhaarNumber" />
+
+        <button
+          type="button"
+          class="aadhaar-btn"
+          (click)="sendAadhaarOtp()">
+          Send OTP
+        </button>
+      </div>
     </div>
 
-    <!-- Verify -->
-    <button
-      class="primary-btn"
-      *ngIf="otpSent"
-      (click)="verifyAadhaarOtp()">
-      Verify OTP
-    </button>
+    <!-- Divider -->
+    <div class="or-divider">
+      <span>OTP</span>
+    </div>
 
-     <!-- Close -->
-  <button type="button" class="close-btn" (click)="closeAadhaarModal()">✕</button>
-</div>
+    <!-- OTP -->
+    <div class="aadhaar-field">
+      <label class="aadhaar-label">Enter OTP <span class="required">*</span></label>
+
+      <div class="aadhaar-row">
+        <input
+          type="text"
+          maxlength="6"
+          name="aadhaarOtp"
+          placeholder="Enter OTP"
+          [(ngModel)]="aadhaarOtp"
+          [disabled]="!otpSent" />
+
+        <button
+          type="button"
+          class="aadhaar-btn verify"
+          (click)="verifyAadhaarOtp()"
+          [disabled]="!otpSent">
+          Verify OTP
+        </button>
+      </div>
+    </div>
 
   </div>
 </div>

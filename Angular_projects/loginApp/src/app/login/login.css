@@ -159,137 +159,78 @@ button:disabled {
 }
 
 /* FULL PAGE OVERLAY */
+/* FULL PAGE OVERLAY */
 .page-loader {
   position: fixed;
   inset: 0;
-  background: rgba(255, 255, 255, 0.85);
-  backdrop-filter: blur(6px);
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(10px);
   z-index: 9999;
 
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
 }
 
-/* ATOM */
-.atom {
-  position: relative;
-  width: 100px;
-  height: 100px;
+/* LOADER TEXT */
+.loader-text {
+  margin-top: 16px;
+  font-size: 14px;
+  font-weight: 700;
+  color: #6b7280;
+  letter-spacing: 0.3px;
 }
 
-/* NUCLEUS */
-.nucleus {
+/* ORBIT LOADER */
+.orbit-loader {
+  width: 70px;
+  height: 70px;
+  position: relative;
+  border-radius: 50%;
+
+  border: 2px dashed rgba(255, 159, 67, 0.35);
+  animation: orbitSpin 1.1s linear infinite;
+
+  box-shadow: 0 0 30px rgba(255, 159, 67, 0.25);
+}
+
+/* DOTS */
+.dot {
   position: absolute;
-  top: 50%;
-  left: 50%;
   width: 14px;
   height: 14px;
-  background: #3b82f6;
   border-radius: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 2;
+  background: linear-gradient(135deg, #ff9f43, #ffb26b);
+
+  box-shadow: 0 0 16px rgba(255, 159, 67, 0.7);
 }
 
-/* ORBITS */
-.orbit {
-  position: absolute;
-  top: 50%;
+/* DOT POSITIONS */
+.dot1 {
+  top: -6px;
   left: 50%;
-  width: 100px;
-  height: 40px;
-  border-radius: 50%;
-  border: 2px solid transparent;
-  transform-origin: center;
+  transform: translateX(-50%);
 }
 
-/* ORBIT COLORS + ROTATION */
-.orbit1 {
-  border-color: #f97316;
-  transform: translate(-50%, -50%) rotate(0deg);
-  animation: spin1 1.6s linear infinite;
+.dot2 {
+  bottom: 10px;
+  left: 8px;
 }
 
-.orbit2 {
-  border-color: #22c55e;
-  transform: translate(-50%, -50%) rotate(60deg);
-  animation: spin2 2.2s linear infinite;
+.dot3 {
+  bottom: 10px;
+  right: 8px;
 }
 
-.orbit3 {
-  border-color: #ef4444;
-  transform: translate(-50%, -50%) rotate(120deg);
-  animation: spin3 2.8s linear infinite;
-}
-
-/* ROTATIONS */
-@keyframes spin1 {
+/* ANIMATION */
+@keyframes orbitSpin {
   to {
-    transform: translate(-50%, -50%) rotate(360deg);
+    transform: rotate(360deg);
   }
 }
 
-@keyframes spin2 {
-  to {
-    transform: translate(-50%, -50%) rotate(-360deg);
-  }
-}
 
-@keyframes spin3 {
-  to {
-    transform: translate(-50%, -50%) rotate(360deg);
-  }
-}
-
-/* BLUR PAGE */
-.blur {
-  pointer-events: none;
-  filter: blur(3px);
-}
-
-
-/* ERROR */
-.error {
-  margin-top: 14px;
-  text-align: center;
-  color: #dc2626;
-}
-
-/* RESPONSIVE */
-@media (max-width: 900px) {
-  .login-left {
-    display: none;
-  }
-
-  .login-card {
-    width: 100%;
-    max-width: 420px;
-  }
-}
-.tagline {
-  margin-top: 18px;
-  font-size: 18px;
-  line-height: 1.8;
-  font-weight: 500;
-  color: rgba(255, 255, 255, 0.95);
-  max-width: 460px;
-}
-
-.tagline span {
-  display: block;
-  margin-top: 6px;
-  font-size: 14px;
-  font-weight: 500;
-  letter-spacing: 0.6px;
-  color: rgba(255, 255, 255, 0.7);
-}
-.login-left h1 {
-  text-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
-}
-
-.tagline {
-  text-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-}
 /* ================= CAPTCHA FINAL FIX ================= */
 
 .captcha-group {
@@ -365,132 +306,150 @@ button:disabled {
   color: #dc2626;
   margin-top: 6px;
 }
-/* ================= OVERLAY ================= */
+/* OVERLAY */
 .aadhaar-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.45);
+  background: rgba(17, 24, 39, 0.55);
   z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-/* ================= MODAL (FIXED CENTER) ================= */
+/* MODAL */
 .aadhaar-modal {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-
-  background: #ffffff;
-  width: 360px;
+  width: 460px;
   max-width: 92%;
-  padding: 26px 24px 28px;
+  background: #ffffff;
   border-radius: 18px;
-  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.25);
-  text-align: center;
-  z-index: 10000;
-
-  animation: scaleFade 0.25s ease;
+  padding: 22px 22px 26px;
+  box-shadow: 0 25px 70px rgba(0, 0, 0, 0.30);
+  animation: scaleFade 0.22s ease;
+  font-family: "Segoe UI", Arial, sans-serif;
 }
 
-/* ================= HEADER ================= */
+/* HEADER */
 .aadhaar-header {
-  position: relative;
-  padding-right: 40px; /* close button space */
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 18px;
 }
 
 .aadhaar-header h3 {
   margin: 0;
-  font-size: 20px;
-  font-weight: 600;
+  font-size: 18px;
+  font-weight: 700;
   color: #111827;
 }
 
 .aadhaar-header p {
-  margin: 6px 0 18px;
+  margin: 6px 0 0;
   font-size: 13px;
   color: #6b7280;
 }
 
-/* ================= INPUTS ================= */
-.aadhaar-modal input {
-  width: 100%;
-  padding: 12px 14px;
-  border-radius: 12px;
-  border: 1px solid #d1d5db;
-  font-size: 14px;
-  outline: none;
-  background: #fff;
+/* CLOSE */
+.close-btn {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 1px solid #e5e7eb;
+  background: #f9fafb;
+  color: #6b7280;
+  cursor: pointer;
+  transition: 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.aadhaar-modal input:focus {
+.close-btn:hover {
+  background: #f3f4f6;
+  color: #111827;
+}
+
+/* LABEL */
+.aadhaar-field {
+  margin-top: 14px;
+}
+
+.aadhaar-label {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: #111827;
+}
+
+.required {
+  color: #ef4444;
+}
+
+/* INPUT + BUTTON ROW */
+.aadhaar-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border: 1.5px solid #e5e7eb;
+  border-radius: 14px;
+  padding: 8px;
+  background: #ffffff;
+}
+
+.aadhaar-row:focus-within {
   border-color: #3b82f6;
   box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.18);
 }
 
-/* ================= PRIMARY BUTTON ================= */
-.primary-btn {
-  width: 100%;
-  margin-top: 16px;
-  padding: 12px;
-  border-radius: 14px;
-  background: linear-gradient(135deg, #eeb662, #ffd06b);
+.aadhaar-row input {
+  flex: 1;
   border: none;
+  outline: none;
+  font-size: 14px;
+  padding: 10px 12px;
+  background: transparent;
+}
+
+/* BUTTON */
+.aadhaar-btn {
+  width: 100%;
+  padding: 15px;
+  border-radius: 14px;
+  border: none;
+  background: linear-gradient(135deg, #ff9f43, #ffb26b);
   color: #ffffff;
-  font-size: 15px;
+  font-size: 16px;
   font-weight: 600;
   cursor: pointer;
-  transition: 0.2s ease;
+  transition: all 0.25s ease;
+  box-shadow: 0 10px 22px rgba(255, 159, 67, 0.35);
 }
 
-.primary-btn:hover {
-  opacity: 0.95;
+.aadhaar-btn:hover {
+  background: linear-gradient(135deg, #f3a960, #ff9f43);
+  transform: translateY(-1px);
+  box-shadow: 0 14px 28px rgba(255, 159, 67, 0.45);
 }
 
-/* ================= CLOSE BUTTON (FIXED LOOK) ================= */
-.close-btn {
-  position: absolute;
-  top: 0px;
-  right: 0px;
-
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  background: #f3f4f6;
-  border: 1px solid #e5e7eb;
-
-  font-size: 16px;
-  color: #6b7280;
-  cursor: pointer;
-  transition: 0.2s ease;
+.aadhaar-btn.verify {
+  background: linear-gradient(135deg, #f3a960, #ff9f43);
 }
 
-.close-btn:hover {
-  background: #e5e7eb;
-  color: #111827;
+.aadhaar-btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+  transform: none;
 }
 
-/* ================= ANIMATION ================= */
-@keyframes scaleFade {
-  from {
-    opacity: 0;
-    transform: translate(-50%, -50%) scale(0.95);
-  }
-  to {
-    opacity: 1;
-    transform: translate(-50%, -50%) scale(1);
-  }
-}
-/* ================= OR DIVIDER ================= */
+/* DIVIDER */
 .or-divider {
   display: flex;
   align-items: center;
   text-align: center;
-  margin: 16px 0;
+  margin: 18px 0 6px;
   width: 100%;
 }
 
@@ -505,7 +464,30 @@ button:disabled {
 .or-divider span {
   padding: 0 12px;
   font-size: 12px;
-  font-weight: 600;
+  font-weight: 700;
   color: #9ca3af;
   text-transform: uppercase;
 }
+
+/* ANIMATION */
+@keyframes scaleFade {
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+.form-group label {
+  font-size: 13px;
+  font-weight: 800;   /* ✅ strong bold */
+  color: #111827;
+  margin-bottom: 8px;
+  display: block;
+}
+.captcha-text {
+  letter-spacing: 3px;
+}
+
