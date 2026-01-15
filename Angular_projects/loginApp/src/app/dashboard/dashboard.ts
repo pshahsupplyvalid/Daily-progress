@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { AuthService } from '../auth.service';
@@ -16,7 +16,11 @@ import {
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.css'
 })
-export class DashboardComponent {
+export class DashboardComponent implements OnInit {
+
+  /* ---------------- THEME STATE ---------------- */
+
+  isDarkMode = false;
 
   /* ---------------- SIDEBAR / UI STATE ---------------- */
 
@@ -36,6 +40,8 @@ export class DashboardComponent {
 
   otpSent = false;
   otpVerified = false;
+
+  // ✅ API se jo client_id milega wo yaha store hoga
   clientId = '';
 
   constructor(
@@ -46,9 +52,33 @@ export class DashboardComponent {
     this.initializeForm();
   }
 
+  /* ---------------- ON INIT ---------------- */
+
+  ngOnInit(): void {
+    const savedTheme = localStorage.getItem('theme');
+    this.isDarkMode = savedTheme === 'dark';
+    this.applyTheme();
+  }
+
+  /* ---------------- THEME METHODS ---------------- */
+
+  toggleTheme(): void {
+    this.isDarkMode = !this.isDarkMode;
+    localStorage.setItem('theme', this.isDarkMode ? 'dark' : 'light');
+    this.applyTheme();
+  }
+
+  private applyTheme(): void {
+    if (this.isDarkMode) {
+      document.body.classList.add('dark-mode');
+    } else {
+      document.body.classList.remove('dark-mode');
+    }
+  }
+
   /* ---------------- FORM INIT ---------------- */
 
-  private initializeForm() {
+  private initializeForm(): void {
     this.addUserForm = this.fb.group({
       name: ['', [Validators.required, Validators.minLength(2)]],
       email: ['', [Validators.required, Validators.email]],
@@ -61,35 +91,35 @@ export class DashboardComponent {
 
   /* ---------------- UI ACTIONS ---------------- */
 
-  toggleSidebar() {
+  toggleSidebar(): void {
     this.sidebarCollapsed = !this.sidebarCollapsed;
   }
 
-  setActiveSection(section: string) {
+  setActiveSection(section: string): void {
     this.activeSection = section;
     this.showAddUserForm = false;
     this.userDropdownOpen = false;
     this.listDropdownOpen = false;
   }
 
-  toggleUserDropdown() {
+  toggleUserDropdown(): void {
     this.userDropdownOpen = !this.userDropdownOpen;
     this.listDropdownOpen = false;
     this.activeSection = 'users';
   }
 
-  toggleListDropdown() {
+  toggleListDropdown(): void {
     this.listDropdownOpen = !this.listDropdownOpen;
     this.userDropdownOpen = false;
   }
 
-  showAddUser() {
+  showAddUser(): void {
     this.showAddUserForm = true;
     this.activeSection = 'users';
     this.resetOtpState();
   }
 
-  hideAddUser() {
+  hideAddUser(): void {
     this.showAddUserForm = false;
     this.addUserForm.reset();
     this.resetOtpState();
@@ -97,25 +127,26 @@ export class DashboardComponent {
 
   /* ---------------- ADD USER ---------------- */
 
-  onSubmitUser() {
+  onSubmitUser(): void {
     if (!this.otpVerified) {
       alert('Please verify Aadhaar before adding user');
       return;
     }
 
     if (this.addUserForm.invalid) {
+      alert('Please fill all required fields properly');
       return;
     }
 
-    console.log('User Added:', this.addUserForm.value);
-    alert('User added successfully');
+    console.log('✅ User Added:', this.addUserForm.value);
+    alert('User added successfully ✅');
 
     this.hideAddUser();
   }
 
   /* ---------------- OTP FLOW ---------------- */
 
-  sendOtp() {
+  sendOtp(): void {
     const aadhaar = this.addUserForm.get('aadhaar')?.value;
 
     if (!aadhaar || aadhaar.length !== 12) {
@@ -123,31 +154,68 @@ export class DashboardComponent {
       return;
     }
 
+    // ✅ Verhoeff Aadhaar validation (optional)
     if (!this.validateAadhaar(aadhaar)) {
       alert('Invalid Aadhaar number');
       return;
     }
 
+    // ✅ Reset before sending OTP
+    this.otpSent = false;
+    this.otpVerified = false;
+    this.clientId = '';
+    this.addUserForm.patchValue({ aadhaarOtp: '' });
+
     this.authService.generateAadhaarOtp({ id_Number: aadhaar })
       .subscribe({
-        next: (res: any) => {
-          this.clientId = res?.client_id || 'DEV_CLIENT_ID';
+        next: (clientId: any) => {
+          // ✅ Your API returns plain text string
+          this.clientId = String(clientId || '').trim();
+
+          if (!this.clientId) {
+            alert('Client ID not received from server ❌');
+            return;
+          }
+
           this.otpSent = true;
           this.otpVerified = false;
-          alert('OTP sent successfully');
+
+          console.log('✅ OTP Client ID:', this.clientId);
+          alert('OTP sent successfully ✅');
         },
-        error: () => {
-          alert('Failed to send OTP');
+        error: (err: any) => {
+          console.error('❌ OTP Send Error:', err);
+          alert(err?.error?.message || err?.message || 'Failed to send OTP ❌');
         }
       });
   }
 
-  verifyOtp() {
+  verifyOtp(): void {
+    const enteredOtp = this.addUserForm.get('aadhaarOtp')?.value;
+
+    if (!this.otpSent) {
+      alert('Please send OTP first');
+      return;
+    }
+
+    if (!this.clientId) {
+      alert('Client ID missing, send OTP again');
+      return;
+    }
+
+    if (!enteredOtp || !/^[0-9]{6}$/.test(enteredOtp)) {
+      alert('Please enter valid 6 digit OTP');
+      return;
+    }
+
+    // ✅ NOTE: अभी backend verify OTP API नहीं लगाया गया यहाँ
+    // अभी हम local verify mark कर रहे हैं
     this.otpVerified = true;
     this.addUserForm.markAllAsTouched();
+    alert('OTP Verified ✅');
   }
 
-  private resetOtpState() {
+  private resetOtpState(): void {
     this.otpSent = false;
     this.otpVerified = false;
     this.clientId = '';
@@ -191,18 +259,17 @@ export class DashboardComponent {
 
   /* ---------------- PAGE NAVIGATION ---------------- */
 
- goToProcurement() {
-  this.router.navigate(['./procurement']);
-}
+  goToProcurement(): void {
+    this.router.navigate(['./procurement']);
+  }
 
-
-  goToFarmers() {
+  goToFarmers(): void {
     this.router.navigate(['/railway-list']); // future ready
   }
 
   /* ---------------- LOGOUT ---------------- */
 
-  logout() {
+  logout(): void {
     this.authService.logout();
   }
 }
