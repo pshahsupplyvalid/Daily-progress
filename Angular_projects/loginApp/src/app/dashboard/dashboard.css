@@ -1065,4 +1065,200 @@
 
 .dashboard-container.dark-mode .modal-footer {
   border-top: 1px solid #1f2937;
+}/* ===========================
+   ✅ CLIENT LIST CARD (Premium)
+=========================== */
+.clients-list-card {
+  margin-top: 22px;
+  background: #ffffff;
+  border-radius: 14px;
+  padding: 18px 18px;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+}
+
+/* Title inside card */
+.clients-list-card h3 {
+  margin: 0 0 14px 0;
+  font-size: 18px;
+  font-weight: 700;
+  color: #111827;
+}
+
+/* ===========================
+   ✅ TABLE WRAPPER
+=========================== */
+.clients-table {
+  width: 100%;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid #eef2f7;
+}
+
+/* ===========================
+   ✅ TABLE HEADER + ROWS
+=========================== */
+.clients-table .table-header,
+.clients-table .table-row {
+  display: grid;
+  grid-template-columns: 2.4fr 1.4fr 1.4fr 1.3fr 0.8fr 1.5fr;
+  gap: 0;
+  align-items: center;
+  padding: 12px 16px;
+}
+
+/* Header Styling */
+.clients-table .table-header {
+  background: linear-gradient(135deg, #f9fafb, #f3f4f6);
+  font-weight: 700;
+  font-size: 13px;
+  color: #374151;
+  letter-spacing: 0.3px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+/* Row Styling */
+.clients-table .table-row {
+  font-size: 14px;
+  font-weight: 500;
+  color: #111827;
+  border-bottom: 1px solid #f1f5f9;
+  transition: 0.2s ease;
+  background: #ffffff;
+}
+
+/* Zebra striping */
+.clients-table .table-row:nth-child(even) {
+  background: #fcfcfd;
+}
+
+/* Hover effect */
+.clients-table .table-row:hover {
+  background: #f8fafc;
+  transform: translateY(-1px);
+}
+
+/* Last row border remove */
+.clients-table .table-row:last-child {
+  border-bottom: none;
+}
+
+/* ===========================
+   ✅ CELL STYLE (Better Alignment)
+=========================== */
+.clients-table .table-header > div,
+.clients-table .table-row > div {
+  display: flex;
+  align-items: center;
+  min-height: 42px;
+  padding: 2px 4px;
+}
+
+/* Long ID break properly */
+.clients-table .table-row > div:first-child {
+  word-break: break-all;
+  font-size: 13px;
+  color: #111827;
+}
+
+/* Active column alignment center */
+.clients-table .table-header > div:nth-child(5),
+.clients-table .table-row > div:nth-child(5) {
+  justify-content: center;
+}
+
+/* Date column slightly muted */
+.clients-table .table-row > div:nth-child(6) {
+  color: #374151;
+  font-size: 13px;
+}
+
+/* ===========================
+   ✅ APPROVAL STATUS BADGE LOOK
+   (Optional: works even without HTML change)
+=========================== */
+.clients-table .table-row > div:nth-child(4) {
+  font-weight: 700;
+  color: #047857; /* Approved green */
+  text-transform: uppercase;
+}
+
+/* If status is Pending / Rejected, it will still look ok */
+.clients-table .table-row > div:nth-child(4):not(:empty) {
+  background: rgba(16, 185, 129, 0.12);
+  border: 1px solid rgba(16, 185, 129, 0.35);
+  padding: 6px 10px;
+  border-radius: 999px;
+  width: fit-content;
+}
+
+/* ===========================
+   ✅ ACTIVE BADGE STYLE
+=========================== */
+.clients-table .table-row > div:nth-child(5) {
+  font-weight: 700;
+  color: #2563eb;
+  background: rgba(37, 99, 235, 0.12);
+  border: 1px solid rgba(37, 99, 235, 0.25);
+  padding: 6px 10px;
+  border-radius: 999px;
+  width: fit-content;
+  margin: auto;
+}
+
+/* ===========================
+   ✅ NO CLIENTS TEXT
+=========================== */
+.no-clients {
+  padding: 18px;
+  text-align: center;
+  font-style: italic;
+  color: #6b7280;
+  background: #f9fafb;
+  border: 1px dashed #d1d5db;
+  border-radius: 12px;
+}
+
+/* ===========================
+   ✅ DARK MODE SUPPORT
+=========================== */
+.dashboard-container.dark-mode .clients-list-card {
+  background: #111827 !important;
+  border: 1px solid #1f2937 !important;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.35);
+}
+
+.dashboard-container.dark-mode .clients-list-card h3 {
+  color: #ffffff !important;
+}
+
+.dashboard-container.dark-mode .clients-table {
+  border: 1px solid #1f2937 !important;
+}
+
+.dashboard-container.dark-mode .clients-table .table-header {
+  background: #0f172a !important;
+  color: #e5e7eb !important;
+  border-bottom: 1px solid #1f2937 !important;
+}
+
+.dashboard-container.dark-mode .clients-table .table-row {
+  background: #111827 !important;
+  color: #e5e7eb !important;
+  border-bottom: 1px solid #1f2937 !important;
+}
+
+.dashboard-container.dark-mode .clients-table .table-row:nth-child(even) {
+  background: #0b1220 !important;
+}
+
+.dashboard-container.dark-mode .clients-table .table-row:hover {
+  background: #0f172a !important;
+}
+
+.dashboard-container.dark-mode .no-clients {
+  background: #0f172a !important;
+  border: 1px dashed #334155 !important;
+  color: #cbd5e1 !important;
 }

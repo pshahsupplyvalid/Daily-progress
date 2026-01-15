@@ -4,6 +4,7 @@ import { DashboardComponent } from './dashboard/dashboard';
 import { ProcurementComponent } from './procurement/procurement';
 import { AuthGuard } from './auth.guard';
 import { RailwayListComponent } from './railway-list/railway-list';
+import { Client } from './client/client';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -16,6 +17,11 @@ export const routes: Routes = [
   {
     path: 'procurement',
     component: ProcurementComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'client',
+    component: Client,
     canActivate: [AuthGuard]
   },
   {
