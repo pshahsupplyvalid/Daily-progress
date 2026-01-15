@@ -1,10 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import {
-  HttpClient,
-  HttpErrorResponse,
-  HttpHeaders
-} from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { BehaviorSubject, Observable, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 
@@ -20,6 +16,8 @@ export class AuthService {
   private loginUrl = `${this.baseUrl}/login/user`;
   private aadhaarOtpGenerateUrl = `${this.baseUrl}/register/farmer/aadhaar/otp/generate`;
   private aadhaarOtpVerifyUrl = `${this.baseUrl}/register/farmer/aadhaar/otp/verify`;
+  private clientapi = `${this.baseUrl}/client`;
+  private groupApi = `${this.baseUrl}/group?GroupType=CLIENT`; // ✅ Clients list API
 
   private isAuthenticatedSubject = new BehaviorSubject<boolean>(this.hasToken());
   isAuthenticated$ = this.isAuthenticatedSubject.asObservable();
@@ -30,7 +28,6 @@ export class AuthService {
   ) {}
 
   /* ---------------- TOKEN HELPERS ---------------- */
-
   private hasToken(): boolean {
     return !!localStorage.getItem('token');
   }
@@ -39,13 +36,11 @@ export class AuthService {
     return localStorage.getItem('token');
   }
 
-  // ✅ Store token
   setToken(token: string): void {
     localStorage.setItem('token', token);
     this.isAuthenticatedSubject.next(true);
   }
 
-  // ✅ Clear token
   clearAuth(): void {
     localStorage.removeItem('token');
     localStorage.removeItem('role');
@@ -60,26 +55,15 @@ export class AuthService {
   }
 
   /* ---------------- LOGIN ---------------- */
-
   login(credentials: { MobileNo: string; password: string }): Observable<any> {
     return this.http.post(this.loginUrl, {
       mobileNo: credentials.MobileNo,
       password: credentials.password
     }).pipe(
       tap((res: any) => {
-
-        // ✅ HARD VALIDATION
-        if (!res?.token) {
-          throw new Error('Token not received from server');
-        }
-
-        // ✅ Save token
+        if (!res?.token) throw new Error('Token not received from server');
         this.setToken(res.token);
-
-        // ✅ Optional: store role
-        if (res?.role) {
-          localStorage.setItem('role', res.role);
-        }
+        if (res?.role) localStorage.setItem('role', res.role);
       }),
       catchError(this.handleError)
     );
@@ -94,32 +78,43 @@ export class AuthService {
     return this.hasToken();
   }
 
-  /* ---------------- AADHAAR OTP APIs ---------------- */
-
-  // ✅ Generate Aadhaar OTP
-  // ✅ API returns plain string like: "W5FYsZeMqXhXmZEJE"
+  /* ---------------- AADHAAR OTP ---------------- */
   generateAadhaarOtp(payload: { id_Number: string }): Observable<string> {
     return this.http.post(this.aadhaarOtpGenerateUrl, payload, {
       headers: this.getAuthHeaders(),
-      responseType: 'text' // ✅ IMPORTANT: text/plain response
+      responseType: 'text' // backend returns plain string
     }).pipe(
       catchError(this.handleError)
     );
   }
 
-  // ✅ Verify Aadhaar OTP
-  // ✅ KEEP JSON response (so if backend returns token, you can store it)
   verifyAadhaarOtp(payload: { otp: string; client_id: string }): Observable<any> {
     return this.http.post(this.aadhaarOtpVerifyUrl, payload, {
       headers: this.getAuthHeaders()
-      // ✅ Default responseType is JSON
+    }).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+  /* ---------------- CLIENT API ---------------- */
+  addClient(formData: FormData): Observable<any> {
+    return this.http.post(this.clientapi, formData, {
+      headers: this.getAuthHeaders()
+    }).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+  // ✅ NEW: Fetch all clients
+  getClients(): Observable<any> {
+    return this.http.get(this.groupApi, {
+      headers: this.getAuthHeaders()
     }).pipe(
       catchError(this.handleError)
     );
   }
 
   /* ---------------- ERROR HANDLER ---------------- */
-
   private handleError(error: HttpErrorResponse) {
     console.error('HTTP Error:', error);
     return throwError(() => error);
