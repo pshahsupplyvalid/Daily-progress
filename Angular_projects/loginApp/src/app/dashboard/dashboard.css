@@ -778,5 +778,90 @@
 .activity-item .pi {
   font-size: 18px;
 }
+.theme-toggle {
+  margin-right: 15px;
+}
+
+.theme-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  border-radius: 12px;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  background: #111827;
+  color: white;
+  transition: 0.25s ease;
+}
+
+.theme-btn:hover {
+  background: #0f172a;
+  transform: translateY(-1px);
+}
+
+/* Dark mode */
+.dark-mode {
+  background: #0b1220;
+  color: white;
+}
+
+.dark-mode .dashboard-container {
+  background: #0b1220;
+  color: white;
+}
+
+.dark-mode .sidebar {
+  background: #111827;
+  color: white;
+}
+
+.dark-mode .main-content {
+  background: #0b1220;
+  color: white;
+}
+
+.dark-mode .header {
+  background: #111827;
+  color: white;
+}
+
+.dark-mode .welcome-card,
+.dark-mode .activity-card,
+.dark-mode .users-list-card,
+.dark-mode .add-user-form-card {
+  background: #111827;
+  color: white;
+  border: 1px solid #1f2937;
+}
+/* ✅ Dark mode cards */
+.dashboard-container.dark-mode .stat-card {
+  background: #1f2937 !important;
+  color: #fff !important;
+}
+
+/* ✅ Dark mode Recent Activity */
+.dashboard-container.dark-mode .activity-card,
+.dashboard-container.dark-mode .activity-item {
+  background: #111827 !important;
+  color: #fff !important;
+  border: 1px solid #1f2937 !important;
+}
+
+/* ✅ Fix white inner box */
+.dashboard-container.dark-mode .activity-list {
+  background: transparent !important;
+}
+.dashboard-container.dark-mode,
+.dashboard-container.dark-mode * {
+  color: #e5e7eb !important;
+}
+.dashboard-container.dark-mode h1,
+.dashboard-container.dark-mode h2,
+.dashboard-container.dark-mode h3,
+.dashboard-container.dark-mode .page-title {
+  color: #ffffff !important;
+}
 
 

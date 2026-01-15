@@ -40,7 +40,7 @@ export class LoginComponent {
   aadhaarOtp = '';
   otpSent = false;
 
-  // ✅ REAL client_id will store here (from generate API response)
+  // ✅ Store client_id from generate OTP response
   aadhaarClientId = '';
 
   constructor(
@@ -49,12 +49,14 @@ export class LoginComponent {
     private router: Router
   ) {
 
+    /* LOGIN FORM */
     this.loginForm = this.fb.group({
       MobileNo: ['', [Validators.required, Validators.pattern('^[0-9]{10}$')]],
       password: ['', Validators.required],
       captcha: ['', Validators.required]
     });
 
+    /* FORGOT FORM */
     this.forgotForm = this.fb.group({
       MobileNo: ['', [Validators.required, Validators.pattern('^[0-9]{10}$')]]
     });
@@ -93,6 +95,7 @@ export class LoginComponent {
   onSubmit(): void {
     if (this.loginForm.invalid || this.loading) return;
 
+    // captcha validation
     if (this.loginForm.value.captcha !== this.captchaText) {
       this.captchaInvalid = true;
       this.generateCaptcha();
@@ -140,11 +143,12 @@ export class LoginComponent {
   openAadhaarModal(): void {
     this.showAadhaarModal = true;
 
-    // ✅ Reset states
+    // ✅ Reset Aadhaar login states
     this.otpSent = false;
+    this.aadhaarNumber = '';
     this.aadhaarOtp = '';
-    this.errorMsg = '';
     this.aadhaarClientId = '';
+    this.errorMsg = '';
 
     document.body.style.overflow = 'hidden';
   }
@@ -152,7 +156,7 @@ export class LoginComponent {
   closeAadhaarModal(): void {
     this.showAadhaarModal = false;
 
-    // ✅ Reset states
+    // ✅ Reset Aadhaar login states
     this.otpSent = false;
     this.aadhaarNumber = '';
     this.aadhaarOtp = '';
@@ -162,6 +166,7 @@ export class LoginComponent {
   }
 
   /* ---------------- AADHAAR OTP ---------------- */
+
   sendAadhaarOtp(): void {
     if (!/^[0-9]{12}$/.test(this.aadhaarNumber)) {
       alert('Please enter a valid 12-digit Aadhaar number');
@@ -173,14 +178,13 @@ export class LoginComponent {
 
     this.loading = true;
 
-    // ✅ OTP input open immediately (no need 2 clicks)
+    // ✅ OTP field open immediately (no need 2 clicks)
     this.otpSent = true;
 
     this.authService.generateAadhaarOtp({ id_Number: this.aadhaarNumber })
       .pipe(finalize(() => this.loading = false))
       .subscribe({
         next: (clientId: string) => {
-          // ✅ API returns plain text => save directly
           this.aadhaarClientId = clientId;
 
           console.log('✅ Aadhaar Client ID:', this.aadhaarClientId);
@@ -189,7 +193,7 @@ export class LoginComponent {
         error: (err: any) => {
           console.error(err);
 
-          // ❌ If API failed, hide OTP input again
+          // ❌ hide OTP field if send OTP fails
           this.otpSent = false;
 
           alert(err?.error?.message || 'Failed to send OTP ❌');
@@ -228,12 +232,20 @@ export class LoginComponent {
         next: (res: any) => {
           console.log('✅ Aadhaar Verify Response:', res);
 
+          // ✅ IMPORTANT: Token set for AuthGuard
+          // If backend sends token -> store it
+          if (res?.token) {
+            this.authService.setToken(res.token);
+          } else {
+            // ✅ TEMP DEV token (remove later)
+            localStorage.setItem('token', 'aadhaar-temp-token');
+          }
+
           alert('Aadhaar login successful ✅');
 
-          // ✅ Close modal first
+          // ✅ Close modal then navigate
           this.closeAadhaarModal();
 
-          // ✅ Then navigate
           this.router.navigate(['/dashboard']);
         },
         error: (err: any) => {
