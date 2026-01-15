@@ -19,11 +19,9 @@ import {
 export class DashboardComponent implements OnInit {
 
   /* ---------------- THEME STATE ---------------- */
-
   isDarkMode = false;
 
   /* ---------------- SIDEBAR / UI STATE ---------------- */
-
   sidebarCollapsed = false;
   activeSection = 'home';
 
@@ -33,11 +31,9 @@ export class DashboardComponent implements OnInit {
   showAddUserForm = false;
 
   /* ---------------- FORM ---------------- */
-
   addUserForm!: FormGroup;
 
   /* ---------------- OTP STATE ---------------- */
-
   otpSent = false;
   otpVerified = false;
 
@@ -45,13 +41,14 @@ export class DashboardComponent implements OnInit {
   clientId = '';
 
   /* ---------------- LOCAL STORAGE USERS ---------------- */
-
   usersList: any[] = [];
   private storageKey = 'users';
 
   /* ---------------- 3 DOT MENU STATE ---------------- */
-
   openMenuIndex: number | null = null;
+
+  /* ---------------- VIEW USER MODAL STATE ---------------- */
+  isViewModalOpen = false;
   selectedUser: any = null;
 
   constructor(
@@ -63,7 +60,6 @@ export class DashboardComponent implements OnInit {
   }
 
   /* ---------------- ON INIT ---------------- */
-
   ngOnInit(): void {
     // ✅ Theme load
     const savedTheme = localStorage.getItem('theme');
@@ -73,7 +69,7 @@ export class DashboardComponent implements OnInit {
     // ✅ Load users from storage
     this.loadUsersFromStorage();
 
-    // ✅ IMPORTANT FIX: Aadhaar change -> Reset OTP state automatically
+    // ✅ Aadhaar change -> Reset OTP state automatically
     this.addUserForm.get('aadhaar')?.valueChanges.subscribe(() => {
       this.otpSent = false;
       this.otpVerified = false;
@@ -90,7 +86,6 @@ export class DashboardComponent implements OnInit {
   }
 
   /* ---------------- THEME METHODS ---------------- */
-
   toggleTheme(): void {
     this.isDarkMode = !this.isDarkMode;
     localStorage.setItem('theme', this.isDarkMode ? 'dark' : 'light');
@@ -106,7 +101,6 @@ export class DashboardComponent implements OnInit {
   }
 
   /* ---------------- FORM INIT ---------------- */
-
   private initializeForm(): void {
     this.addUserForm = this.fb.group({
       name: ['', [Validators.required, Validators.minLength(2)]],
@@ -119,7 +113,6 @@ export class DashboardComponent implements OnInit {
   }
 
   /* ---------------- LOCAL STORAGE METHODS ---------------- */
-
   private loadUsersFromStorage(): void {
     const data = localStorage.getItem(this.storageKey);
     this.usersList = data ? JSON.parse(data) : [];
@@ -139,7 +132,6 @@ export class DashboardComponent implements OnInit {
   }
 
   /* ---------------- 3 DOT MENU METHODS ---------------- */
-
   toggleActionMenu(index: number, event: Event): void {
     event.stopPropagation(); // ✅ so outside click doesn't close immediately
     this.openMenuIndex = this.openMenuIndex === index ? null : index;
@@ -148,21 +140,19 @@ export class DashboardComponent implements OnInit {
   closeActionMenu(): void {
     this.openMenuIndex = null;
   }
-viewUser(user: any): void {
-  this.selectedUser = user;
 
-  alert(
-    `👤 User Details\n\n` +
-    `Name: ${user.name}\n` +
-    `Email: ${user.email}\n` +
-    `Mobile: ${user.mobile}\n` +
-    `Aadhaar: ${user.aadhaar}\n` +
-    `Role: ${user.role}`
-  );
-}
+  /* ---------------- VIEW MODAL METHODS ---------------- */
+  viewUser(user: any): void {
+    this.selectedUser = user;
+    this.isViewModalOpen = true;
+  }
+
+  closeViewModal(): void {
+    this.isViewModalOpen = false;
+    this.selectedUser = null;
+  }
 
   /* ---------------- UI ACTIONS ---------------- */
-
   toggleSidebar(): void {
     this.sidebarCollapsed = !this.sidebarCollapsed;
   }
@@ -229,7 +219,6 @@ viewUser(user: any): void {
   }
 
   /* ---------------- ADD USER ---------------- */
-
   onSubmitUser(): void {
     if (!this.otpVerified) {
       alert('Please verify Aadhaar before adding user');
@@ -276,7 +265,6 @@ viewUser(user: any): void {
   }
 
   /* ---------------- OTP FLOW ---------------- */
-
   sendOtp(): void {
     const aadhaar = this.addUserForm.get('aadhaar')?.value;
 
@@ -354,7 +342,6 @@ viewUser(user: any): void {
   }
 
   /* ---------------- AADHAAR VALIDATION ---------------- */
-
   private validateAadhaar(aadhaar: string): boolean {
     const d = [
       [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
@@ -389,7 +376,6 @@ viewUser(user: any): void {
   }
 
   /* ---------------- PAGE NAVIGATION ---------------- */
-
   goToProcurement(): void {
     this.router.navigate(['./procurement']);
   }
@@ -399,7 +385,6 @@ viewUser(user: any): void {
   }
 
   /* ---------------- LOGOUT ---------------- */
-
   logout(): void {
     this.authService.logout();
   }
