@@ -865,3 +865,64 @@
 }
 
 
+/* ✅ 3 Dot Menu Actions */
+.actions {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.menu-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 18px;
+  padding: 6px 10px;
+  border-radius: 6px;
+  transition: 0.2s ease;
+}
+
+.menu-btn:hover {
+  background: #f3f4f6;
+}
+
+/* Dropdown menu */
+.action-dropdown {
+  position: absolute;
+  top: 35px;
+  right: 0;
+  min-width: 140px;
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  z-index: 999;
+  overflow: hidden;
+}
+
+.action-item {
+  width: 100%;
+  padding: 10px 12px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  text-align: left;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  transition: 0.2s ease;
+}
+
+.action-item:hover {
+  background: #f9fafb;
+}
+
+.action-item.danger {
+  color: #ef4444;
+}
+
+.action-item.danger:hover {
+  background: #fee2e2;
+}

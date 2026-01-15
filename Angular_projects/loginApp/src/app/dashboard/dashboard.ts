@@ -44,6 +44,16 @@ export class DashboardComponent implements OnInit {
   // ✅ API se jo client_id milega wo yaha store hoga
   clientId = '';
 
+  /* ---------------- LOCAL STORAGE USERS ---------------- */
+
+  usersList: any[] = [];
+  private storageKey = 'users';
+
+  /* ---------------- 3 DOT MENU STATE ---------------- */
+
+  openMenuIndex: number | null = null;
+  selectedUser: any = null;
+
   constructor(
     private router: Router,
     private authService: AuthService,
@@ -55,9 +65,28 @@ export class DashboardComponent implements OnInit {
   /* ---------------- ON INIT ---------------- */
 
   ngOnInit(): void {
+    // ✅ Theme load
     const savedTheme = localStorage.getItem('theme');
     this.isDarkMode = savedTheme === 'dark';
     this.applyTheme();
+
+    // ✅ Load users from storage
+    this.loadUsersFromStorage();
+
+    // ✅ IMPORTANT FIX: Aadhaar change -> Reset OTP state automatically
+    this.addUserForm.get('aadhaar')?.valueChanges.subscribe(() => {
+      this.otpSent = false;
+      this.otpVerified = false;
+      this.clientId = '';
+
+      // reset otp input field
+      this.addUserForm.patchValue({ aadhaarOtp: '' }, { emitEvent: false });
+    });
+
+    // ✅ Outside click -> close 3 dot menu
+    document.addEventListener('click', () => {
+      this.closeActionMenu();
+    });
   }
 
   /* ---------------- THEME METHODS ---------------- */
@@ -89,6 +118,49 @@ export class DashboardComponent implements OnInit {
     });
   }
 
+  /* ---------------- LOCAL STORAGE METHODS ---------------- */
+
+  private loadUsersFromStorage(): void {
+    const data = localStorage.getItem(this.storageKey);
+    this.usersList = data ? JSON.parse(data) : [];
+  }
+
+  private saveUsersToStorage(): void {
+    localStorage.setItem(this.storageKey, JSON.stringify(this.usersList));
+  }
+
+  deleteUser(index: number): void {
+    const confirmDelete = confirm('Are you sure you want to delete this user?');
+    if (!confirmDelete) return;
+
+    this.usersList.splice(index, 1);
+    this.saveUsersToStorage();
+    alert('User deleted ✅');
+  }
+
+  /* ---------------- 3 DOT MENU METHODS ---------------- */
+
+  toggleActionMenu(index: number, event: Event): void {
+    event.stopPropagation(); // ✅ so outside click doesn't close immediately
+    this.openMenuIndex = this.openMenuIndex === index ? null : index;
+  }
+
+  closeActionMenu(): void {
+    this.openMenuIndex = null;
+  }
+viewUser(user: any): void {
+  this.selectedUser = user;
+
+  alert(
+    `👤 User Details\n\n` +
+    `Name: ${user.name}\n` +
+    `Email: ${user.email}\n` +
+    `Mobile: ${user.mobile}\n` +
+    `Aadhaar: ${user.aadhaar}\n` +
+    `Role: ${user.role}`
+  );
+}
+
   /* ---------------- UI ACTIONS ---------------- */
 
   toggleSidebar(): void {
@@ -100,12 +172,20 @@ export class DashboardComponent implements OnInit {
     this.showAddUserForm = false;
     this.userDropdownOpen = false;
     this.listDropdownOpen = false;
+
+    // ✅ Always refresh users list when opening users section
+    if (section === 'users') {
+      this.loadUsersFromStorage();
+    }
   }
 
   toggleUserDropdown(): void {
     this.userDropdownOpen = !this.userDropdownOpen;
     this.listDropdownOpen = false;
     this.activeSection = 'users';
+
+    // ✅ Refresh list every time user dropdown opens
+    this.loadUsersFromStorage();
   }
 
   toggleListDropdown(): void {
@@ -117,12 +197,35 @@ export class DashboardComponent implements OnInit {
     this.showAddUserForm = true;
     this.activeSection = 'users';
     this.resetOtpState();
+
+    // ✅ Clean form when opening add user
+    this.addUserForm.reset({
+      name: '',
+      email: '',
+      mobile: '',
+      aadhaar: '',
+      aadhaarOtp: '',
+      role: 'user'
+    });
   }
 
   hideAddUser(): void {
     this.showAddUserForm = false;
-    this.addUserForm.reset();
+
+    // ✅ Reset form properly (role should remain user)
+    this.addUserForm.reset({
+      name: '',
+      email: '',
+      mobile: '',
+      aadhaar: '',
+      aadhaarOtp: '',
+      role: 'user'
+    });
+
     this.resetOtpState();
+
+    // ✅ Reload list again
+    this.loadUsersFromStorage();
   }
 
   /* ---------------- ADD USER ---------------- */
@@ -138,9 +241,37 @@ export class DashboardComponent implements OnInit {
       return;
     }
 
-    console.log('✅ User Added:', this.addUserForm.value);
+    // ✅ Create New User Object
+    const newUser = {
+      name: this.addUserForm.value.name,
+      email: this.addUserForm.value.email,
+      mobile: this.addUserForm.value.mobile,
+      aadhaar: this.addUserForm.value.aadhaar,
+      role: this.addUserForm.value.role || 'user',
+      createdAt: new Date().toISOString()
+    };
+
+    // ✅ Load old list again
+    this.loadUsersFromStorage();
+
+    // ✅ Duplicate check (email/mobile)
+    const alreadyExists = this.usersList.some((u: any) =>
+      u.email === newUser.email || u.mobile === newUser.mobile
+    );
+
+    if (alreadyExists) {
+      alert('User already exists with same Email or Mobile ❌');
+      return;
+    }
+
+    // ✅ Save user in LocalStorage
+    this.usersList.push(newUser);
+    this.saveUsersToStorage();
+
+    console.log('✅ User Saved in LocalStorage:', newUser);
     alert('User added successfully ✅');
 
+    // ✅ Close form and show list
     this.hideAddUser();
   }
 
@@ -219,34 +350,34 @@ export class DashboardComponent implements OnInit {
     this.otpSent = false;
     this.otpVerified = false;
     this.clientId = '';
-    this.addUserForm.patchValue({ aadhaarOtp: '' });
+    this.addUserForm.patchValue({ aadhaarOtp: '' }, { emitEvent: false });
   }
 
   /* ---------------- AADHAAR VALIDATION ---------------- */
 
   private validateAadhaar(aadhaar: string): boolean {
     const d = [
-      [0,1,2,3,4,5,6,7,8,9],
-      [1,2,3,4,0,6,7,8,9,5],
-      [2,3,4,0,1,7,8,9,5,6],
-      [3,4,0,1,2,8,9,5,6,7],
-      [4,0,1,2,3,9,5,6,7,8],
-      [5,9,8,7,6,0,4,3,2,1],
-      [6,5,9,8,7,1,0,4,3,2],
-      [7,6,5,9,8,2,1,0,4,3],
-      [8,7,6,5,9,3,2,1,0,4],
-      [9,8,7,6,5,4,3,2,1,0]
+      [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+      [1, 2, 3, 4, 0, 6, 7, 8, 9, 5],
+      [2, 3, 4, 0, 1, 7, 8, 9, 5, 6],
+      [3, 4, 0, 1, 2, 8, 9, 5, 6, 7],
+      [4, 0, 1, 2, 3, 9, 5, 6, 7, 8],
+      [5, 9, 8, 7, 6, 0, 4, 3, 2, 1],
+      [6, 5, 9, 8, 7, 1, 0, 4, 3, 2],
+      [7, 6, 5, 9, 8, 2, 1, 0, 4, 3],
+      [8, 7, 6, 5, 9, 3, 2, 1, 0, 4],
+      [9, 8, 7, 6, 5, 4, 3, 2, 1, 0]
     ];
 
     const p = [
-      [0,1,2,3,4,5,6,7,8,9],
-      [1,5,7,6,2,8,3,0,9,4],
-      [5,8,0,3,7,9,6,1,4,2],
-      [8,9,1,6,0,4,3,5,2,7],
-      [9,4,5,3,1,2,6,8,7,0],
-      [4,2,8,6,5,7,3,9,0,1],
-      [2,7,9,3,8,0,6,4,1,5],
-      [7,0,4,6,9,1,3,2,5,8]
+      [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+      [1, 5, 7, 6, 2, 8, 3, 0, 9, 4],
+      [5, 8, 0, 3, 7, 9, 6, 1, 4, 2],
+      [8, 9, 1, 6, 0, 4, 3, 5, 2, 7],
+      [9, 4, 5, 3, 1, 2, 6, 8, 7, 0],
+      [4, 2, 8, 6, 5, 7, 3, 9, 0, 1],
+      [2, 7, 9, 3, 8, 0, 6, 4, 1, 5],
+      [7, 0, 4, 6, 9, 1, 3, 2, 5, 8]
     ];
 
     let c = 0;
