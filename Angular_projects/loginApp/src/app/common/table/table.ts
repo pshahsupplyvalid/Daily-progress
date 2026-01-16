@@ -26,6 +26,7 @@ trackById(index: number, item: any) {
   return item.id;
 }
 
+
   onEdit(row: any) {
     this.edit.emit(row);
   }
