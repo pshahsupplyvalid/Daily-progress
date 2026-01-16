@@ -1,4 +1,4 @@
-  import { Component, OnInit } from '@angular/core';
+  import { Component, OnInit,ChangeDetectorRef } from '@angular/core';
   import { CommonModule } from '@angular/common';
   import { Router } from '@angular/router';
   import { AuthService } from '../auth.service';
@@ -55,6 +55,7 @@
 
     constructor(
       private router: Router,
+      private cdr: ChangeDetectorRef,
       private authService: AuthService,
       private fb: FormBuilder
     ) {
@@ -76,7 +77,7 @@
       // Aadhaar change -> reset OTP state
       this.addUserForm.get('aadhaar')?.valueChanges.subscribe(() => {
         this.resetOtpState();
-      });
+      });  this.cdr.detectChanges();
 
       // Outside click closes 3-dot menu
       document.addEventListener('click', () => this.closeActionMenu());
@@ -141,6 +142,7 @@
         next: (res) => {
           alert('Client added successfully ✅');
           this.clientForm.reset();
+            this.cdr.detectChanges();
         },
         error: (err) => {
           console.error('Client API Error:', err);
@@ -156,6 +158,7 @@
     this.authService.getClients().subscribe({
       next: (res: any) => {
         this.clientsList = res || [];
+          this.cdr.detectChanges();
       },
       error: (err) => {
         console.error('Failed to fetch clients', err);
@@ -301,6 +304,7 @@
           this.clientId = String(clientId || '').trim();
           if (!this.clientId) { alert('Client ID not received ❌'); return; }
           this.otpSent = true;
+            this.cdr.detectChanges();
           alert('OTP sent successfully ✅');
         },
         error: (err) => { console.error(err); alert(err?.error?.message || 'Failed to send OTP ❌'); }

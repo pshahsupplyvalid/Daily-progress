@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Table } from '../common/table/table';
@@ -28,17 +28,18 @@ export class RailwayListComponent implements OnInit {
     { key: 'trainDate', label: 'Train Date' }
   ];
 
-  private apiUrl =
-    'https://dev-backend-2025.epravaha.com/api/sale/railway/list';
+  private apiUrl = 'https://dev-backend-2025.epravaha.com/api/sale/railway/list';
 
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private cdr: ChangeDetectorRef
+  ) {}
 
-  // ✅ API HIT ONLY HERE
   ngOnInit(): void {
     this.fetchRailwaySales();
   }
 
-  private fetchRailwaySales(): void {
+  fetchRailwaySales(): void {
     this.loading = true;
     this.errorMsg = '';
 
@@ -54,16 +55,27 @@ export class RailwayListComponent implements OnInit {
       Authorization: `Bearer ${token}`
     });
 
-    this.http.get<any[]>(this.apiUrl, { headers }).subscribe({
-      next: (response) => {
-        this.railwayList = response ?? [];
+    this.http.get<any>(this.apiUrl, { headers }).subscribe({
+      next: (res) => {
+
+        // ✅ API might return: [] OR { data: [] }
+        const list = Array.isArray(res) ? res : (Array.isArray(res?.data) ? res.data : []);
+
+        // ✅ IMPORTANT: New reference for Angular update
+        this.railwayList = [...list];
+
         this.loading = false;
+
+        // ✅ Fix Ctrl+S issue
+        this.cdr.detectChanges();
       },
       error: (error) => {
         console.error('Railway API Error:', error);
         this.errorMsg = 'Unable to load railway sale data';
         this.railwayList = [];
         this.loading = false;
+
+        this.cdr.detectChanges();
       }
     });
   }

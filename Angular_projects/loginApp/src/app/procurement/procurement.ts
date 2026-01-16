@@ -1,13 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Table } from '../common/table/table';
+import { Table } from '../common/table/table'; 
 
 @Component({
   selector: 'app-procurement',
   standalone: true,
   imports: [CommonModule, Table],
-  templateUrl: './procurement.html'
+  templateUrl: './procurement.html',
 })
 export class ProcurementComponent implements OnInit {
 
@@ -28,19 +28,18 @@ export class ProcurementComponent implements OnInit {
     { key: 'procureType', label: 'Procure Type' }
   ];
 
-  private apiUrl =
-    'https://dev-backend-2025.epravaha.com/api/procurement/list';
+  private apiUrl = 'https://dev-backend-2025.epravaha.com/api/procurement/list';
 
-  constructor(private http: HttpClient) {
-
-  }
+  constructor(
+    private http: HttpClient,
+    private cdr: ChangeDetectorRef
+  ) {}
 
   ngOnInit(): void {
     this.fetchProcurement();
   }
 
   fetchProcurement(): void {
-    debugger
     this.loading = true;
     this.errorMsg = '';
 
@@ -58,20 +57,31 @@ export class ProcurementComponent implements OnInit {
 
     this.http.get<any>(this.apiUrl, { headers }).subscribe({
       next: (res) => {
-        // Safety check
-        this.procurementList = Array.isArray(res) ? res : [];
+
+        // ✅ Some APIs return like { data: [...] }
+        // ✅ Some APIs return directly [...]
+        const list = Array.isArray(res) ? res : (Array.isArray(res?.data) ? res.data : []);
+
+        // ✅ IMPORTANT: always assign new reference
+        this.procurementList = [...list];
+
         this.loading = false;
+
+        // ✅ Force UI update (fix Ctrl+S issue)
+        this.cdr.detectChanges();
       },
+
       error: (err) => {
         console.error('Procurement API Error:', err);
         this.loading = false;
         this.errorMsg = 'Unable to load procurement data';
         this.procurementList = [];
+
+        this.cdr.detectChanges();
       }
     });
   }
 
-  // Optional – future use
   onEdit(row: any) {
     console.log('Edit:', row);
   }
@@ -80,4 +90,3 @@ export class ProcurementComponent implements OnInit {
     console.log('Delete:', row);
   }
 }
-  
