@@ -1,33 +1,98 @@
-<div class="table-wrapper">
-  <table class="common-table">
-    <thead>
-      <tr>
-        <th *ngFor="let col of columns">
-          {{ col.label }}
-        </th>
+<div class="table-shell">
 
-        <th *ngIf="showActions">Actions</th>
-      </tr>
-    </thead>
+  <!-- ✅ Topbar -->
+  <div class="table-topbar" *ngIf="enableSearch || enablePagination">
 
-    <tbody>
-      <tr *ngFor="let row of data; trackBy: trackById">
-        <td *ngFor="let col of columns">
-          {{ row[col.key] || '-' }}
-        </td>
+    <div class="top-left" *ngIf="enablePagination">
+      <div class="meta-pill">
+        <span>Total:</span>
+        <b>{{ totalRecords }}</b>
+      </div>
 
-        <td *ngIf="showActions" class="actions">
-          <button class="btn edit" (click)="onEdit(row)">Edit</button>
-          <button class="btn delete" (click)="onDelete(row)">Delete</button>
-        </td>
-      </tr>
+      <div class="meta-pill">
+        <span>Show</span>
+        <select (change)="changePageSize($event)">
+          <option *ngFor="let size of pageSizeOptions"
+                  [value]="size"
+                  [selected]="size === pageSize">
+            {{ size }}
+          </option>
+        </select>
+        <span>rows</span>
+      </div>
+    </div>
 
-      <tr *ngIf="data.length === 0">
-        <td [attr.colspan]="columns.length + (showActions ? 1 : 0)"
-            class="no-data">
-          No data available
-        </td>
-      </tr>
-    </tbody>
-  </table>
+    <div class="top-right" *ngIf="enableSearch">
+      <div class="search-box">
+        <i class="pi pi-search"></i>
+        <input
+          type="text"
+          placeholder="Search..."
+          [(ngModel)]="searchText"
+          (input)="onSearchChange()"
+        />
+      </div>
+
+      <button class="clear-btn" *ngIf="searchText" (click)="clearSearch()">
+        Clear
+      </button>
+    </div>
+
+  </div>
+
+  <!-- ✅ Table -->
+  <div class="table-wrapper">
+    <table class="common-table">
+      <thead>
+        <tr>
+          <th *ngFor="let col of columns">
+            {{ col.label }}
+          </th>
+          <th *ngIf="showActions">Actions</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr *ngFor="let row of pagedData; trackBy: trackById">
+          <td *ngFor="let col of columns">
+            <span class="cell-text">{{ row[col.key] || '-' }}</span>
+          </td>
+
+          <td *ngIf="showActions" class="actions">
+            <button class="btn edit" (click)="onEdit(row)">Edit</button>
+            <button class="btn delete" (click)="onDelete(row)">Delete</button>
+          </td>
+        </tr>
+
+        <tr *ngIf="pagedData.length === 0">
+          <td
+            [attr.colspan]="columns.length + (showActions ? 1 : 0)"
+            class="no-data"
+          >
+            No data available
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ✅ Pagination -->
+  <div class="table-footer" *ngIf="enablePagination && totalRecords > 0">
+    <button class="pager-btn"
+            (click)="prevPage()"
+            [disabled]="currentPage === 1">
+      Prev
+    </button>
+
+    <span class="page-info">
+      Page <b>{{ currentPage }}</b> of <b>{{ totalPages }}</b>
+    </span>
+
+    <button class="pager-btn"
+            (click)="nextPage()"
+            [disabled]="currentPage === totalPages">
+      Next
+    </button>
+  </div>
+
 </div>

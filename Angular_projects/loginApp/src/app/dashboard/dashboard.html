@@ -85,7 +85,7 @@
           </div>
 
           <div class="dropdown-item" (click)="goToFarmers()">
-            <i class="pi pi-list"></i> 
+            <i class="pi pi-list"></i>
             <span>Railway List</span>
           </div>
         </div>
@@ -152,7 +152,7 @@
       <!-- HOME -->
       <div *ngIf="activeSection === 'home'" class="welcome-section">
         <div class="welcome-card">
-          <h2>🎉 Welcome Back!</h2>
+          <h2><i class="pi pi-sparkles welcome-icon"></i> Welcome Back!</h2>
           <p>You have successfully logged in to your dashboard.</p>
 
           <div class="stats-grid">
@@ -560,6 +560,27 @@
       </div>
 
     </main>
+
+    <!-- ✅ FOOTER ADDED HERE ✅ -->
+    <footer class="dashboard-footer">
+      <div class="footer-left">
+        © Copyright2026.
+      </div>
+
+      <div class="footer-center">
+        Current Version: 1.4.2
+      </div>
+
+      <div class="footer-right">
+        <span>Powered By</span>
+        <img
+          src="assets/SV-Logo.png"
+          alt="Supply Valid"
+          class="footer-logo"
+        />
+      </div>
+    </footer>
+
   </div>
 
   <!-- ✅ VIEW USER MODAL -->
