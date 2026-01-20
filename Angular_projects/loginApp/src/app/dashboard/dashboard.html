@@ -21,12 +21,11 @@
 
         <!-- USERS MENU -->
         <li class="nav-item" [class.active]="activeSection === 'users'" (click)="toggleUserDropdown()"
-            *ngIf="!userDropdownOpen">
+          *ngIf="!userDropdownOpen">
           <i class="pi pi-users icon"></i>
           <span>Users</span>
           <svg class="dropdown-arrow" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                  d="M19 9l-7 7-7-7"></path>
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
           </svg>
         </li>
 
@@ -34,14 +33,13 @@
           <i class="pi pi-users icon"></i>
           <span>Users</span>
           <svg class="dropdown-arrow rotated" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                  d="M19 9l-7 7-7-7"></path>
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
           </svg>
         </li>
 
         <div class="dropdown-menu" *ngIf="userDropdownOpen">
           <div class="dropdown-item" [class.active]="activeSection === 'users' && !showAddUserForm"
-               (click)="setActiveSection('users'); hideAddUser()">
+            (click)="setActiveSection('users'); hideAddUser()">
             <i class="pi pi-eye"></i>
             <span>View Assyers</span>
           </div>
@@ -52,7 +50,7 @@
           </div>
         </div>
 
-        <!-- CLIENTS MENU -->
+        <!-- CLIENTS -->
         <li class="nav-item" [class.active]="activeSection === 'clients'" (click)="setActiveSection('clients')">
           <i class="pi pi-briefcase icon"></i>
           <span>Clients</span>
@@ -60,12 +58,11 @@
 
         <!-- LISTS MENU -->
         <li class="nav-item" [class.active]="activeSection === 'lists'" (click)="toggleListDropdown()"
-            *ngIf="!listDropdownOpen">
+          *ngIf="!listDropdownOpen">
           <i class="pi pi-list icon"></i>
           <span>Lists</span>
           <svg class="dropdown-arrow" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                  d="M19 9l-7 7-7-7"></path>
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
           </svg>
         </li>
 
@@ -73,8 +70,7 @@
           <i class="pi pi-list icon"></i>
           <span>Lists</span>
           <svg class="dropdown-arrow rotated" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                  d="M19 9l-7 7-7-7"></path>
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
           </svg>
         </li>
 
@@ -90,11 +86,13 @@
           </div>
         </div>
 
+        <!-- SETTINGS -->
         <li class="nav-item" [class.active]="activeSection === 'settings'" (click)="setActiveSection('settings')">
           <i class="pi pi-cog icon"></i>
           <span>Settings</span>
         </li>
 
+        <!-- REPORTS -->
         <li class="nav-item" [class.active]="activeSection === 'reports'" (click)="setActiveSection('reports')">
           <i class="pi pi-file icon"></i>
           <span>Reports</span>
@@ -104,7 +102,7 @@
     </nav>
 
     <div class="sidebar-footer">
-      <button class="logout-btn" (click)="logout()">
+      <button class="logout-btn" type="button" (click)="logout()">
         <i class="pi pi-sign-out icon"></i>
         <span>Logout</span>
       </button>
@@ -117,10 +115,8 @@
     <!-- Header -->
     <header class="header">
       <div class="header-left">
-        <button class="menu-toggle" (click)="toggleSidebar()">
-          <span></span>
-          <span></span>
-          <span></span>
+        <button class="menu-toggle" type="button" (click)="toggleSidebar()">
+          <span></span><span></span><span></span>
         </button>
 
         <h1 class="page-title">Welcome to Dashboard</h1>
@@ -140,7 +136,7 @@
           <div class="user-avatar">
             <i class="pi pi-users"></i>
           </div>
-          <span class="user-name">User</span>
+          <span class="user-name">{{ profileName }}</span>
         </div>
 
       </div>
@@ -159,24 +155,24 @@
             <div class="stat-card">
               <i class="pi pi-users"></i>
               <div class="stat-info">
-                <h3>1,234</h3>
+                <h3>{{ usersList.length }}</h3>
                 <p>Total Users</p>
               </div>
             </div>
 
             <div class="stat-card">
-              <i class="pi pi-wallet"></i>
+              <i class="pi pi-briefcase"></i>
               <div class="stat-info">
-                <h3>$12,345</h3>
-                <p>Revenue</p>
+                <h3>{{ clientsList.length }}</h3>
+                <p>Total Clients</p>
               </div>
             </div>
 
             <div class="stat-card">
-              <i class="pi pi-chart-line"></i>
+              <i class="pi pi-check-circle"></i>
               <div class="stat-info">
-                <h3>89%</h3>
-                <p>Success Rate</p>
+                <h3>{{ activeClientsCount }}</h3>
+                <p>Active Clients</p>
               </div>
             </div>
 
@@ -192,6 +188,68 @@
         </div>
       </div>
 
+      <!-- ================= ANALYTICS SECTION ================= -->
+      <div *ngIf="activeSection === 'analytics'" class="analytics-section">
+        <div class="welcome-card">
+          <h2><i class="pi pi-chart-bar icon"></i> Analytics Dashboard</h2>
+          <p>View detailed analytics and insights here.</p>
+
+          <div class="analytics-stats-grid">
+            <div class="analytics-stat-card">
+              <div class="left">
+                <p>Total Users</p>
+                <h3>{{ usersList.length }}</h3>
+              </div>
+              <div class="right">
+                <i class="pi pi-users"></i>
+              </div>
+            </div>
+
+            <div class="analytics-stat-card">
+              <div class="left">
+                <p>Total Clients</p>
+                <h3>{{ clientsList.length }}</h3>
+              </div>
+              <div class="right">
+                <i class="pi pi-briefcase"></i>
+              </div>
+            </div>
+
+            <div class="analytics-stat-card">
+              <div class="left">
+                <p>Active Clients</p>
+                <h3>{{ activeClientsCount }}</h3>
+              </div>
+              <div class="right">
+                <i class="pi pi-check-circle"></i>
+              </div>
+            </div>
+          </div>
+
+          <div class="analytics-charts-grid">
+            <div class="chart-card">
+              <h3><i class="pi pi-arrow-up-right"></i> Users Growth (Monthly)</h3>
+              <apx-chart [series]="lineChartSeries" [chart]="lineChartOptions" [xaxis]="lineChartXAxis"
+                [stroke]="lineChartStroke" [dataLabels]="lineChartDataLabels"></apx-chart>
+            </div>
+
+            <div class="chart-card">
+              <h3><i class="pi pi-th-large"></i> Lists Overview</h3>
+              <apx-chart [series]="barChartSeries" [chart]="barChartOptions" [xaxis]="barChartXAxis"
+                [plotOptions]="barChartPlotOptions" [dataLabels]="barChartDataLabels"></apx-chart>
+            </div>
+
+            <div class="chart-card">
+              <h3><i class="pi pi-verified"></i> Active vs Inactive Clients</h3>
+              <apx-chart [series]="donutSeries" [chart]="donutChartOptions" [labels]="donutLabels"
+                [legend]="donutLegend"></apx-chart>
+            </div>
+          </div>
+
+        </div>
+      </div>
+      <!-- ================= END ANALYTICS ================= -->
+
       <!-- ================= CLIENTS SECTION ================= -->
       <div *ngIf="activeSection === 'clients'" class="clients-section">
 
@@ -199,12 +257,9 @@
           <h2><i class="pi pi-briefcase"></i> Add Client</h2>
         </div>
 
-        <!-- ✅ Add Client Form -->
         <div class="add-user-form-card">
-
           <form [formGroup]="clientForm" (ngSubmit)="submitClient()" class="user-form grid-form">
 
-            <!-- BASIC DETAILS -->
             <div class="form-group">
               <label>Client Name *</label>
               <input type="text" formControlName="name" placeholder="Enter client name" />
@@ -230,7 +285,6 @@
               <input type="text" formControlName="pan" placeholder="Enter PAN" />
             </div>
 
-            <!-- ADDRESS TITLE -->
             <h4 class="form-section-title"></h4>
 
             <div class="form-group">
@@ -258,7 +312,6 @@
               <input type="number" formControlName="subDistrictId" placeholder="Enter sub-district id" />
             </div>
 
-            <!-- CONTACT PERSON TITLE -->
             <h4 class="form-section-title"></h4>
 
             <div class="form-group">
@@ -276,29 +329,22 @@
               <input type="email" formControlName="cpEmail" placeholder="Enter email" />
             </div>
 
-            <!-- ACTIONS -->
             <div class="form-actions full-width">
-              <button type="button" class="cancel-btn" (click)="resetClientForm()">
-                Cancel
-              </button>
-              <button type="submit" class="submit-btn">
-                Save Client
-              </button>
+              <button type="button" class="cancel-btn" (click)="resetClientForm()">Cancel</button>
+              <button type="submit" class="submit-btn">Save Client</button>
             </div>
 
           </form>
         </div>
 
-        <!-- ✅ Clients List -->
         <div class="clients-list-card" style="margin-top: 24px;">
           <h3>Existing Clients</h3>
 
-          <div *ngIf="clientsList.length === 0" style="padding: 16px; text-align: center;">
+          <div *ngIf="clientsList.length === 0" class="no-clients">
             No clients found. Add a client above to populate the list.
           </div>
 
           <div *ngIf="clientsList.length > 0" class="clients-table">
-
             <div class="table-header">
               <div>ID</div>
               <div>Name</div>
@@ -325,7 +371,6 @@
       </div>
       <!-- ================= END CLIENTS SECTION ================= -->
 
-
       <!-- USERS -->
       <div *ngIf="activeSection === 'users'" class="users-section">
         <div class="section-header">
@@ -334,10 +379,9 @@
 
         <!-- Add User Form -->
         <div *ngIf="showAddUserForm" class="add-user-form-card">
-
           <div class="form-header">
             <h3>Add New User</h3>
-            <button class="close-btn" (click)="hideAddUser()">✕</button>
+            <button type="button" class="close-btn" (click)="hideAddUser()">✕</button>
           </div>
 
           <form [formGroup]="addUserForm" (ngSubmit)="onSubmitUser()" class="user-form">
@@ -345,7 +389,7 @@
             <div class="form-group">
               <label for="name">Full Name *</label>
               <input type="text" id="name" formControlName="name" placeholder="Enter full name"
-                     [class.error]="addUserForm.get('name')?.invalid && addUserForm.get('name')?.touched" />
+                [class.error]="addUserForm.get('name')?.invalid && addUserForm.get('name')?.touched" />
               <div class="error-msg" *ngIf="addUserForm.get('name')?.invalid && addUserForm.get('name')?.touched">
                 Name is required and must be at least 2 characters
               </div>
@@ -354,7 +398,7 @@
             <div class="form-group">
               <label for="email">Email Address *</label>
               <input type="email" id="email" formControlName="email" placeholder="Enter email address"
-                     [class.error]="addUserForm.get('email')?.invalid && addUserForm.get('email')?.touched" />
+                [class.error]="addUserForm.get('email')?.invalid && addUserForm.get('email')?.touched" />
               <div class="error-msg" *ngIf="addUserForm.get('email')?.invalid && addUserForm.get('email')?.touched">
                 Please enter a valid email address
               </div>
@@ -363,7 +407,7 @@
             <div class="form-group">
               <label for="mobile">Mobile Number *</label>
               <input type="tel" id="mobile" formControlName="mobile" placeholder="Enter 10-digit mobile number"
-                     [class.error]="addUserForm.get('mobile')?.invalid && addUserForm.get('mobile')?.touched" />
+                [class.error]="addUserForm.get('mobile')?.invalid && addUserForm.get('mobile')?.touched" />
               <div class="error-msg" *ngIf="addUserForm.get('mobile')?.invalid && addUserForm.get('mobile')?.touched">
                 Please enter a valid 10-digit mobile number
               </div>
@@ -371,10 +415,9 @@
 
             <div class="form-group">
               <label for="aadhaar">Aadhaar Number *</label>
-              <input type="text" id="aadhaar" formControlName="aadhaar"
-                     placeholder="Enter 12-digit Aadhaar number"
-                     maxlength="12"
-                     [class.error]="addUserForm.get('aadhaar')?.invalid && addUserForm.get('aadhaar')?.touched" />
+              <input type="text" id="aadhaar" formControlName="aadhaar" placeholder="Enter 12-digit Aadhaar number"
+                maxlength="12"
+                [class.error]="addUserForm.get('aadhaar')?.invalid && addUserForm.get('aadhaar')?.touched" />
               <div class="error-msg" *ngIf="addUserForm.get('aadhaar')?.invalid && addUserForm.get('aadhaar')?.touched">
                 Please enter a valid 12-digit Aadhaar number
               </div>
@@ -384,24 +427,23 @@
               <label for="otp">OTP Verification</label>
 
               <div class="otp-section">
-                <input type="text" id="aadhaarOtp" formControlName="aadhaarOtp"
-                       placeholder="Enter 6-digit OTP"
-                       maxlength="6"
-                       [disabled]="!otpSent || otpVerified"
-                       [class.error]="addUserForm.get('aadhaarOtp')?.invalid && addUserForm.get('aadhaarOtp')?.touched" />
+                <input type="text" id="aadhaarOtp" formControlName="aadhaarOtp" placeholder="Enter 6-digit OTP"
+                  maxlength="6" [disabled]="!otpSent || otpVerified"
+                  [class.error]="addUserForm.get('aadhaarOtp')?.invalid && addUserForm.get('aadhaarOtp')?.touched" />
 
                 <button type="button" class="otp-btn" (click)="sendOtp()"
-                        [disabled]="addUserForm.get('aadhaar')?.invalid">
+                  [disabled]="addUserForm.get('aadhaar')?.invalid">
                   {{ otpSent ? 'Re-enter' : 'Send OTP' }}
                 </button>
 
                 <button type="button" class="verify-btn" (click)="verifyOtp()"
-                        [disabled]="!otpSent || otpVerified || addUserForm.get('aadhaarOtp')?.invalid">
+                  [disabled]="!otpSent || otpVerified || addUserForm.get('aadhaarOtp')?.invalid">
                   {{ otpVerified ? 'Verified ✓' : 'Verify OTP' }}
                 </button>
               </div>
 
-              <div class="error-msg" *ngIf="addUserForm.get('aadhaarOtp')?.invalid && addUserForm.get('aadhaarOtp')?.touched">
+              <div class="error-msg"
+                *ngIf="addUserForm.get('aadhaarOtp')?.invalid && addUserForm.get('aadhaarOtp')?.touched">
                 Please enter a valid 6-digit OTP
               </div>
 
@@ -456,28 +498,21 @@
                 </div>
 
                 <div class="actions">
-
-                  <button class="menu-btn" type="button" (click)="toggleActionMenu(i, $event)">
-                    ⋮
-                  </button>
+                  <button class="menu-btn" type="button" (click)="toggleActionMenu(i, $event)">⋮</button>
 
                   <div class="action-dropdown" *ngIf="openMenuIndex === i">
-
-                    <button type="button" class="action-item"
-                            (click)="viewUser(user); closeActionMenu()">
+                    <button type="button" class="action-item" (click)="viewUser(user); closeActionMenu()">
                       <i class="pi pi-eye"></i>
                       View
                     </button>
 
-                    <button type="button" class="action-item danger"
-                            (click)="deleteUser(i); closeActionMenu()">
+                    <button type="button" class="action-item danger" (click)="deleteUser(i); closeActionMenu()">
                       <i class="pi pi-trash"></i>
                       Delete
                     </button>
-
                   </div>
-
                 </div>
+
               </div>
 
             </div>
@@ -486,42 +521,246 @@
         </div>
       </div>
 
-      <!-- ANALYTICS -->
-      <div *ngIf="activeSection === 'analytics'" class="analytics-section">
-        <div class="welcome-card">
-          <h2><i class="pi pi-chart-bar icon"></i> Analytics Dashboard</h2>
-          <p>View detailed analytics and insights here.</p>
-          <div class="placeholder-content">
-            <div class="chart-placeholder">
-              📈 Charts and graphs will be displayed here
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- SETTINGS -->
+      <!-- ✅ SETTINGS -->
       <div *ngIf="activeSection === 'settings'" class="settings-section">
         <div class="welcome-card">
+
           <h2><i class="pi pi-cog icon"></i> Settings</h2>
-          <p>Configure your application settings here.</p>
-          <div class="placeholder-content">
-            <div class="settings-placeholder">
-              🔧 Settings options will be displayed here
+          <p>Manage profile, theme, notifications & security.</p>
+
+          <form [formGroup]="settingsForm" (ngSubmit)="saveSettings()" class="settings-grid">
+
+            <!-- ✅ Theme -->
+            <div class="settings-card">
+              <h3><i class="pi pi-palette"></i> Theme</h3>
+              <p>Switch between Light and Dark mode.</p>
+
+              <button type="button" class="theme-btn settings-theme-btn" (click)="toggleTheme()">
+                <i class="pi" [ngClass]="isDarkMode ? 'pi-sun' : 'pi-moon'"></i>
+                <span>{{ isDarkMode ? 'Light Mode' : 'Dark Mode' }}</span>
+              </button>
             </div>
-          </div>
+
+            <!-- ✅ Profile -->
+            <div class="settings-card">
+              <h3><i class="pi pi-user-edit"></i> Profile</h3>
+
+              <div class="form-group">
+                <label>Name</label>
+                <input type="text" formControlName="profileName" placeholder="Enter your name" />
+              </div>
+
+              <div class="form-group">
+                <label>Email</label>
+                <input type="email" formControlName="profileEmail" placeholder="Enter your email" />
+              </div>
+            </div>
+
+            <!-- ✅ Notifications -->
+            <div class="settings-card">
+              <h3><i class="pi pi-bell"></i> Notifications</h3>
+
+              <div class="toggle-row">
+                <label>Email Alerts</label>
+                <input type="checkbox" formControlName="notifyEmail" />
+              </div>
+
+              <div class="toggle-row">
+                <label>SMS Alerts</label>
+                <input type="checkbox" formControlName="notifySms" />
+              </div>
+
+              <div class="toggle-row">
+                <label>App Alerts</label>
+                <input type="checkbox" formControlName="notifyApp" />
+              </div>
+            </div>
+
+            <!-- ✅ Security -->
+            <div class="settings-card">
+              <h3><i class="pi pi-shield"></i> Security</h3>
+
+              <div class="form-group">
+                <label>Auto Logout Timer</label>
+                <select formControlName="autoLogout">
+                  <option value="5">5 minutes</option>
+                  <option value="10">10 minutes</option>
+                  <option value="30">30 minutes</option>
+                  <option value="60">60 minutes</option>
+                </select>
+              </div>
+
+              <div class="toggle-row">
+                <label>Require OTP Login</label>
+                <input type="checkbox" formControlName="requireOtp" />
+              </div>
+            </div>
+
+            <!-- ✅ Data Tools -->
+            <div class="settings-card">
+              <h3><i class="pi pi-database"></i> Data Tools</h3>
+              <p>Manage local dashboard data.</p>
+
+              <div class="settings-actions">
+                <button type="button" class="cancel-btn" (click)="exportUsers()">
+                  Export Users
+                </button>
+
+                <button type="button" class="submit-btn danger-btn" (click)="clearAllUsers()">
+                  Clear Users
+                </button>
+              </div>
+            </div>
+
+            <!-- ✅ App Info -->
+            <div class="settings-card">
+              <h3>ℹ App Info</h3>
+              <p><b>Version:</b> {{ appVersion }}</p>
+              <p><b>Build:</b> Production Ready ✅</p>
+            </div>
+
+            <div class="form-actions full-width">
+              <button type="submit" class="submit-btn">
+                Save Settings
+              </button>
+            </div>
+
+          </form>
+
         </div>
       </div>
 
-      <!-- REPORTS -->
+      <!-- ✅ REPORTS -->
       <div *ngIf="activeSection === 'reports'" class="reports-section">
         <div class="welcome-card">
           <h2><i class="pi pi-file icon"></i> Reports</h2>
-          <p>Generate and view reports here.</p>
-          <div class="placeholder-content">
-            <div class="reports-placeholder">
-              📋 Reports will be displayed here
+          <p>Download and view reports of Users, Clients and Lists.</p>
+
+          <div class="reports-summary-grid">
+
+            <!-- Users Report -->
+            <div class="report-card">
+              <div class="report-top">
+                <div class="report-icon users">
+                  <i class="pi pi-users"></i>
+                </div>
+
+                <div class="report-info">
+                  <h3>Users Report</h3>
+                  <p>Total Users: <b>{{ usersList.length }}</b></p>
+                </div>
+              </div>
+
+              <div class="report-actions">
+                <button type="button" class="report-btn" (click)="downloadUsersReport()">
+                  <i class="pi pi-download"></i> Download
+                </button>
+              </div>
             </div>
+
+            <!-- Clients Report -->
+            <div class="report-card">
+              <div class="report-top">
+                <div class="report-icon clients">
+                  <i class="pi pi-briefcase"></i>
+                </div>
+
+                <div class="report-info">
+                  <h3>Clients Report</h3>
+                  <p>Total Clients: <b>{{ clientsList.length }}</b></p>
+                  <p>Active Clients: <b>{{ activeClientsCount }}</b></p>
+                </div>
+              </div>
+
+              <div class="report-actions">
+                <button type="button" class="report-btn" (click)="downloadClientsReport()">
+                  <i class="pi pi-download"></i> Download
+                </button>
+              </div>
+            </div>
+
+            <!-- Procurement Report -->
+            <div class="report-card">
+              <div class="report-top">
+                <div class="report-icon procurement">
+                  <i class="pi pi-shopping-cart"></i>
+                </div>
+
+                <div class="report-info">
+                  <h3>Procurement Report</h3>
+                  <p>Export Procurement records list</p>
+                </div>
+              </div>
+
+              <div class="report-actions">
+                <button type="button" class="report-btn" (click)="downloadProcurementReport()">
+                  <i class="pi pi-download"></i> Download
+                </button>
+              </div>
+            </div>
+
+            <!-- Railway Report -->
+            <div class="report-card">
+              <div class="report-top">
+                <div class="report-icon railway">
+                  <i class="pi pi-list"></i>
+                </div>
+
+                <div class="report-info">
+                  <h3>Railway Report</h3>
+                  <p>Export Railway records list</p>
+                </div>
+              </div>
+
+              <div class="report-actions">
+                <button type="button" class="report-btn" (click)="downloadRailwayReport()">
+                  <i class="pi pi-download"></i> Download
+                </button>
+              </div>
+            </div>
+
+            <!-- Analytics Report -->
+            <div class="report-card">
+              <div class="report-top">
+                <div class="report-icon analytics">
+                  <i class="pi pi-chart-bar"></i>
+                </div>
+
+                <div class="report-info">
+                  <h3>Analytics Report</h3>
+                  <p>Download charts summary report</p>
+                </div>
+              </div>
+
+              <div class="report-actions">
+                <button type="button" class="report-btn" (click)="downloadAnalyticsReport()">
+                  <i class="pi pi-download"></i> Download
+                </button>
+              </div>
+            </div>
+
+            <!-- Activity Logs -->
+            <div class="report-card">
+              <div class="report-top">
+                <div class="report-icon activity">
+                  <i class="pi pi-clock"></i>
+                </div>
+
+                <div class="report-info">
+                  <h3>Activity Logs</h3>
+                  <p>Track recent activities of users</p>
+                </div>
+              </div>
+
+              <div class="report-actions">
+                <button type="button" class="report-btn" (click)="downloadActivityReport()">
+                  <i class="pi pi-download"></i> Download
+                </button>
+              </div>
+            </div>
+
           </div>
+
         </div>
       </div>
 
@@ -561,23 +800,19 @@
 
     </main>
 
-    <!-- ✅ FOOTER ADDED HERE ✅ -->
+    <!-- ✅ FOOTER -->
     <footer class="dashboard-footer">
       <div class="footer-left">
         © Copyright2026.
       </div>
 
       <div class="footer-center">
-        Current Version: 1.4.2
+        Current Version: {{ appVersion }}
       </div>
 
       <div class="footer-right">
         <span>Powered By</span>
-        <img
-          src="assets/SV-Logo.png"
-          alt="Supply Valid"
-          class="footer-logo"
-        />
+        <img src="assets/SV-Logo.png" alt="Supply Valid" class="footer-logo" />
       </div>
     </footer>
 
@@ -585,16 +820,13 @@
 
   <!-- ✅ VIEW USER MODAL -->
   <div class="modal-overlay" *ngIf="isViewModalOpen" (click)="closeViewModal()">
-
     <div class="modal-box" (click)="$event.stopPropagation()">
-
       <div class="modal-header">
         <h3><i class="pi pi-user"></i> User Details</h3>
-        <button class="modal-close" (click)="closeViewModal()">✕</button>
+        <button type="button" class="modal-close" (click)="closeViewModal()">✕</button>
       </div>
 
       <div class="modal-body" *ngIf="selectedUser">
-
         <div class="modal-row">
           <span class="label">Name:</span>
           <span class="value">{{ selectedUser.name }}</span>
@@ -619,13 +851,11 @@
           <span class="label">Role:</span>
           <span class="value">{{ selectedUser.role | titlecase }}</span>
         </div>
-
       </div>
 
       <div class="modal-footer">
-        <button class="modal-btn" (click)="closeViewModal()">Close</button>
+        <button type="button" class="modal-btn" (click)="closeViewModal()">Close</button>
       </div>
-
     </div>
   </div>
 
