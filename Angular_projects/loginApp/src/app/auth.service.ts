@@ -1,6 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
+import {
+  HttpClient,
+  HttpErrorResponse,
+  HttpHeaders
+} from '@angular/common/http';
 import { BehaviorSubject, Observable, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 
@@ -14,10 +18,20 @@ export class AuthService {
 
   // ✅ API ENDPOINTS
   private loginUrl = `${this.baseUrl}/login/user`;
+
   private aadhaarOtpGenerateUrl = `${this.baseUrl}/register/farmer/aadhaar/otp/generate`;
   private aadhaarOtpVerifyUrl = `${this.baseUrl}/register/farmer/aadhaar/otp/verify`;
+
   private clientapi = `${this.baseUrl}/client`;
-  private groupApi = `${this.baseUrl}/group?GroupType=CLIENT`; // ✅ Clients list API
+
+  // ✅ Clients list API
+  private groupApi = `${this.baseUrl}/group?GroupType=CLIENT`;
+
+  // ✅ NEW ✅ Procurement List API
+  private procurementListApi = `${this.baseUrl}/procurement/list`;
+
+  // ✅ NEW ✅ Railway List API
+  private railwayListApi = `${this.baseUrl}/sale/railway/list`;
 
   private isAuthenticatedSubject = new BehaviorSubject<boolean>(this.hasToken());
   isAuthenticated$ = this.isAuthenticatedSubject.asObservable();
@@ -63,7 +77,10 @@ export class AuthService {
       tap((res: any) => {
         if (!res?.token) throw new Error('Token not received from server');
         this.setToken(res.token);
-        if (res?.role) localStorage.setItem('role', res.role);
+
+        if (res?.role) {
+          localStorage.setItem('role', res.role);
+        }
       }),
       catchError(this.handleError)
     );
@@ -105,9 +122,29 @@ export class AuthService {
     );
   }
 
-  // ✅ NEW: Fetch all clients
+  // ✅ Fetch all clients
   getClients(): Observable<any> {
     return this.http.get(this.groupApi, {
+      headers: this.getAuthHeaders()
+    }).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+  /* ---------------- ✅ NEW LIST APIs (FOR ANALYTICS) ---------------- */
+
+  // ✅ Procurement list (for Bar Chart count)
+  getProcurementList(): Observable<any[]> {
+    return this.http.get<any[]>(this.procurementListApi, {
+      headers: this.getAuthHeaders()
+    }).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+  // ✅ Railway list (for Bar Chart count)
+  getRailwayList(): Observable<any[]> {
+    return this.http.get<any[]>(this.railwayListApi, {
       headers: this.getAuthHeaders()
     }).pipe(
       catchError(this.handleError)
