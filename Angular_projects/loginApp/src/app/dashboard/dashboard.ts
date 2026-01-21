@@ -104,7 +104,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     enabled: true
   };
 
-  // ✅ Donut Chart
+  // ✅ Donut Chart (Clients)
   donutSeries: number[] = [0, 0];
   donutLabels: string[] = ['Active', 'Inactive'];
 
@@ -114,6 +114,19 @@ export class DashboardComponent implements OnInit, OnDestroy {
   };
 
   donutLegend: any = {
+    position: 'bottom'
+  };
+
+  // ✅✅ Donut Chart (Users Active/Inactive) NEW ✅
+  usersDonutSeries: number[] = [0, 0];
+  usersDonutLabels: string[] = ['Active Users', 'Inactive Users'];
+
+  usersDonutChartOptions: any = {
+    type: 'donut',
+    height: 320
+  };
+
+  usersDonutLegend: any = {
     position: 'bottom'
   };
 
@@ -145,6 +158,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
     // ✅ Generate monthly chart for users
     this.generateMonthlyUsersGrowth();
+
+    // ✅ Users Active/Inactive analytics chart
+    this.calculateUsersAnalytics();
 
     // ✅ Fetch clients initially
     this.fetchClients();
@@ -213,6 +229,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     localStorage.removeItem(this.storageKey);
     this.loadUsersFromStorage();
     this.generateMonthlyUsersGrowth();
+    this.calculateUsersAnalytics();
     this.cdr.detectChanges();
 
     alert('All users cleared ✅');
@@ -246,6 +263,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
     if (section === 'users') {
       this.loadUsersFromStorage();
+      this.calculateUsersAnalytics();
     }
 
     if (section === 'clients') {
@@ -259,6 +277,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
       this.fetchClients();
       this.fetchListCounts();
       this.calculateAnalytics();
+      this.calculateUsersAnalytics();
     }
 
     this.cdr.detectChanges();
@@ -407,6 +426,12 @@ export class DashboardComponent implements OnInit, OnDestroy {
   private loadUsersFromStorage(): void {
     const data = localStorage.getItem(this.storageKey);
     this.usersList = data ? JSON.parse(data) : [];
+
+    // ✅ BACKWARD COMPATIBILITY:
+    this.usersList = this.usersList.map(u => ({
+      ...u,
+      isActive: typeof u.isActive === 'boolean' ? u.isActive : true
+    }));
   }
 
   private saveUsersToStorage(): void {
@@ -423,7 +448,33 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
     this.loadUsersFromStorage();
     this.generateMonthlyUsersGrowth();
+    this.calculateUsersAnalytics();
     this.cdr.detectChanges();
+  }
+
+  /* ✅ Activate User */
+  activateUser(index: number): void {
+    this.usersList[index].isActive = true;
+    this.saveUsersToStorage();
+    this.calculateUsersAnalytics();
+    alert('User Activated ✅');
+    this.cdr.detectChanges();
+  }
+
+  /* ✅ Deactivate User */
+  deactivateUser(index: number): void {
+    this.usersList[index].isActive = false;
+    this.saveUsersToStorage();
+    this.calculateUsersAnalytics();
+    alert('User Deactivated ❌');
+    this.cdr.detectChanges();
+  }
+
+  /* ✅ Users Active/Inactive chart calculation */
+  private calculateUsersAnalytics(): void {
+    const activeUsers = this.usersList.filter(u => u?.isActive === true).length;
+    const inactiveUsers = this.usersList.filter(u => u?.isActive === false).length;
+    this.usersDonutSeries = [activeUsers, inactiveUsers];
   }
 
   /* ---------------- 3 DOT MENU ---------------- */
@@ -457,6 +508,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.listDropdownOpen = false;
     this.activeSection = 'users';
     this.loadUsersFromStorage();
+    this.calculateUsersAnalytics();
   }
 
   toggleListDropdown(): void {
@@ -493,6 +545,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
     this.resetOtpState();
     this.loadUsersFromStorage();
+    this.calculateUsersAnalytics();
   }
 
   /* ---------------- ADD USER ---------------- */
@@ -513,7 +566,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
       mobile: this.addUserForm.value.mobile,
       aadhaar: this.addUserForm.value.aadhaar,
       role: this.addUserForm.value.role || 'user',
-      createdAt: new Date().toISOString()
+      createdAt: new Date().toISOString(),
+      isActive: true
     };
 
     this.loadUsersFromStorage();
@@ -531,6 +585,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
     this.loadUsersFromStorage();
     this.generateMonthlyUsersGrowth();
+    this.calculateUsersAnalytics();
     this.cdr.detectChanges();
   }
 
@@ -656,13 +711,14 @@ export class DashboardComponent implements OnInit, OnDestroy {
       return;
     }
 
-    const headers = ['Name', 'Email', 'Mobile', 'Role', 'Aadhaar', 'Created At'];
+    const headers = ['Name', 'Email', 'Mobile', 'Role', 'Aadhaar', 'Status', 'Created At'];
     const rows = users.map(u => [
       u?.name || '',
       u?.email || '',
       u?.mobile || '',
       u?.role || '',
       u?.aadhaar || '',
+      u?.isActive ? 'Active' : 'Inactive',
       u?.createdAt || ''
     ]);
 
