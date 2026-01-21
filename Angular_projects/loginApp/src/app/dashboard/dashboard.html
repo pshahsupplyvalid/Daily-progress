@@ -477,6 +477,7 @@
               <div>Email</div>
               <div>Mobile</div>
               <div>Role</div>
+              <div>Status</div>
               <div>Actions</div>
             </div>
 
@@ -497,19 +498,40 @@
                   </span>
                 </div>
 
+                <div>
+                  <span class="status-badge" [ngClass]="user.isActive ? 'active' : 'inactive'">
+                    {{ user.isActive ? 'Active' : 'Inactive' }}
+                  </span>
+                </div>
+
                 <div class="actions">
                   <button class="menu-btn" type="button" (click)="toggleActionMenu(i, $event)">⋮</button>
 
                   <div class="action-dropdown" *ngIf="openMenuIndex === i">
+
                     <button type="button" class="action-item" (click)="viewUser(user); closeActionMenu()">
                       <i class="pi pi-eye"></i>
                       View
+                    </button>
+
+                    <!-- ✅ Activate / Deactivate -->
+                    <button *ngIf="!user.isActive" type="button" class="action-item"
+                      (click)="activateUser(i); closeActionMenu()">
+                      <i class="pi pi-check"></i>
+                      Activate
+                    </button>
+
+                    <button *ngIf="user.isActive" type="button" class="action-item"
+                      (click)="deactivateUser(i); closeActionMenu()">
+                      <i class="pi pi-ban"></i>
+                      Deactivate
                     </button>
 
                     <button type="button" class="action-item danger" (click)="deleteUser(i); closeActionMenu()">
                       <i class="pi pi-trash"></i>
                       Delete
                     </button>
+
                   </div>
                 </div>
 
@@ -850,6 +872,11 @@
         <div class="modal-row">
           <span class="label">Role:</span>
           <span class="value">{{ selectedUser.role | titlecase }}</span>
+        </div>
+
+        <div class="modal-row">
+          <span class="label">Status:</span>
+          <span class="value">{{ selectedUser.isActive ? 'Active' : 'Inactive' }}</span>
         </div>
       </div>
 
